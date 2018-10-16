@@ -83,6 +83,7 @@ public class Main {
      *
      */
     public static void createNewTable() {
+        int x = 100;
         // SQLite connection string
         String url = "jdbc:sqlite:C:/Users/maya8/Desktop/tests.db";
 
