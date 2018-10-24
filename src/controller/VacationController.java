@@ -8,6 +8,9 @@ import java.util.Observer;
 public class VacationController extends Observable implements Observer{
     private IModel model;
 
+    //if user is logged in.
+    private boolean logged = false;
+
     public VacationController(IModel model) { this.model = model;}
 
 
@@ -18,4 +21,6 @@ public class VacationController extends Observable implements Observer{
             notifyObservers();
         }
     }
+
+    public void signIn(){};
 }

@@ -1,6 +1,9 @@
 package model;
 
 import java.sql.*;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 
 public class MyModel extends Observable implements IModel {
@@ -54,76 +57,150 @@ public class MyModel extends Observable implements IModel {
                 + " address text \n"
                 + ");";
 
-        try (Connection conn = this.connect();
-             Statement stmt = conn.createStatement()) {
-            // create a new table
-            stmt.execute(sql);
-            //conn.close();
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                stmt.execute(sql);
+                conn.close();
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-//        String sql2 = "INSERT INTO users(username, password, birthday, fName, lName, address) VALUES(?, ?, ?, ?, ?, ?)";
-////        try (Connection conn = DriverManager.getConnection(url);
-////             PreparedStatement pstmt = conn.prepareStatement(sql2)) {
-////            pstmt.setString(1, "A&Mmmm");
-////            pstmt.setString(2, "123456");
-////            pstmt.setDate(3, java.sql.Date.valueOf("1994-10-23"));
-////            pstmt.setString(4, "Adi");
-////            pstmt.setString(5, "Maya");
-////            pstmt.setString(6, "Sofia");
-////            pstmt.executeUpdate();
-////        } catch (SQLException e) {
-////            System.out.println(e.getMessage());
-////        }
-////
-////        String sql3 = "SELECT username, birthday FROM users";
-////
-////        try (Connection conn = DriverManager.getConnection(url);
-////             Statement stmt = conn.createStatement();
-////             ResultSet rs = stmt.executeQuery(sql3)) {
-////
-////            // loop through the result set
-////            while (rs.next()) {
-////                System.out.println(rs.getString("username") + "\t" +
-////                        rs.getDate("birthday"));
-////            }
-////        } catch (SQLException e) {
-////            System.out.println(e.getMessage());
-////        }
     }
 
+    /**
+     * creating new user
+     * @param username
+     * @param password
+     * @param dd - day of birthday
+     * @param mm - month of birthday
+     * @param yy - year of birthday
+     * @param fName - first name
+     * @param lName - last name
+     * @param address - city
+     */
     @Override
-    public void create(String username, String password, int dd, int mm, int yy, String fName, String lName, String address) {
-        String sql2 = "INSERT INTO users(username, password, birthday, fName, lName, address) VALUES(?, ?, ?, ?, ?, ?)";
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql2)) {
-            pstmt.setString(1, "m");
-            pstmt.setString(2, "123456");
-            pstmt.setDate(3, java.sql.Date.valueOf("1994-10-23"));
-            pstmt.setString(4, "Adi");
-            pstmt.setString(5, "Maya");
-            pstmt.setString(6, "Sofia");
-            pstmt.executeUpdate();
-           // conn.close();
+    public void createUser(String username, String password, int dd, int mm, int yy, String fName, String lName, String address) {
+        String sql = "INSERT INTO users(username, password, birthday, fName, lName, address) VALUES(?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, username);
+                pstmt.setString(2, password);
+                pstmt.setDate(3, java.sql.Date.valueOf(yy + "-" + mm + "-" + dd));
+                pstmt.setString(4, fName);
+                pstmt.setString(5, lName);
+                pstmt.setString(6, address);
+                pstmt.executeUpdate();
+                conn.close();
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * @param username - the username you want to read about
+     * @return dictionary with the information (first name, last name, city) about the given username.
+     */
     @Override
-    public String read(String username) {
-        return null;
+    public Map readUser(String username) {
+        String sql = "SELECT username, fName, lName, address FROM users WHERE username = ?";
+        Map<String, String> result = new HashMap<>();
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, username);
+                ResultSet rs = stmt.executeQuery();
+
+                // loop through the result set
+                while (rs.next()) {
+                    result.put("username", rs.getString("username"));
+                    result.put("fName", rs.getString("fName"));
+                    result.put("lName", rs.getString("lName"));
+                    result.put("city", rs.getString("address"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
     }
 
+    /**
+     * @param username the username you want to update it's info
+     * @param newInfo  the new info of the user
+     */
     @Override
-    public void update(String username, int index, String newInfo) {
+    public void updateUser(String username, Map<String, String> newInfo) {
+        for (Map.Entry<String, String> entry : newInfo.entrySet()) {
+            String sql = "UPDATE users SET " + entry.getKey() + " = ? WHERE username = ?";
 
+            try (Connection conn = DriverManager.getConnection(url)) {
+                if (conn != null) {
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, entry.getValue());
+                    pstmt.setString(2, username);
+
+                    pstmt.executeUpdate();
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
+    /**
+     * @param username - the user you want to delete.
+     */
     @Override
-    public void delete(String username) {
+    public void deleteUser(String username) {
+        String sql = "DELETE FROM users WHERE username = ?";
 
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+
+                pstmt.setString(1, username);
+
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * log in the web with your username and password.
+     * @param username
+     * @param password
+     * @return true if the log in succeed and false otherwise
+     */
+    public boolean logIn(String username, String password){
+        boolean result = false;
+        String sql = "SELECT password FROM users WHERE username = ?";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, username);
+                ResultSet rs = stmt.executeQuery();
+
+                // loop through the result set
+                if (rs.next()){
+                    if (rs.getString("password") == password){
+                        result = true;
+                    }
+                }
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return result;
     }
 
 

@@ -1,0 +1,6 @@
+.bodybg{
+    -fx-background-image: url('/images/home.jpg');
+    -fx-background-size: 100% 100%;
+    opacity: .9;
+    -fx-background-color:transparent;
+}
