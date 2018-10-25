@@ -3,14 +3,10 @@ package view;
 import controller.VacationController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-import java.awt.event.ActionEvent;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,11 +15,15 @@ public class MainController implements Observer, IView {
 
     @FXML
     private CreateUserController cUController;
+    @FXML
+    private SearchUserController searchController;
 
     @FXML
     ImageView iv;
     @FXML
-    Pane secPane;
+    Pane createPane;
+    @FXML
+    Pane searchPane;
 
     @FXML
     private VacationController vacationController;
@@ -44,30 +44,38 @@ public class MainController implements Observer, IView {
 
     @FXML
     private void initialize() {
-        //cUController = new CreateUserController();
-        /*
-        try {
-            Image image = new Image(new FileInputStream("resources/home.jpg"));
-            iv.setImage(image);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }*/
 
-
-        Pane newLoadedPane = null;
-
+        /**
+         * load the "create user" fxml
+         */
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            newLoadedPane = fxmlLoader.load(getClass().getResource("/view/CreateUser.fxml").openStream());
+            AnchorPane pane = fxmlLoader.load(getClass().getResource("/view/CreateUser.fxml").openStream());
+            createPane.getChildren().setAll(pane);
             cUController = fxmlLoader.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        secPane.getChildren().add(newLoadedPane);
+        /**
+         * load the "search user" fxml
+         */
+        try {
+            FXMLLoader fxmlLoader1 = new FXMLLoader();
+            Pane pane1 = fxmlLoader1.load(getClass().getResource("/view/SearchUser.fxml").openStream());
+            searchPane.getChildren().setAll(pane1);
+
+            searchController = fxmlLoader1.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     public void setSubController(){
         cUController.injectMainController(this, vacationController);
+        searchController.injectMainController(this, vacationController);
     }
 }
