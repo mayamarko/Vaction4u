@@ -2,6 +2,7 @@ package controller;
 
 import model.IModel;
 
+import java.time.LocalDate;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,5 +23,7 @@ public class VacationController extends Observable implements Observer{
         }
     }
 
-    public void signIn(){};
+    public void signIn(String username, String password, LocalDate birthday, String fName, String lName, String address){
+        model.createUser(username, password, birthday, fName, lName, address);
+    }
 }

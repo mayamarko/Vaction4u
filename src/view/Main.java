@@ -12,10 +12,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.MyModel;
 
-import java.sql.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -32,15 +28,15 @@ public class Main extends Application {
         model = new MyModel();
         model.createNewDatabase();
         model.createNewUsersTable();
-        model.createUser("a", "121212", 24, 10, 2018, "m12e", "y4ou", "us");
-        model.createUser("aaa", "121212", 24, 10, 2018, "me", "you", "us");
+        //model.createUser("a", "121212", 24, 10, 2018, "m12e", "y4ou", "us");
+        //model.createUser("aaa", "121212", 24, 10, 2018, "me", "you", "us");
         Map test = model.readUser("aaa");
         Map<String, String> t = new HashMap<>();
         t.put("address", "bus");
         t.put("lName", "balulu");
         model.updateUser("aaa", t);
         Map test2 = model.readUser("b");
-        model.deleteUser("a");
+        //model.deleteUser("a");
 
         VacationController controller = new VacationController(model);
         model.addObserver(controller);
@@ -48,18 +44,19 @@ public class Main extends Application {
         /**
          * fxml loading
          */
-        FXMLLoader fxmlLoader=new FXMLLoader();
+        FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("sample.fxml").openStream());
-        Scene scene=new Scene(root, 600,600);
+        Scene scene = new Scene(root, 600,600);
         //scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("Vactaion4U");
         primaryStage.setScene(scene);
         primaryStage.setMinHeight(465);
         primaryStage.setMinWidth(580);
-        MyView view = fxmlLoader.getController();
+        MainController view = fxmlLoader.getController();
      //  view.setResizeEvent(primaryStage);
         view.setViewModel(controller);
         controller.addObserver(view);
+        view.setSubController();
 
         SetStageCloseEvent(primaryStage);
         primaryStage.show();

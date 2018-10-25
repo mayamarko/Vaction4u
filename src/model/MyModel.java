@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,22 +73,19 @@ public class MyModel extends Observable implements IModel {
      * creating new user
      * @param username
      * @param password
-     * @param dd - day of birthday
-     * @param mm - month of birthday
-     * @param yy - year of birthday
      * @param fName - first name
      * @param lName - last name
      * @param address - city
      */
     @Override
-    public void createUser(String username, String password, int dd, int mm, int yy, String fName, String lName, String address) {
+    public void createUser(String username, String password, LocalDate birthday, String fName, String lName, String address) {
         String sql = "INSERT INTO users(username, password, birthday, fName, lName, address) VALUES(?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, username);
                 pstmt.setString(2, password);
-                pstmt.setDate(3, java.sql.Date.valueOf(yy + "-" + mm + "-" + dd));
+                pstmt.setDate(3, java.sql.Date.valueOf(birthday));
                 pstmt.setString(4, fName);
                 pstmt.setString(5, lName);
                 pstmt.setString(6, address);
