@@ -3,6 +3,7 @@ package view;
 import controller.VacationController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -31,12 +32,26 @@ public class CreateUserController {
         this.vacationController = vacationController;
     }
 
+    private void showAlert(String alertMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        //alert.setContentText(alertMessage);
+        alert.show();
+        alert.setTitle("Please note");
+        alert.setHeaderText(alertMessage);
+    }
+
     @FXML
     private void signIn(){
         LocalDate d = lbl_birthday.getValue();
         System.out.println(d);
 
-        vacationController.signIn(lbl_username.getText(), lbl_password.getText(), d, lbl_fName.getText(), lbl_lName.getText(), lbl_city.getText());
+        boolean succeedLogged = vacationController.signIn(lbl_username.getText(), lbl_password.getText(), d, lbl_fName.getText(), lbl_lName.getText(), lbl_city.getText());
+        if(succeedLogged){
+            showAlert( lbl_username.getText() + " is registered");
+        }
+        else{
+            showAlert("The username " + lbl_username.getText() + " is taken, please choose another one.");
+        }
     }
 
 }

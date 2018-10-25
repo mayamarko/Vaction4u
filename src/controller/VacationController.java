@@ -24,13 +24,16 @@ public class VacationController extends Observable implements Observer{
         }
     }
 
-    public void signIn(String username, String password, LocalDate birthday, String fName, String lName, String address){
-        model.createUser(username, password, birthday, fName, lName, address);
+    public boolean signIn(String username, String password, LocalDate birthday, String fName, String lName, String address){
+        return model.createUser(username, password, birthday, fName, lName, address);
     }
 
     public String search(String username){
         Map result = model.readUser(username);
         return "Username " + username + "is " + result.get("fName") + " " + result.get("lName") + " lives in "
                 + result.get("city");
+    }
+    public void updateUser(String username, Map <String,String> newInfo){
+        model.updateUser(username,newInfo);
     }
 }

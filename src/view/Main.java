@@ -30,7 +30,7 @@ public class Main extends Application {
         model.createNewUsersTable();
         //model.createUser("a", "121212", 24, 10, 2018, "m12e", "y4ou", "us");
         //model.createUser("aaa", "121212", 24, 10, 2018, "me", "you", "us");
-        Map test = model.readUser("aaa");
+        Map test = model.readUser("cc");
         Map<String, String> t = new HashMap<>();
         t.put("address", "bus");
         t.put("lName", "balulu");
@@ -56,8 +56,7 @@ public class Main extends Application {
      //  view.setResizeEvent(primaryStage);
         view.setViewModel(controller);
         controller.addObserver(view);
-        view.setSubController();
-
+        //view.setSubController();
         SetStageCloseEvent(primaryStage);
         primaryStage.show();
 

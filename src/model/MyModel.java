@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -71,14 +73,16 @@ public class MyModel extends Observable implements IModel {
 
     /**
      * creating new user
+     *
      * @param username
      * @param password
-     * @param fName - first name
-     * @param lName - last name
-     * @param address - city
+     * @param fName    - first name
+     * @param lName    - last name
+     * @param address  - city
      */
     @Override
-    public void createUser(String username, String password, LocalDate birthday, String fName, String lName, String address) {
+    public boolean createUser(String username, String password, LocalDate birthday, String fName, String lName, String address) {
+        boolean succeed = true;
         String sql = "INSERT INTO users(username, password, birthday, fName, lName, address) VALUES(?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -94,8 +98,10 @@ public class MyModel extends Observable implements IModel {
             }
 
         } catch (SQLException e) {
+            succeed = false;
             System.out.println(e.getMessage());
         }
+        return succeed;
     }
 
     /**
@@ -133,19 +139,34 @@ public class MyModel extends Observable implements IModel {
     @Override
     public void updateUser(String username, Map<String, String> newInfo) {
         for (Map.Entry<String, String> entry : newInfo.entrySet()) {
-            String sql = "UPDATE users SET " + entry.getKey() + " = ? WHERE username = ?";
+            if (entry.getValue() != null) {
+                boolean isDateChanged = false;
+                Date date=null;
+                if (entry.getKey() == "birthday") {
+                    isDateChanged = true;
+                    String tmp = entry.getValue();
+//                    SimpleDateFormat formtter = new SimpleDateFormat("yyyy-mm-dd");
+                    date = java.sql.Date.valueOf(tmp);
 
-            try (Connection conn = DriverManager.getConnection(url)) {
-                if (conn != null) {
-                    PreparedStatement pstmt = conn.prepareStatement(sql);
-                    pstmt.setString(1, entry.getValue());
-                    pstmt.setString(2, username);
 
-                    pstmt.executeUpdate();
-                    conn.close();
                 }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                String sql = "UPDATE users SET " + entry.getKey() + " = ? WHERE username = ?";
+                try (Connection conn = DriverManager.getConnection(url)) {
+                    if (conn != null) {
+                        PreparedStatement pstmt = conn.prepareStatement(sql);
+                        if (isDateChanged) {
+                            pstmt.setDate(1, date);
+                        } else {
+                            pstmt.setString(1, entry.getValue());
+                        }
+                        pstmt.setString(2, username);
+
+                        pstmt.executeUpdate();
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }
@@ -173,11 +194,12 @@ public class MyModel extends Observable implements IModel {
 
     /**
      * log in the web with your username and password.
+     *
      * @param username
      * @param password
      * @return true if the log in succeed and false otherwise
      */
-    public boolean logIn(String username, String password){
+    public boolean logIn(String username, String password) {
         boolean result = false;
         String sql = "SELECT password FROM users WHERE username = ?";
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -187,8 +209,8 @@ public class MyModel extends Observable implements IModel {
                 ResultSet rs = stmt.executeQuery();
 
                 // loop through the result set
-                if (rs.next()){
-                    if (rs.getString("password") == password){
+                if (rs.next()) {
+                    if (rs.getString("password") == password) {
                         result = true;
                     }
                 }
