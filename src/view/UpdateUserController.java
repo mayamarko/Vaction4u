@@ -2,6 +2,7 @@ package view;
 
 import controller.VacationController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -29,6 +30,14 @@ public class UpdateUserController {
     }
 
 
+    private void showAlert(String alertMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        //alert.setContentText(alertMessage);
+        alert.show();
+        alert.setTitle("Please note");
+        alert.setHeaderText(alertMessage);
+    }
+
     @FXML
     private void Update() {
         Map<String, String> newInfo = new HashMap<>();
@@ -43,6 +52,10 @@ public class UpdateUserController {
         if (lbl_birthday.getValue() != null)
             newInfo.put("birthday", lbl_birthday.getValue().toString());
 
-        vacationController.updateUser(lbl_username.getText(), newInfo);
+        if(vacationController.updateUser(lbl_username.getText(), newInfo)){
+              showAlert("Changes saved");
+        }
+        else
+            showAlert("Username is not exist!");
     }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.*;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -110,7 +111,7 @@ public class MyModel extends Observable implements IModel {
      */
     @Override
     public Map readUser(String username) {
-        String sql = "SELECT username, fName, lName, address FROM users WHERE username = ?";
+        String sql = "SELECT username, fName, lName, birthday, password, address FROM users WHERE username = ?";
         Map<String, String> result = new HashMap<>();
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -123,7 +124,10 @@ public class MyModel extends Observable implements IModel {
                     result.put("username", rs.getString("username"));
                     result.put("fName", rs.getString("fName"));
                     result.put("lName", rs.getString("lName"));
+                    result.put("birthday", rs.getDate("birthday").toString());
+                    result.put("password", rs.getString("password"));
                     result.put("city", rs.getString("address"));
+
                 }
             }
         } catch (SQLException e) {
@@ -137,7 +141,10 @@ public class MyModel extends Observable implements IModel {
      * @param newInfo  the new info of the user
      */
     @Override
-    public void updateUser(String username, Map<String, String> newInfo) {
+    public boolean updateUser(String username, Map<String, String> newInfo) {
+        if(!isExist(username)){
+            return false;
+        }
         for (Map.Entry<String, String> entry : newInfo.entrySet()) {
             if (entry.getValue() != null) {
                 boolean isDateChanged = false;
@@ -145,10 +152,7 @@ public class MyModel extends Observable implements IModel {
                 if (entry.getKey() == "birthday") {
                     isDateChanged = true;
                     String tmp = entry.getValue();
-//                    SimpleDateFormat formtter = new SimpleDateFormat("yyyy-mm-dd");
                     date = java.sql.Date.valueOf(tmp);
-
-
                 }
                 String sql = "UPDATE users SET " + entry.getKey() + " = ? WHERE username = ?";
                 try (Connection conn = DriverManager.getConnection(url)) {
@@ -169,6 +173,7 @@ public class MyModel extends Observable implements IModel {
                 }
             }
         }
+        return true;
     }
 
     /**
@@ -223,5 +228,23 @@ public class MyModel extends Observable implements IModel {
         return result;
     }
 
+    public boolean isExist(String username){
+        String sql = "SELECT * FROM users WHERE username = ?";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, username);
+                ResultSet rs = stmt.executeQuery();
+                if(rs.next()){
+                    conn.close();
+                    return true;
+                }
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 
 }

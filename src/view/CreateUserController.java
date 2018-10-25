@@ -42,15 +42,20 @@ public class CreateUserController {
 
     @FXML
     private void signIn(){
-        LocalDate d = lbl_birthday.getValue();
-        System.out.println(d);
 
-        boolean succeedLogged = vacationController.signIn(lbl_username.getText(), lbl_password.getText(), d, lbl_fName.getText(), lbl_lName.getText(), lbl_city.getText());
-        if(succeedLogged){
-            showAlert( lbl_username.getText() + " is registered");
+        if (lbl_fName.getText() == null || lbl_lName.getText() == null || lbl_password.getText() == null ||
+            lbl_city.getText() == null || lbl_birthday.getValue() == null){
+            showAlert("One or more details are missing");
         }
-        else{
-            showAlert("The username " + lbl_username.getText() + " is taken, please choose another one.");
+
+        else {
+            boolean succeedLogged = vacationController.signIn(lbl_username.getText(), lbl_password.getText(), lbl_birthday.getValue(), lbl_fName.getText(), lbl_lName.getText(), lbl_city.getText());
+
+            if (succeedLogged) {
+                showAlert(lbl_username.getText() + " is registered");
+            } else {
+                showAlert("The username " + lbl_username.getText() + " is taken, please choose another one.");
+            }
         }
     }
 

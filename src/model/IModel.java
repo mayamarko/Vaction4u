@@ -8,6 +8,6 @@ public interface IModel {
     boolean createUser(String username, String password, LocalDate birthday, String fName, String lName, String address);
     Map readUser(String username);
     //TODO:: check if can change username and bday....
-    void updateUser(String username, Map<String, String> newInfo);
+    boolean updateUser(String username, Map<String, String> newInfo);
     void deleteUser(String username);
 }

@@ -30,10 +30,17 @@ public class VacationController extends Observable implements Observer{
 
     public String search(String username){
         Map result = model.readUser(username);
-        return "Username " + username + "is " + result.get("fName") + " " + result.get("lName") + " lives in "
-                + result.get("city");
+        if(result.get("password") == null){
+            return "Username is not exist";
+        }
+        return "Username - " + username + "\t" +
+                "Password - " + result.get("password") + "\t" +
+                "Name - " + result.get("fName") + " " + result.get("lName") + "\t" +
+                "City - " + result.get("city") + "\t" +
+                "Birthday - " + result.get("birthday");
     }
-    public void updateUser(String username, Map <String,String> newInfo){
-        model.updateUser(username,newInfo);
+
+    public boolean updateUser(String username, Map <String,String> newInfo){
+        return model.updateUser(username,newInfo);
     }
 }
