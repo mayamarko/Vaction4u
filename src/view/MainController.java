@@ -116,7 +116,7 @@ public class MainController implements Observer, IView {
             Parent root = fxmlLoader.load(getClass().getResource("SearchUser.fxml").openStream());
             searchController = fxmlLoader.getController();
             searchController.injectMainController(this, vacationController);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 300, 300);
             //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
@@ -135,7 +135,7 @@ public class MainController implements Observer, IView {
             Parent root = fxmlLoader.load(getClass().getResource("UpdateUser.fxml").openStream());
             updateController = fxmlLoader.getController();
             updateController.injectMainController(this, vacationController);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 400, 400);
             //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
@@ -154,7 +154,7 @@ public class MainController implements Observer, IView {
             Parent root = fxmlLoader.load(getClass().getResource("DeleteUser.fxml").openStream());
             deleteController = fxmlLoader.getController();
             deleteController.injectMainController(this, vacationController);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 300, 300);
             //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes

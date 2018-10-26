@@ -27,6 +27,11 @@ public class SearchUserController {
     private MainController mainController;
     private VacationController vacationController;
 
+    @FXML
+    private void initialize() {
+        lbl_result.setEditable(false);
+    }
+
     public void injectMainController(MainController mainController, VacationController vacationController) {
         this.mainController = mainController;
         this.vacationController = vacationController;

@@ -10,4 +10,5 @@ public interface IModel {
     //TODO:: check if can change username and bday....
     boolean updateUser(String username, Map<String, String> newInfo);
     boolean deleteUser(String username);
+    boolean isExist(String username);
 }

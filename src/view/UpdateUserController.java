@@ -19,10 +19,32 @@ public class UpdateUserController {
     public javafx.scene.control.TextField lbl_password;
     public javafx.scene.control.TextField lbl_city;
     public javafx.scene.control.DatePicker lbl_birthday;
+    public javafx.scene.control.TextField lbl_fName_title;
+    public javafx.scene.control.TextField lbl_lName_title;
+    public javafx.scene.control.TextField lbl_password_title;
+    public javafx.scene.control.TextField lbl_city_title;
+    public javafx.scene.control.TextField lbl_birthday_title;
     public javafx.scene.control.Button btn_saveChanges;
 
     private MainController mainController;
     private VacationController vacationController;
+
+    @FXML
+    private void initialize() {
+        lbl_fName_title.setVisible(false);
+        lbl_birthday_title.setVisible(false);
+        lbl_city_title.setVisible(false);
+        lbl_password_title.setVisible(false);
+        lbl_lName_title.setVisible(false);
+        lbl_fName.setVisible(false);
+        lbl_birthday.setVisible(false);
+        lbl_city.setVisible(false);
+        lbl_password.setVisible(false);
+        lbl_lName.setVisible(false);
+        btn_saveChanges.setVisible(false);
+        btn_ok.setDisable(false);
+        lbl_username.setEditable(true);
+    }
 
     public void injectMainController(MainController mainController, VacationController vacationController) {
         this.mainController = mainController;
@@ -52,10 +74,32 @@ public class UpdateUserController {
         if (lbl_birthday.getValue() != null)
             newInfo.put("birthday", lbl_birthday.getValue().toString());
 
-        if(vacationController.updateUser(lbl_username.getText(), newInfo)){
-              showAlert("Changes saved");
-        }
-        else
+        if (vacationController.updateUser(lbl_username.getText(), newInfo)) {
+            showAlert("Changes saved");
+        } else
             showAlert("Username is not exist!");
+            this.initialize();
+    }
+
+    @FXML
+    private void AllowUpdate(){
+        if(vacationController.userExist(lbl_username.getText())) {
+            lbl_fName_title.setVisible(true);
+            lbl_birthday_title.setVisible(true);
+            lbl_city_title.setVisible(true);
+            lbl_password_title.setVisible(true);
+            lbl_lName_title.setVisible(true);
+            lbl_fName.setVisible(true);
+            lbl_birthday.setVisible(true);
+            lbl_city.setVisible(true);
+            lbl_password.setVisible(true);
+            lbl_lName.setVisible(true);
+            btn_saveChanges.setVisible(true);
+            btn_ok.setDisable(true);
+            lbl_username.setEditable(false);
+        }
+        else{
+            showAlert("The user " + lbl_username.getText() + " is not exist, try again.");
+        }
     }
 }
