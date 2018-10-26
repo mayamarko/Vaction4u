@@ -41,13 +41,13 @@ public class UpdateUserController {
     @FXML
     private void Update() {
         Map<String, String> newInfo = new HashMap<>();
-        if (lbl_fName.getText() != null)
+        if (!lbl_fName.getText().trim().isEmpty())
             newInfo.put("fName", lbl_fName.getText());
-        if (lbl_lName.getText() != null)
+        if (!lbl_lName.getText().trim().isEmpty())
             newInfo.put("lName", lbl_lName.getText());
-        if (lbl_password.getText() != null)
+        if (!lbl_password.getText().trim().isEmpty())
             newInfo.put("password", lbl_password.getText());
-        if (lbl_city.getText() != null)
+        if (!lbl_city.getText().trim().isEmpty())
             newInfo.put("address", lbl_city.getText());
         if (lbl_birthday.getValue() != null)
             newInfo.put("birthday", lbl_birthday.getValue().toString());

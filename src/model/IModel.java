@@ -9,5 +9,5 @@ public interface IModel {
     Map readUser(String username);
     //TODO:: check if can change username and bday....
     boolean updateUser(String username, Map<String, String> newInfo);
-    void deleteUser(String username);
+    boolean deleteUser(String username);
 }

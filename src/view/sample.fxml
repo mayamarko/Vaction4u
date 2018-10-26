@@ -37,7 +37,7 @@
             </ButtonBar>
             <ButtonBar prefHeight="30.0" prefWidth="76.0" GridPane.columnIndex="3">
               <buttons>
-                <Button fx:id="btn_deleteUser" mnemonicParsing="false" text="Delete user" />
+                <Button fx:id="btn_deleteUser" mnemonicParsing="false" onAction="#Delete" text="Delete user" />
               </buttons>
             </ButtonBar>
          </children>

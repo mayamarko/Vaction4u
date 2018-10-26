@@ -180,21 +180,26 @@ public class MyModel extends Observable implements IModel {
      * @param username - the user you want to delete.
      */
     @Override
-    public void deleteUser(String username) {
-        String sql = "DELETE FROM users WHERE username = ?";
+    public boolean deleteUser(String username) {
+        boolean succeed = isExist(username);
+        if(succeed) {
+            String sql = "DELETE FROM users WHERE username = ?";
 
-        try (Connection conn = DriverManager.getConnection(url)) {
-            if (conn != null) {
+            try (Connection conn = DriverManager.getConnection(url)) {
+                if (conn != null) {
 
-                PreparedStatement pstmt = conn.prepareStatement(sql);
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
 
-                pstmt.setString(1, username);
+                    pstmt.setString(1, username);
 
-                pstmt.executeUpdate();
+                    pstmt.executeUpdate();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                succeed = false;
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
+        return succeed;
     }
 
     /**

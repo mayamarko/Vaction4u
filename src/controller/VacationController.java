@@ -43,4 +43,8 @@ public class VacationController extends Observable implements Observer{
     public boolean updateUser(String username, Map <String,String> newInfo){
         return model.updateUser(username,newInfo);
     }
+
+    public boolean deleteUser(String username){
+        return model.deleteUser(username);
+    }
 }

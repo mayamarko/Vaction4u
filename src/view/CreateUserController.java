@@ -43,8 +43,8 @@ public class CreateUserController {
     @FXML
     private void signIn(){
 
-        if (lbl_fName.getText() == null || lbl_lName.getText() == null || lbl_password.getText() == null ||
-            lbl_city.getText() == null || lbl_birthday.getValue() == null){
+        if (lbl_fName.getText().trim().isEmpty() || lbl_lName.getText().trim().isEmpty() || lbl_password.getText().trim().isEmpty() ||
+            lbl_city.getText().trim().isEmpty() || lbl_birthday.getValue() == null){
             showAlert("One or more details are missing");
         }
 
