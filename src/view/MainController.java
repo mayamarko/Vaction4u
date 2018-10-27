@@ -98,9 +98,10 @@ public class MainController implements Observer, IView {
             Parent root = fxmlLoader.load(getClass().getResource("CreateUser.fxml").openStream());
             cUController = fxmlLoader.getController();
             cUController.injectMainController(this, vacationController);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 400, 400);
             //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (Exception e) {
@@ -111,7 +112,7 @@ public class MainController implements Observer, IView {
     public void Search(ActionEvent actionEvent) {
         try {
             Stage stage = new Stage();
-            stage.setTitle("Search User");
+            stage.setTitle("Read User");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("SearchUser.fxml").openStream());
             searchController = fxmlLoader.getController();
@@ -119,6 +120,7 @@ public class MainController implements Observer, IView {
             Scene scene = new Scene(root, 300, 300);
             //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (Exception e) {
@@ -135,9 +137,10 @@ public class MainController implements Observer, IView {
             Parent root = fxmlLoader.load(getClass().getResource("UpdateUser.fxml").openStream());
             updateController = fxmlLoader.getController();
             updateController.injectMainController(this, vacationController);
-            Scene scene = new Scene(root, 400, 400);
+            Scene scene = new Scene(root, 435, 435);
             //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (Exception e) {
@@ -157,6 +160,7 @@ public class MainController implements Observer, IView {
             Scene scene = new Scene(root, 300, 300);
             //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (Exception e) {

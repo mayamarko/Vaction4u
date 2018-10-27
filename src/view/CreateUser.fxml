@@ -8,13 +8,15 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CreateUserController">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" styleClass="bodybg" stylesheets="/view/CreateUsers.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CreateUserController">
    <children>
-      <GridPane layoutX="150.0" layoutY="63.0" prefHeight="176.0" prefWidth="300.0">
+      <GridPane layoutX="16.0" layoutY="69.0" prefHeight="251.0" prefWidth="365.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="123.0" />
-            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="406.0" minWidth="10.0" prefWidth="165.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="115.3333740234375" />
+            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="406.0" minWidth="10.0" prefWidth="249.6666259765625" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints vgrow="SOMETIMES" />
@@ -25,20 +27,25 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label text="City" GridPane.rowIndex="3" />
-            <Label text="Birthday" GridPane.rowIndex="4" />
-            <Label text="Password" GridPane.rowIndex="5" />
+            <Label text="City:" GridPane.rowIndex="3" />
+            <Label text="Birthday:" GridPane.rowIndex="4" />
+            <Label text="Password:" GridPane.rowIndex="5" />
             <TextField fx:id="lbl_city" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="lbl_password" prefHeight="6.0" prefWidth="167.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="lbl_username" GridPane.columnIndex="1" />
+            <TextField fx:id="lbl_username" prefHeight="18.0" prefWidth="223.0" GridPane.columnIndex="1" />
             <TextField fx:id="lbl_fName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="lbl_lName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Username" />
-            <Label text="First Name" GridPane.rowIndex="1" />
-            <Label text="Last Name" GridPane.rowIndex="2" />
+            <Label text="Username:" />
+            <Label text="First Name:" GridPane.rowIndex="1" />
+            <Label text="Last Name:" GridPane.rowIndex="2" />
             <DatePicker fx:id="lbl_birthday" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <Button fx:id="btn_signIn" layoutX="233.0" layoutY="289.0" mnemonicParsing="false" onAction="#signIn" prefHeight="25.0" prefWidth="119.0" text="Create user" />
+      <Button fx:id="btn_signIn" layoutX="141.0" layoutY="334.0" mnemonicParsing="false" onAction="#signIn" prefHeight="25.0" prefWidth="119.0" text="Create user" />
+      <Text layoutX="119.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new user">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

@@ -4,22 +4,51 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.UpdateUserController">
+<AnchorPane prefHeight="435.0" prefWidth="435.0" styleClass="bodybg" stylesheets="/view/UpdateUsers.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.UpdateUserController">
    <children>
-      <TextField fx:id="lbl_password_title" alignment="CENTER" editable="false" layoutX="21.0" layoutY="143.0" text="password:" />
-      <TextField fx:id="lbl_password" layoutX="21.0" layoutY="181.0" />
-      <TextField fx:id="lbl_fName_title" alignment="CENTER" editable="false" layoutX="21.0" layoutY="221.0" text="first name:" />
-      <TextField fx:id="lbl_fName" layoutX="21.0" layoutY="261.0" />
-      <TextField alignment="CENTER" editable="false" layoutX="124.0" layoutY="26.0" text="Enter username:" />
-      <Button fx:id="btn_ok" layoutX="124.0" layoutY="107.0" mnemonicParsing="false" onAction="#AllowUpdate" prefHeight="25.0" prefWidth="149.0" text="OK" />
-      <TextField fx:id="lbl_username" layoutX="124.0" layoutY="66.0" />
-      <TextField fx:id="lbl_lName_title" alignment="CENTER" editable="false" layoutX="21.0" layoutY="300.0" text="last name:" />
-      <Button fx:id="btn_saveChanges" layoutX="227.0" layoutY="313.0" mnemonicParsing="false" onAction="#Update" prefHeight="25.0" prefWidth="149.0" text="Save changes" />
-      <TextField fx:id="lbl_lName" layoutX="21.0" layoutY="336.0" />
-      <TextField fx:id="lbl_birthday_title" alignment="CENTER" editable="false" layoutX="227.0" layoutY="221.0" text="birthday:" />
-      <DatePicker fx:id="lbl_birthday" layoutX="227.0" layoutY="261.0" prefHeight="25.0" prefWidth="149.0" />
-      <TextField fx:id="lbl_city_title" alignment="CENTER" editable="false" layoutX="227.0" layoutY="143.0" text="city:" />
-      <TextField fx:id="lbl_city" layoutX="227.0" layoutY="181.0" />
+      <TextField fx:id="lbl_password_title" editable="false" layoutX="21.0" layoutY="141.0" style="-fx-background-color: transparent;" text="Password:">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font></TextField>
+      <TextField fx:id="lbl_password" layoutX="21.0" layoutY="179.0" />
+      <TextField fx:id="lbl_fName_title" editable="false" layoutX="21.0" layoutY="219.0" style="-fx-background-color: transparent;" text="First Name:">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font></TextField>
+      <TextField fx:id="lbl_fName" layoutX="21.0" layoutY="259.0" />
+      <TextField editable="false" layoutX="109.0" layoutY="23.0" prefHeight="39.0" prefWidth="289.0" style="-fx-background-color: transparent;" text="Enter Username:">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
+         </font></TextField>
+      <Button fx:id="btn_ok" layoutX="124.0" layoutY="104.0" mnemonicParsing="false" onAction="#AllowUpdate" prefHeight="25.0" prefWidth="169.0" text="OK" />
+      <TextField fx:id="lbl_username" layoutX="124.0" layoutY="66.0" prefHeight="25.0" prefWidth="169.0" />
+      <TextField fx:id="lbl_lName_title" editable="false" layoutX="21.0" layoutY="298.0" style="-fx-background-color: transparent;" text="Last Name:">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font></TextField>
+      <Button fx:id="btn_saveChanges" layoutX="124.0" layoutY="376.0" mnemonicParsing="false" onAction="#Update" prefHeight="25.0" prefWidth="169.0" text="Save changes" />
+      <TextField fx:id="lbl_lName" layoutX="21.0" layoutY="334.0" />
+      <TextField fx:id="lbl_birthday_title" editable="false" layoutX="227.0" layoutY="219.0" style="-fx-background-color: transparent;" text="Birthday:">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font></TextField>
+      <DatePicker fx:id="lbl_birthday" layoutX="227.0" layoutY="259.0" prefHeight="25.0" prefWidth="149.0" />
+      <TextField fx:id="lbl_city_title" editable="false" layoutX="227.0" layoutY="298.0" style="-fx-background-color: transparent;" text="City:">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font></TextField>
+      <TextField fx:id="lbl_city" layoutX="229.0" layoutY="334.0" />
+      <TextField fx:id="lbl_new_username_title" editable="false" layoutX="223.0" layoutY="144.0" style="-fx-background-color: transparent;" text="Username:">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font></TextField>
+      <TextField fx:id="lbl_new_username" layoutX="223.0" layoutY="180.0" />
+      <TextField fx:id="lbl_update_message_title" editable="false" layoutY="409.0" prefHeight="27.0" prefWidth="235.0" style="-fx-background-color: transparent;" text="*You may change one or more fields.">
+         <font>
+            <Font name="Calibri Italic" size="14.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>

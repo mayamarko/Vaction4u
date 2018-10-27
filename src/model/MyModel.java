@@ -142,13 +142,13 @@ public class MyModel extends Observable implements IModel {
      */
     @Override
     public boolean updateUser(String username, Map<String, String> newInfo) {
-        if(!isExist(username)){
+        if (!isExist(username)) {
             return false;
         }
         for (Map.Entry<String, String> entry : newInfo.entrySet()) {
-            if (entry.getValue() != null) {
+            if (entry.getValue() != null && entry.getKey() != "username") {
                 boolean isDateChanged = false;
-                Date date=null;
+                Date date = null;
                 if (entry.getKey() == "birthday") {
                     isDateChanged = true;
                     String tmp = entry.getValue();
@@ -173,6 +173,20 @@ public class MyModel extends Observable implements IModel {
                 }
             }
         }
+        if(newInfo.containsKey("username")){
+            String sql = "UPDATE users SET username = ? WHERE username = ?";
+            try (Connection conn = DriverManager.getConnection(url)) {
+                if (conn != null) {
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, newInfo.get("username"));
+                    pstmt.setString(2, username);
+                    pstmt.executeUpdate();
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return true;
     }
 
@@ -182,7 +196,7 @@ public class MyModel extends Observable implements IModel {
     @Override
     public boolean deleteUser(String username) {
         boolean succeed = isExist(username);
-        if(succeed) {
+        if (succeed) {
             String sql = "DELETE FROM users WHERE username = ?";
 
             try (Connection conn = DriverManager.getConnection(url)) {
@@ -233,14 +247,14 @@ public class MyModel extends Observable implements IModel {
         return result;
     }
 
-    public boolean isExist(String username){
+    public boolean isExist(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, username);
                 ResultSet rs = stmt.executeQuery();
-                if(rs.next()){
+                if (rs.next()) {
                     conn.close();
                     return true;
                 }

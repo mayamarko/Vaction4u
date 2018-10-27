@@ -1,21 +1,21 @@
 .bodybg{
-    -fx-background-image: url('/images/home.png');
+    -fx-background-image: url('/images/2.jpg');
     -fx-background-size: 100% 100%;
-    -fx-background-opacity: 0.25;
-    -fx-background-color:transparent;
 }
 
 .button {
-    -fx-background-color:#336699 ;
+    -fx-background-color:#00ccff ;
     -fx-text-fill: white;
     -fx-font-size: 20px;
     -fx-font-family: "Calibri Light";
+    -fx-font-weight: bold;
 }
 
 .button:hover {
-    -fx-background-color: transparent;
+    -fx-background-color: #007a99;
     -fx-text-fill: white;
     -fx-font-size: 20px;
     -fx-font-family: "Calibri Light";
-    -fx-border-color: #336699;
+    -fx-font-weight: bold;
 }
+
