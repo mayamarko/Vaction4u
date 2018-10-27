@@ -28,15 +28,6 @@ public class Main extends Application {
         model = new MyModel();
         model.createNewDatabase();
         model.createNewUsersTable();
-        //model.createUser("a", "121212", 24, 10, 2018, "m12e", "y4ou", "us");
-        //model.createUser("aaa", "121212", 24, 10, 2018, "me", "you", "us");
-        Map test = model.readUser("cc");
-        Map<String, String> t = new HashMap<>();
-        t.put("address", "bus");
-        t.put("lName", "balulu");
-        model.updateUser("aaa", t);
-        Map test2 = model.readUser("b");
-        //model.deleteUser("a");
 
         VacationController controller = new VacationController(model);
         model.addObserver(controller);
