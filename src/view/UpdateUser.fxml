@@ -18,7 +18,7 @@
             <Font name="Calibri Bold" size="18.0" />
          </font></TextField>
       <TextField fx:id="lbl_fName" layoutX="21.0" layoutY="259.0" />
-      <TextField editable="false" layoutX="109.0" layoutY="23.0" prefHeight="39.0" prefWidth="289.0" style="-fx-background-color: transparent;" text="Enter Username:">
+      <TextField editable="false" layoutX="109.0" layoutY="23.0" prefHeight="44.0" prefWidth="282.0" style="-fx-background-color: transparent;" text="Enter Username:">
          <font>
             <Font name="Calibri Bold" size="24.0" />
          </font></TextField>

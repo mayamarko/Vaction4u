@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,40 +69,46 @@ public class UpdateUserController {
 
     @FXML
     private void Update() {
-        boolean canResume=true;
+        boolean canResume = true;
         Map<String, String> newInfo = new HashMap<>();
-        if (!lbl_new_username.getText().trim().isEmpty()){
-            if(vacationController.userExist(lbl_new_username.getText())) {
+        if (!lbl_new_username.getText().trim().isEmpty()) {
+            if (vacationController.userExist(lbl_new_username.getText())) {
                 canResume = false;
                 showAlert("Username already exist, choose another one. \nNo changes has been made.");
-            }
-            else{
+            } else {
                 newInfo.put("username", lbl_new_username.getText());
             }
         }
-        if(canResume) {
-            if (!lbl_fName.getText().trim().isEmpty())
-                newInfo.put("fName", lbl_fName.getText());
-            if (!lbl_lName.getText().trim().isEmpty())
-                newInfo.put("lName", lbl_lName.getText());
-            if (!lbl_password.getText().trim().isEmpty())
-                newInfo.put("password", lbl_password.getText());
-            if (!lbl_city.getText().trim().isEmpty())
-                newInfo.put("address", lbl_city.getText());
-            if (lbl_birthday.getValue() != null)
-                newInfo.put("birthday", lbl_birthday.getValue().toString());
+        if (!lbl_fName.getText().trim().isEmpty())
+            newInfo.put("fName", lbl_fName.getText());
+        if (!lbl_lName.getText().trim().isEmpty())
+            newInfo.put("lName", lbl_lName.getText());
+        if (!lbl_password.getText().trim().isEmpty())
+            newInfo.put("password", lbl_password.getText());
+        if (!lbl_city.getText().trim().isEmpty())
+            newInfo.put("address", lbl_city.getText());
+        if (lbl_birthday.getValue() != null) {
+            if (Period.between(lbl_birthday.getValue(), LocalDate.now()).getYears() < 18) {
+                showAlert("Users have to be 18 and older");
+                canResume = false;
+            }
+            newInfo.put("birthday", lbl_birthday.getValue().toString());
+        }
 
+
+        if (canResume) {
             if (vacationController.updateUser(lbl_username.getText(), newInfo)) {
                 showAlert("Changes saved");
             } else
                 showAlert("Username is not exist!");
         }
-            this.initialize();
+
+        this.initialize();
     }
 
     @FXML
-    private void AllowUpdate(){
-        if(vacationController.userExist(lbl_username.getText())) {
+    private void AllowUpdate() {
+        if (vacationController.userExist(lbl_username.getText())) {
             lbl_fName_title.setVisible(true);
             lbl_birthday_title.setVisible(true);
             lbl_city_title.setVisible(true);
@@ -118,8 +125,7 @@ public class UpdateUserController {
             lbl_new_username.setVisible(true);
             lbl_new_username_title.setVisible(true);
             lbl_update_message_title.setVisible(true);
-        }
-        else{
+        } else {
             showAlert("The user " + lbl_username.getText() + " is not exist, try again.");
         }
     }

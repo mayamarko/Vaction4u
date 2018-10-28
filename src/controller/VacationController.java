@@ -24,7 +24,7 @@ public class VacationController extends Observable implements Observer{
         }
     }
 
-    public boolean signIn(String username, String password, LocalDate birthday, String fName, String lName, String address){
+    public boolean createUser(String username, String password, LocalDate birthday, String fName, String lName, String address){
         return model.createUser(username, password, birthday, fName, lName, address);
     }
 
