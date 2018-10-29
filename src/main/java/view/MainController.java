@@ -95,7 +95,8 @@ public class MainController implements Observer, IView {
             Stage stage = new Stage();
             stage.setTitle("Create New User");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("CreateUser.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("/CreateUser.fxml").openStream());
+
             cUController = fxmlLoader.getController();
             cUController.injectMainController(this, vacationController);
             Scene scene = new Scene(root, 400, 400);
@@ -114,7 +115,7 @@ public class MainController implements Observer, IView {
             Stage stage = new Stage();
             stage.setTitle("Read User");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("SearchUser.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("/SearchUser.fxml").openStream());
             searchController = fxmlLoader.getController();
             searchController.injectMainController(this, vacationController);
             Scene scene = new Scene(root, 300, 300);
@@ -134,7 +135,7 @@ public class MainController implements Observer, IView {
             Stage stage = new Stage();
             stage.setTitle("Update User");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("UpdateUser.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("/UpdateUser.fxml").openStream());
             updateController = fxmlLoader.getController();
             updateController.injectMainController(this, vacationController);
             Scene scene = new Scene(root, 435, 435);
@@ -154,7 +155,7 @@ public class MainController implements Observer, IView {
             Stage stage = new Stage();
             stage.setTitle("Delete User");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("DeleteUser.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("/DeleteUser.fxml").openStream());
             deleteController = fxmlLoader.getController();
             deleteController.injectMainController(this, vacationController);
             Scene scene = new Scene(root, 300, 300);

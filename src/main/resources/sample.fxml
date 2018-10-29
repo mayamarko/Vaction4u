@@ -3,7 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" styleClass="bodybg" stylesheets="/view/Style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" styleClass="bodybg" stylesheets="/Style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
    <children>
     <Button fx:id="btn_createUser" layoutX="16.0" layoutY="25.0" mnemonicParsing="false" onAction="#Create" prefWidth="163.0" text="Create new user" />
     <Button fx:id="btn_deleteUser" layoutX="426.0" layoutY="70.0" mnemonicParsing="false" onAction="#Delete" prefWidth="163.0" text="Delete user" />
