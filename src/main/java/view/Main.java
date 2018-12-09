@@ -28,6 +28,9 @@ public class Main extends Application {
         model = new MyModel();
         model.createNewDatabase();
         model.createNewUsersTable();
+        model.createNewVacationsTable();
+        model.createNewAccommodationTable();
+        model.createNewTicketsTable();
 
         VacationController controller = new VacationController(model);
         model.addObserver(controller);

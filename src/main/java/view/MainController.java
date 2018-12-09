@@ -129,7 +129,7 @@ public class MainController implements Observer, IView {
             Parent root = fxmlLoader.load(getClass().getResource("/SearchUser.fxml").openStream());
             searchController = fxmlLoader.getController();
             searchController.injectMainController(this, vacationController);
-            Scene scene = new Scene(root, 300, 300);
+            Scene scene = new Scene(root, 300, 340);
             //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.setResizable(false);
@@ -149,7 +149,7 @@ public class MainController implements Observer, IView {
             Parent root = fxmlLoader.load(getClass().getResource("/UpdateUser.fxml").openStream());
             updateController = fxmlLoader.getController();
             updateController.injectMainController(this, vacationController);
-            Scene scene = new Scene(root, 435, 435);
+            Scene scene = new Scene(root, 445, 500);
             //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.setResizable(false);

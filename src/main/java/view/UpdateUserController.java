@@ -3,7 +3,11 @@ package view;
 import controller.VacationController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.HashMap;
@@ -29,9 +33,12 @@ public class UpdateUserController {
     public javafx.scene.control.TextField lbl_new_username;
     public javafx.scene.control.TextField lbl_new_username_title;
     public javafx.scene.control.TextField lbl_update_message_title;
+    public javafx.scene.control.TextField lbl_picture_title;
+    public javafx.scene.control.Button btn_selectPicture;
 
     private MainController mainController;
     private VacationController vacationController;
+    private byte[] person_image;
 
     @FXML
     private void initialize() {
@@ -51,6 +58,8 @@ public class UpdateUserController {
         lbl_new_username_title.setVisible(false);
         lbl_update_message_title.setVisible(false);
         lbl_username.setEditable(true);
+        btn_selectPicture.setVisible(false);
+        lbl_picture_title.setVisible(false);
     }
 
     public void injectMainController(MainController mainController, VacationController vacationController) {
@@ -94,11 +103,14 @@ public class UpdateUserController {
             }
             newInfo.put("birthday", lbl_birthday.getValue().toString());
         }
+        if(person_image != null){
+            vacationController.updatePicture(lbl_username.getText(), person_image);
+        }
 
 
         if (canResume) {
             if (vacationController.updateUser(lbl_username.getText(), newInfo)) {
-                showAlert("Changes saved");
+                showAlert("Your Changes saved successfully");
             } else
                 showAlert("Username is not exist!");
         }
@@ -125,8 +137,29 @@ public class UpdateUserController {
             lbl_new_username.setVisible(true);
             lbl_new_username_title.setVisible(true);
             lbl_update_message_title.setVisible(true);
+            btn_selectPicture.setVisible(true);
+            lbl_picture_title.setVisible(true);
         } else {
             showAlert("The user " + lbl_username.getText() + " is not exist, try again.");
+        }
+    }
+
+    @FXML
+    private void selectPicture(){
+        FileChooser chooser = new FileChooser();
+        File f = chooser.showOpenDialog(null);
+        String filename = f.getAbsolutePath();
+        try{
+            File image = new File(filename);
+            FileInputStream fis = new FileInputStream(image);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            for(int readNum; (readNum=fis.read(buf)) != -1; ){
+                bos.write(buf, 0, readNum);
+            }
+            person_image = bos.toByteArray();
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }

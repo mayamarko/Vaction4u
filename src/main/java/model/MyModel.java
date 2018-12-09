@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.*;
+import java.io.InputStream;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +16,8 @@ public class MyModel extends Observable implements IModel {
 
     private String path = System.getProperty("user.dir");
     private String url = "jdbc:sqlite:" + path + "\\vacations.db";
-    private static boolean isLogged=false;
+    private static boolean isLogged = false;
+    private static int vacationId;
 
     /**
      * Connect to the vacation.db database
@@ -59,7 +61,9 @@ public class MyModel extends Observable implements IModel {
                 + "	birthday DATE NOT NULL, \n"
                 + " fName text NOT NULL, \n"
                 + " lName text NOT NULL, \n"
-                + " address text \n"
+                + " address text, \n"
+                + " mail text, \n"
+                + " image BLOB \n"
                 + ");";
 
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -81,11 +85,12 @@ public class MyModel extends Observable implements IModel {
      * @param fName    - first name
      * @param lName    - last name
      * @param address  - city
+     * @param mail     - email
      */
     @Override
-    public boolean createUser(String username, String password, LocalDate birthday, String fName, String lName, String address) {
+    public boolean createUser(String username, String password, LocalDate birthday, String fName, String lName, String address, String mail, byte[] image) {
         boolean succeed = true;
-        String sql = "INSERT INTO users(username, password, birthday, fName, lName, address) VALUES(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users(username, password, birthday, fName, lName, address, mail, image) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -95,6 +100,8 @@ public class MyModel extends Observable implements IModel {
                 pstmt.setString(4, fName);
                 pstmt.setString(5, lName);
                 pstmt.setString(6, address);
+                pstmt.setString(7, mail);
+                pstmt.setBytes(8, image);
                 pstmt.executeUpdate();
                 conn.close();
             }
@@ -112,7 +119,7 @@ public class MyModel extends Observable implements IModel {
      */
     @Override
     public Map readUser(String username) {
-        String sql = "SELECT username, fName, lName, birthday, password, address FROM users WHERE username = ?";
+        String sql = "SELECT username, fName, lName, birthday, password, address, mail FROM users WHERE username = ?";
         Map<String, String> result = new HashMap<>();
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -128,6 +135,7 @@ public class MyModel extends Observable implements IModel {
                     result.put("birthday", rs.getDate("birthday").toString());
                     result.put("password", rs.getString("password"));
                     result.put("city", rs.getString("address"));
+                    result.put("email", rs.getString("mail"));
 
                 }
             }
@@ -135,6 +143,28 @@ public class MyModel extends Observable implements IModel {
             System.out.println(e.getMessage());
         }
         return result;
+    }
+
+    /**
+     * @param username
+     * @return
+     */
+    @Override
+    public byte[] readPicture(String username) {
+        byte[] result;
+        String qu = "select image from users where username = ?";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(qu);
+                stmt.setString(1, username);
+                ResultSet rs = stmt.executeQuery();
+                result = rs.getBytes("image");
+                return result;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -147,10 +177,10 @@ public class MyModel extends Observable implements IModel {
             return false;
         }
         for (Map.Entry<String, String> entry : newInfo.entrySet()) {
-            if (entry.getValue() != null && entry.getKey() != "username") {
+            if (entry.getValue() != null && !entry.getKey().equals("username")) {
                 boolean isDateChanged = false;
                 Date date = null;
-                if (entry.getKey() == "birthday") {
+                if (entry.getKey().equals("birthday")) {
                     isDateChanged = true;
                     String tmp = entry.getValue();
                     date = java.sql.Date.valueOf(tmp);
@@ -174,7 +204,7 @@ public class MyModel extends Observable implements IModel {
                 }
             }
         }
-        if(newInfo.containsKey("username")){
+        if (newInfo.containsKey("username")) {
             String sql = "UPDATE users SET username = ? WHERE username = ?";
             try (Connection conn = DriverManager.getConnection(url)) {
                 if (conn != null) {
@@ -189,6 +219,22 @@ public class MyModel extends Observable implements IModel {
             }
         }
         return true;
+    }
+
+    @Override
+    public void updatePicture(String username, byte[] picture) {
+        String sql = "UPDATE users SET image = ? WHERE username = ?";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setBytes(1, picture);
+                pstmt.setString(2, username);
+                pstmt.executeUpdate();
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -237,7 +283,7 @@ public class MyModel extends Observable implements IModel {
                 if (rs.next()) {
                     if (rs.getString("password").equals(password)) {
                         result = true;
-                        isLogged=true;
+                        isLogged = true;
                     }
                 }
             }
@@ -268,4 +314,184 @@ public class MyModel extends Observable implements IModel {
         return false;
     }
 
+    /**
+     * create the vacation table.
+     */
+    public void createNewVacationsTable() {
+        // SQL statement for creating a new vacations table
+        String sql = "CREATE TABLE IF NOT EXISTS vacations (\n"
+                + "	username text NOT NULL,\n"
+                + "	vacID text NOT NULL,\n"
+                + "	price INTEGER NOT NULL,\n"
+                + "	airline text NOT NULL,\n"
+                + "	start DATE NOT NULL, \n"
+                + "	end DATE NOT NULL, \n"
+                + " baggage BOOLEAN NOT NULL, \n"
+                + " baggageDescription text, \n"
+                + " NumberOfTickets INTEGER NOT NULL, \n"
+                + " partialPurchase BOOLEAN NOT NULL, \n"
+                + " destination text NOT NULL, \n"
+                + " flightBack BOOLEAN NOT NULL, \n"
+                + " direct BOOLEAN NOT NULL, \n"
+                + " vacationType text, \n"
+                + " accommodation BOOLEAN, \n"
+                + "PRIMARY KEY(username, vacID), \n"
+                + "FOREIGN KEY(username), \n"
+                + "ON DELETE CASCADE \n"
+                + ");";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                stmt.execute(sql);
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        String sql2 = "SELECT * FROM vacations ORDER BY vacID DESC LIMIT 1";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql2);
+                ResultSet rs = stmt.executeQuery();
+                vacationId = rs.getInt("vacID");
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void createNewTicketsTable() {
+        // SQL statement for creating a new tickets table
+        String sql = "CREATE TABLE IF NOT EXISTS tickets (\n"
+                + "	username text NOT NULL,\n"
+                + "	vacID INTEGER NOT NULL,\n"
+                + "	ticketID INTEGER NOT NULL,\n"
+                + "	ticketType text NOT NULL, \n"
+                + "PRIMARY KEY(username, vacID, ticketID), \n"
+                + "FOREIGN KEY(username, vacID), \n"
+                + "ON DELETE CASCADE \n"
+                + ");";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                stmt.execute(sql);
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void createNewAccommodationTable() {
+        // SQL statement for creating a new accommodation table
+        String sql = "CREATE TABLE IF NOT EXISTS accommodation (\n"
+                + "	username text NOT NULL,\n"
+                + "	vacID INTEGER NOT NULL,\n"
+                + "	name text NOT NULL,\n"
+                + "	address text NOT NULL,\n"
+                + "	grade INTEGER NOT NULL,\n"
+                + "PRIMARY KEY(username, vacID), \n"
+                + "FOREIGN KEY(username, vacID), \n"
+                + "ON DELETE CASCADE \n"
+                + ");";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                stmt.execute(sql);
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean createVacation(String username, int price, String airline, LocalDate start, LocalDate end, boolean baggage, String baggageDescription, int numberOfTickets,
+                                  boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation) {
+        boolean succeed = true;
+        String sql = "INSERT INTO vacations(username, vacID, price, airline, start, end, baggage, baggageDescription, numberOfTickets, partialPurchase, destination, flightBack, direct, vacationType, accommodation)" +
+                " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                vacationId++;
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, username);
+                pstmt.setInt(2, vacationId);
+                pstmt.setInt(3, price);
+                pstmt.setString(4, airline);
+                pstmt.setDate(5, java.sql.Date.valueOf(start));
+                pstmt.setDate(6, java.sql.Date.valueOf(end));
+                pstmt.setBoolean(7, baggage);
+                pstmt.setString(8, baggageDescription);
+                pstmt.setInt(9, numberOfTickets);
+                pstmt.setBoolean(10, partialPurchase);
+                pstmt.setString(11, destination);
+                pstmt.setBoolean(12, flightBack);
+                pstmt.setBoolean(13, direct);
+                pstmt.setString(14, vacationType);
+                pstmt.setBoolean(15, accommodation);
+
+                pstmt.executeUpdate();
+                conn.close();
+            }
+
+        } catch (SQLException e) {
+            succeed = false;
+            System.out.println(e.getMessage());
+        }
+        return succeed;
+    }
+
+    public boolean addTickets(String username, int ticketID, String ticketType) {
+        boolean succeed = true;
+        String sql = "INSERT INTO tickets(username, vacID, ticketID, ticketType)" +
+                " VALUES(?, ?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                vacationId++;
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, username);
+                pstmt.setInt(2, vacationId);
+                pstmt.setInt(3, ticketID);
+                pstmt.setString(4, ticketType);
+
+                pstmt.executeUpdate();
+                conn.close();
+            }
+
+        } catch (SQLException e) {
+            succeed = false;
+            System.out.println(e.getMessage());
+        }
+        return succeed;
+    }
+
+    public boolean addAccommodation(String username, String placeName, String address, int grade) {
+        boolean succeed = true;
+        String sql = "INSERT INTO accommodation(username, vacID, name, address, grade)" +
+                " VALUES(?, ?, ?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                vacationId++;
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, username);
+                pstmt.setInt(2, vacationId);
+                pstmt.setString(3, placeName);
+                pstmt.setString(4, address);
+                pstmt.setInt(5, grade);
+
+                pstmt.executeUpdate();
+                conn.close();
+            }
+
+        } catch (SQLException e) {
+            succeed = false;
+            System.out.println(e.getMessage());
+        }
+        return succeed;
+    }
 }

@@ -27,8 +27,8 @@ public class VacationController extends Observable implements Observer {
         }
     }
 
-    public boolean createUser(String username, String password, LocalDate birthday, String fName, String lName, String address) {
-        return model.createUser(username, password, birthday, fName, lName, address);
+    public boolean createUser(String username, String password, LocalDate birthday, String fName, String lName, String address, String mail, byte[] image) {
+        return model.createUser(username, password, birthday, fName, lName, address, mail, image);
     }
 
     public String search(String username) {
@@ -40,7 +40,16 @@ public class VacationController extends Observable implements Observer {
                 "Password - " + result.get("password") + "\n" +
                 "Name - " + result.get("fName") + " " + result.get("lName") + "\n" +
                 "City - " + result.get("city") + "\n" +
-                "Birthday - " + result.get("birthday");
+                "Birthday - " + result.get("birthday") + "\n" +
+                "Email - " + result.get("email");
+    }
+
+    public byte[] getImage(String username) {
+        if (userExist(username)) {
+            return model.readPicture(username);
+        } else {
+            return null;
+        }
     }
 
     public boolean userExist(String username) {
@@ -49,6 +58,10 @@ public class VacationController extends Observable implements Observer {
 
     public boolean updateUser(String username, Map<String, String> newInfo) {
         return model.updateUser(username, newInfo);
+    }
+
+    public void updatePicture(String username, byte[] picture) {
+        model.updatePicture(username, picture);
     }
 
     public boolean isLogged() {
@@ -68,5 +81,19 @@ public class VacationController extends Observable implements Observer {
 
     public boolean deleteUser(String username) {
         return model.deleteUser(username);
+    }
+
+    public boolean createVacation(String username, int price, String airline, LocalDate start, LocalDate end, boolean baggage, String baggageDescription, int numberOfTickets,
+                                  boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation) {
+        return model.createVacation(username, price, airline, start, end, baggage, baggageDescription, numberOfTickets,
+                partialPurchase, destination, flightBack, direct, vacationType, accommodation);
+    }
+
+    public boolean addTickets(String username, int ticketID, String ticketType){
+        return model.addTickets(username, ticketID, ticketType);
+    }
+
+    public  boolean addAccommodation(String username, String placeName, String address, int grade){
+        return model.addAccommodation(username, placeName, address, grade);
     }
 }

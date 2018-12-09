@@ -52,7 +52,7 @@ public class DeleteUserController {
         else{
             boolean succeed = vacationController.deleteUser(lbl_username.getText());
             if(succeed){
-                showAlert("The username " + lbl_username.getText() + " is deleted!");
+                showAlert("The username " + lbl_username.getText() + " is deleted from the system successfully!");
             }
             else{
                 showAlert("The username " + lbl_username.getText() + " is not exist, try again.");

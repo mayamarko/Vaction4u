@@ -5,10 +5,12 @@ import javafx.fxml.FXML;
 import controller.VacationController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -23,6 +25,9 @@ public class SearchUserController {
     public javafx.scene.control.TextField lbl_username;
     public javafx.scene.control.Button btn_search;
     public javafx.scene.control.TextArea lbl_result;
+    public javafx.scene.control.Label lbl_Image;
+    private ImageView format = null;
+
 
     private MainController mainController;
     private VacationController vacationController;
@@ -52,6 +57,14 @@ public class SearchUserController {
         }
         else {
             String res = vacationController.search(lbl_username.getText());
+            byte[] picture = vacationController.getImage(lbl_username.getText());
+            if(picture != null) {
+                Image image = new Image(new ByteArrayInputStream(picture));
+                format = new ImageView(image);
+                format.setFitHeight(45);
+                format.setFitWidth(45);
+                lbl_Image.setGraphic(format);
+            }
             lbl_result.setText(res);
         }
     }
