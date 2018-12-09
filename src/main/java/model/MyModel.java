@@ -15,6 +15,7 @@ public class MyModel extends Observable implements IModel {
 
     private String path = System.getProperty("user.dir");
     private String url = "jdbc:sqlite:" + path + "\\vacations.db";
+    private static boolean isLogged=false;
 
     /**
      * Connect to the vacation.db database
@@ -234,8 +235,9 @@ public class MyModel extends Observable implements IModel {
 
                 // loop through the result set
                 if (rs.next()) {
-                    if (rs.getString("password") == password) {
+                    if (rs.getString("password").equals(password)) {
                         result = true;
+                        isLogged=true;
                     }
                 }
             }

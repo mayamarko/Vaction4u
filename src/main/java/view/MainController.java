@@ -2,17 +2,18 @@ package view;
 
 import controller.VacationController;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,12 +27,19 @@ public class MainController implements Observer, IView {
     private UpdateUserController updateController;
     @FXML
     private DeleteUserController deleteController;
+    @FXML
+    private LogInController logInController;
+
+    private String loggedUsername;
 
     @FXML
     public javafx.scene.control.Button btn_createUser;
     public javafx.scene.control.Button btn_searchUser;
     public javafx.scene.control.Button btn_updateUser;
     public javafx.scene.control.Button btn_deleteUser;
+    public javafx.scene.control.Button btn_logIn;
+    public javafx.scene.control.TextArea txt_user;
+
 
     @FXML
     ImageView iv;
@@ -59,6 +67,9 @@ public class MainController implements Observer, IView {
 
     @FXML
     private void initialize() {
+        txt_user.setEditable(false);
+        txt_user.setDisable(true);
+        txt_user.setVisible(false);
 //        /**
 //         * load the "create user" fxml
 //         */
@@ -167,5 +178,51 @@ public class MainController implements Observer, IView {
         } catch (Exception e) {
             System.out.println("we hava a problem");
         }
+    }
+
+    public void LogIn(ActionEvent actionEvent) {
+        if(!vacationController.isLogged()) {
+            try {
+                Stage stage = new Stage();
+                stage.setTitle("Log In User");
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root = fxmlLoader.load(getClass().getResource("/LogInUsers.fxml").openStream());
+                logInController = fxmlLoader.getController();
+                logInController.injectMainController(this, vacationController);
+                Scene scene = new Scene(root, 300, 300);
+                //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+                stage.setScene(scene);
+                SetStageCloseLogInEvent(stage);
+                stage.setResizable(false);
+                stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+                stage.show();
+
+            } catch (Exception e) {
+                System.out.println("we hava a problem");
+            }
+
+        }
+    }
+
+    private void SetStageCloseLogInEvent(Stage stage) {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent windowEvent) {
+                if(vacationController.isLogged()) {
+                    txt_user.setText("Hello, " + vacationController.getUsername());
+                    txt_user.setDisable(false);
+                    txt_user.setVisible(true);
+                    btn_logIn.setDisable(true);
+                }
+            }
+        });
+    }
+
+
+    private void showAlert(String alertMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        //alert.setContentText(alertMessage);
+        alert.show();
+        alert.setTitle("Please note");
+        alert.setHeaderText(alertMessage);
     }
 }
