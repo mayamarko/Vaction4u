@@ -39,6 +39,7 @@ public class MyModel extends Observable implements IModel {
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
+                //PRAGMA foreign_keys = ON;
 //                System.out.println("The driver name is " + meta.getDriverName());
 //                System.out.println("A new database has been created.");
                 conn.close();
@@ -319,7 +320,8 @@ public class MyModel extends Observable implements IModel {
      */
     public void createNewVacationsTable() {
         // SQL statement for creating a new vacations table
-        String sql = "CREATE TABLE IF NOT EXISTS vacations (\n"
+        String sql = "PRAGMA foreign_keys = ON; \n" +
+                "CREATE TABLE IF NOT EXISTS vacations (\n"
                 + "	username text NOT NULL,\n"
                 + "	vacID text NOT NULL,\n"
                 + "	price INTEGER NOT NULL,\n"
@@ -336,8 +338,8 @@ public class MyModel extends Observable implements IModel {
                 + " vacationType text, \n"
                 + " accommodation BOOLEAN, \n"
                 + "PRIMARY KEY(username, vacID), \n"
-                + "FOREIGN KEY(username), \n"
-                + "ON DELETE CASCADE \n"
+                + "FOREIGN KEY(username) REFERENCES users(username) ON DELETE CASCADE\n"
+                //+ "ON DELETE CASCADE \n"
                 + ");";
 
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -371,8 +373,8 @@ public class MyModel extends Observable implements IModel {
                 + "	ticketID INTEGER NOT NULL,\n"
                 + "	ticketType text NOT NULL, \n"
                 + "PRIMARY KEY(username, vacID, ticketID), \n"
-                + "FOREIGN KEY(username, vacID), \n"
-                + "ON DELETE CASCADE \n"
+                + "FOREIGN KEY(username, vacID) REFERENCES vacations(username, vacID) ON DELETE CASCADE\n"
+                //+ "ON DELETE CASCADE \n"
                 + ");";
 
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -395,8 +397,7 @@ public class MyModel extends Observable implements IModel {
                 + "	address text NOT NULL,\n"
                 + "	grade INTEGER NOT NULL,\n"
                 + "PRIMARY KEY(username, vacID), \n"
-                + "FOREIGN KEY(username, vacID), \n"
-                + "ON DELETE CASCADE \n"
+                + "FOREIGN KEY(username, vacID) REFERENCES vacations(username, vacID) ON DELETE CASCADE\n"
                 + ");";
 
         try (Connection conn = DriverManager.getConnection(url)) {

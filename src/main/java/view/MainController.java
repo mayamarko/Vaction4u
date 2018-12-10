@@ -29,6 +29,8 @@ public class MainController implements Observer, IView {
     private DeleteUserController deleteController;
     @FXML
     private LogInController logInController;
+    @FXML
+    private CreateVacationController createVacationController;
 
     private String loggedUsername;
 
@@ -38,6 +40,7 @@ public class MainController implements Observer, IView {
     public javafx.scene.control.Button btn_updateUser;
     public javafx.scene.control.Button btn_deleteUser;
     public javafx.scene.control.Button btn_logIn;
+    public javafx.scene.control.Button btn_createVacation;
     public javafx.scene.control.TextArea txt_user;
 
 
@@ -177,6 +180,25 @@ public class MainController implements Observer, IView {
             stage.show();
         } catch (Exception e) {
             System.out.println("we hava a problem");
+        }
+    }
+
+    public void CreateVacation(ActionEvent actionEvent) {
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("New Vacation");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("/CreateVacation.fxml").openStream());
+            createVacationController = fxmlLoader.getController();
+            createVacationController.injectMainController(this, vacationController);
+            Scene scene = new Scene(root, 700, 500);
+            //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            stage.show();
+        } catch (Exception e) {
+            System.out.println("we have a problem");
         }
     }
 

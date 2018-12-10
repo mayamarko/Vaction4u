@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,16 +11,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CreateVacationController">
    <children>
-      <GridPane layoutX="10.0" layoutY="30.0" prefHeight="232.0" prefWidth="554.0">
+      <GridPane layoutX="10.0" layoutY="34.0" prefHeight="228.0" prefWidth="521.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="122.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="279.0" minWidth="10.0" prefWidth="123.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="10.0" prefWidth="132.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="10.0" prefWidth="106.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="10.0" prefWidth="86.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="10.0" prefWidth="90.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -36,18 +36,16 @@
             <Label text="Nmuber of tickets" GridPane.rowIndex="3" />
             <Label text="Price" GridPane.rowIndex="4" />
             <Label text="Airline" GridPane.rowIndex="5" />
-            <Label text="Type of filght:" GridPane.rowIndex="6" />
-            <CheckBox mnemonicParsing="false" text="Direct" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <CheckBox mnemonicParsing="false" text="Conection" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <Label text="Is there flight back?" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <CheckBox mnemonicParsing="false" text="Yes" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <CheckBox mnemonicParsing="false" text="No" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Direct filght:" GridPane.rowIndex="6" />
+            <CheckBox fx:id="cb_direct" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="81.0" text="Flight back?" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <CheckBox fx:id="cb_flightBack" mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField fx:id="lbl_destination" GridPane.columnIndex="1" />
+            <TextField fx:id="lbl_numberOfTickets" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="lbl_price" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="lbl_airLine" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <DatePicker fx:id="lbl_start" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <DatePicker fx:id="lbl_end" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="176.0" text="Publish New Vacation">
@@ -68,15 +66,14 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label prefHeight="17.0" prefWidth="173.0" text="Accomendation Indluded?" />
-            <CheckBox mnemonicParsing="false" text="Yes" GridPane.columnIndex="1" />
-            <CheckBox mnemonicParsing="false" text="No" GridPane.columnIndex="2" />
-            <Label text="Neme of place" GridPane.rowIndex="1" />
-            <Label text="Adress" GridPane.rowIndex="2" />
+            <Label prefHeight="17.0" prefWidth="173.0" text="Accommodation Included:" />
+            <CheckBox fx:id="cb_accoIncluded" mnemonicParsing="false" GridPane.columnIndex="1" />
+            <Label text="Name of place" GridPane.rowIndex="1" />
+            <Label text="Address" GridPane.rowIndex="2" />
             <Label text="Rank" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="lbl_nameOfAcco" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="lbl_addressOfAcco" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="lbl_rank" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <GridPane layoutX="10.0" layoutY="262.0">
@@ -93,15 +90,23 @@
         </rowConstraints>
          <children>
             <Label text="Type of vacation:" />
-            <CheckBox mnemonicParsing="false" text="Urban" GridPane.rowIndex="1" />
-            <CheckBox mnemonicParsing="false" text="Extreme" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <CheckBox mnemonicParsing="false" text="Extotic" GridPane.rowIndex="2" />
-            <CheckBox mnemonicParsing="false" text="All included" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <CheckBox mnemonicParsing="false" text="Spa" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <CheckBox mnemonicParsing="false" text="Honey moon" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <CheckBox mnemonicParsing="false" text="Golden age" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <CheckBox mnemonicParsing="false" text="CheckBox" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <CheckBox fx:id="cb_urban" mnemonicParsing="false" text="Urban" GridPane.rowIndex="1" />
+            <CheckBox fx:id="cb_extreme" mnemonicParsing="false" text="Extreme" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <CheckBox fx:id="cb_exotic" mnemonicParsing="false" text="Exotic" GridPane.rowIndex="2" />
+            <CheckBox fx:id="cb_allIncluded" mnemonicParsing="false" text="All included" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <CheckBox fx:id="cb_spa" mnemonicParsing="false" text="Spa" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <CheckBox fx:id="cb_honeyMoon" mnemonicParsing="false" text="Honey moon" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <CheckBox fx:id="cb_goldenAge" mnemonicParsing="false" text="Golden age" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <CheckBox fx:id="cb_family" mnemonicParsing="false" text="Family" GridPane.columnIndex="3" GridPane.rowIndex="2" />
          </children>
       </GridPane>
+      <Label layoutX="532.0" layoutY="216.0" prefHeight="46.0" prefWidth="154.0" text="*You need to fill the amount of each type of ticket " wrapText="true" />
+      <Label alignment="CENTER_RIGHT" layoutX="497.0" layoutY="115.0" prefHeight="17.0" prefWidth="81.0" text="Adult" />
+      <TextField fx:id="lbl_numOfAdult" layoutX="596.0" layoutY="111.0" prefHeight="25.0" prefWidth="61.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="510.0" layoutY="149.0" prefHeight="17.0" prefWidth="68.0" text="Child" textAlignment="CENTER" />
+      <TextField fx:id="lbl_numOfChild" layoutX="596.0" layoutY="145.0" prefHeight="25.0" prefWidth="61.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="496.0" layoutY="184.0" prefHeight="17.0" prefWidth="84.0" text="Infant" />
+      <TextField fx:id="lbl_numOfInfant" layoutX="596.0" layoutY="180.0" prefHeight="25.0" prefWidth="61.0" />
+      <Button fx:id="btn_post" layoutX="511.0" layoutY="402.0" mnemonicParsing="false" text="Post!" />
    </children>
 </AnchorPane>

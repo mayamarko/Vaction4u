@@ -12,6 +12,6 @@
     <Button fx:id="btn_updateUser" layoutX="14.0" layoutY="415.0" mnemonicParsing="false" onAction="#Update" prefWidth="163.0" text="Update user" />
       <Button fx:id="btn_logIn" layoutX="14.0" layoutY="55.0" mnemonicParsing="false" onAction="#LogIn" prefWidth="163.0" text="Log In" />
       <TextArea fx:id="txt_user" layoutX="13.0" layoutY="14.0" prefHeight="25.0" prefWidth="198.0" />
-      <Button fx:id="btn_logIn1" layoutX="424.0" layoutY="89.0" mnemonicParsing="false" onAction="#LogIn" prefWidth="163.0" text="Publish new vacation" />
+      <Button fx:id="btn_createVacation" layoutX="424.0" layoutY="89.0" mnemonicParsing="false" onAction="#CreateVacation" prefWidth="163.0" text="Publish new vacation" />
    </children>
 </AnchorPane>
