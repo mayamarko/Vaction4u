@@ -65,6 +65,9 @@ public class PaymentController {
                 bought.isPartialPurchse(), bought.getDestination(), bought.isFlightBack(), bought.isDirectFlight(), bought.getVacationType(), bought.isAccomodation(), vacationController.username);
         if(succeed){
             vacationController.deleteVacation(bought.getUserName(), vacId);
+            showAlert("Your payment accepted! Have a good time!");
+            btn_pay.setDisable(true);
+
         }
     }
 

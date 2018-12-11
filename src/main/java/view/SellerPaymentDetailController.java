@@ -27,7 +27,7 @@ public class SellerPaymentDetailController {
         this.mainController = mainController;
         this.vacationController = vacationController;
     }
-
+    
 
     private void showAlert(String alertMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -39,7 +39,8 @@ public class SellerPaymentDetailController {
 
     @FXML
     private void saveDetails() {
-
+        showAlert("Your details saved successfully!");
+        btn_OK.setDisable(true);
     }
 }
 

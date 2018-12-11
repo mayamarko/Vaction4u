@@ -50,6 +50,7 @@ public class MainController implements Observer, IView {
     public javafx.scene.control.Button btn_updateUser;
     public javafx.scene.control.Button btn_deleteUser;
     public javafx.scene.control.Button btn_logIn;
+    public javafx.scene.control.Button btn_logOut;
     public javafx.scene.control.Button btn_createVacation;
     public javafx.scene.control.Button btn_admin;
     public javafx.scene.control.Button btn_messageSystem;
@@ -89,6 +90,7 @@ public class MainController implements Observer, IView {
         btn_searchUser.setVisible(false);
         btn_deleteUser.setVisible(false);
         btn_messageSystem.setVisible(false);
+        btn_logOut.setDisable(true);
 //        /**
 //         * load the "create user" fxml
 //         */
@@ -118,6 +120,21 @@ public class MainController implements Observer, IView {
     public void setSubController() {
         cUController.injectMainController(this, vacationController);
         //       searchController.injectMainController(this, vacationController);
+    }
+
+    public void LogOut(){
+        vacationController.username="";
+        vacationController.setLogged();
+        txt_user.setEditable(false);
+        txt_user.setDisable(true);
+        txt_user.setVisible(false);
+        btn_updateUser.setVisible(false);
+        btn_searchUser.setVisible(false);
+        btn_deleteUser.setVisible(false);
+        btn_messageSystem.setVisible(false);
+        btn_logIn.setDisable(false);
+        btn_createUser.setDisable(false);
+        btn_logOut.setDisable(true);
     }
 
     public void Create(ActionEvent actionEvent) {
@@ -295,6 +312,8 @@ public class MainController implements Observer, IView {
                     if(vacationController.un_read_messages(vacationController.username)){
                         showAlert("You have new message!");
                     }
+                    btn_createUser.setDisable(true);
+                    btn_logOut.setDisable(false);
                 }
             }
         });
@@ -403,7 +422,8 @@ public class MainController implements Observer, IView {
 
 
                 //table.setItems(getData());
-                table.setItems(getMessages());
+                ObservableList<MessageShow> data=getMessages();
+                table.setItems(data);
                 table.getColumns().addAll(from, time, message, type, button, button2);
                 table.setMinHeight(800);
 
@@ -417,7 +437,7 @@ public class MainController implements Observer, IView {
                 stage.show();
 
             } catch (Exception e) {
-                //System.out.println("not opening");
+                System.out.println("not opening");
             }
         }
     }

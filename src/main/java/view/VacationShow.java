@@ -67,7 +67,7 @@ public class VacationShow {
             if(vacationController.username.equals(userName)){
                 showAlert("You can NOT buy your own vacation!!!!");
             }else {
-                vacationController.add_message(userName, "*" + vacId + "* Your vacation to " + destanation + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
+                vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
                 showAlert("The request sent! You soon will see the approve in the message box");
             }
         } else {
@@ -122,7 +122,7 @@ public class VacationShow {
         //alert.setContentText(alertMessage);
         alert.show();
         //alert.setTitle("Please note");
-        alert.setHeight(400);
+        //alert.setHeight(200);
         alert.setHeaderText(alertMessage);
     }
 

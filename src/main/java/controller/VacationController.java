@@ -77,6 +77,10 @@ public class VacationController extends Observable implements Observer {
         return username;
     }
 
+    public void setLogged(){
+        this.logged=false;
+    }
+
     public boolean logIn(String username, String password) {
         logged = model.logIn(username, password);
         if (logged)

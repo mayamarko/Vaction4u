@@ -17,5 +17,6 @@
       <Button layoutX="13.0" layoutY="149.0" mnemonicParsing="false" onAction="#showFlights" prefHeight="25.0" prefWidth="200.0" text="Vacation table" />
       <Button fx:id="btn_admin" layoutX="14.0" layoutY="99.0" mnemonicParsing="false" onAction="#AdminMode" prefWidth="200.0" text="Admin Mode" />
       <Button fx:id="btn_messageSystem" layoutX="407.0" layoutY="455.0" mnemonicParsing="false" onAction="#showMessages" prefWidth="170.0" text="Message Box" />
+      <Button fx:id="btn_logOut" layoutX="24.0" layoutY="455.0" mnemonicParsing="false" onAction="#LogOut" prefWidth="170.0" text="Log Out" />
    </children>
 </AnchorPane>

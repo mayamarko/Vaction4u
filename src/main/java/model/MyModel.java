@@ -395,7 +395,7 @@ public class MyModel extends Observable implements IModel {
                         + " accommodation BOOLEAN, \n"
                         + " usernameBuyer text NOT NULL, \n"
                         + "PRIMARY KEY(usernameSeller, vacID), \n"
-                        + "FOREIGN KEY(usernameSeller,usernameBuyer) REFERENCES users(username) ON DELETE CASCADE\n"
+                        + "FOREIGN KEY(usernameSeller,usernameBuyer) REFERENCES users(username,username) ON DELETE CASCADE\n"
                         + ");";
 
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -477,7 +477,7 @@ public class MyModel extends Observable implements IModel {
                            int numberOfAdults, int numberOfChilds, int numberOfInfants,
                            boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation, String usernameBuyer) {
         boolean succeed = true;
-        String sql = "INSERT INTO vacations(usernameSeller, vacID, price, airline, start, returnDate, baggage, baggageDescription, numberOfTickets, numberOfAdults, numberOfchilds, numberOfInfants, partialPurchase, destination, flightBack, direct, vacationType, accommodation, usernameBuyer)" +
+        String sql = "INSERT INTO sales(usernameSeller, vacID, price, airline, start, returnDate, baggage, baggageDescription, numberOfTickets, numberOfAdults, numberOfchilds, numberOfInfants, partialPurchase, destination, flightBack, direct, vacationType, accommodation, usernameBuyer)" +
                 " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -618,7 +618,7 @@ public class MyModel extends Observable implements IModel {
      */
     @Override
     public boolean deleteVacation(String username, int vacID) {
-        String sql = "DELETE FROM users WHERE username = ? AND vacID = ?";
+        String sql = "DELETE FROM vacations WHERE username = ? AND vacID = ?";
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -653,7 +653,6 @@ public class MyModel extends Observable implements IModel {
                     String airline = rs.getString("airline");
                     LocalDate start = rs.getDate("start").toLocalDate();
                     LocalDate returnDate = rs.getDate("returnDate").toLocalDate();
-                    String email = rs.getString("mail");
                     boolean baggage = rs.getBoolean("baggage");
                     String baggageDescription = rs.getString("baggageDescription");
                     int numberOfTickets = rs.getInt("numberOfTickets");

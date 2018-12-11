@@ -23,16 +23,18 @@ public class MessageShow {
     MainController mainController;
 
 
-    public MessageShow(String from, String dateAndTine, String message, String type, VacationController vacationController1, MainController mainController) {
+    public MessageShow(String from, String dateAndTine, String messageI, String type, VacationController vacationController1, MainController mainController) {
         this.from = new SimpleStringProperty(from);
         this.dAndT = new SimpleStringProperty(dateAndTine);
-        this.message = new SimpleStringProperty(message);
+        this.message = new SimpleStringProperty(messageI);
         this.type = new SimpleStringProperty(type);
         if (type.equals("request vacation")) {
             this.acc = new Button("Accept Request");
             this.dec = new Button("Decline Request");
         } else if (type.equals("request approve")) {
             this.acc = new Button("Pay!");
+            this.dec = new Button("");
+            this.dec.setVisible(false);
         }
         this.vacationController = vacationController1;
         this.mainController = mainController;
@@ -54,12 +56,14 @@ public class MessageShow {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                vacationController1.add_message(from, "Your request to buy the vacation from " + vacationController1.username + " has been approved, you can go to the payment page",
+                int sign = messageI.indexOf(" ");
+                String vacIdString = messageI.substring(0, sign);
+                vacationController1.add_message(from, vacIdString + " Your request to buy the vacation from " + vacationController1.username + " has been approved, you can go to the payment page",
                         "request approve");
             } else if (type.equals("request approve")) {
                 try {
-                    int sign = message.indexOf(" ");
-                    String vacIdString = message.substring(1, sign - 1);
+                    int sign = messageI.indexOf(" ");
+                    String vacIdString = messageI.substring(1, sign - 1);
                     int vacId = Integer.parseInt(vacIdString);
                     Stage stage = new Stage();
                     stage.setTitle("Payment");
