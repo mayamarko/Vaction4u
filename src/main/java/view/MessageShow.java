@@ -1,8 +1,14 @@
 package view;
 
+import controller.VacationController;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class MessageShow {
     private final SimpleStringProperty from;
@@ -11,17 +17,39 @@ public class MessageShow {
     private final SimpleStringProperty type;
     private Button acc;
     private Button dec;
+    VacationController vacationController;
+    SellerPaymentDetailController sellerPaymentDetailController;
+    MainController mainController;
 
 
-    public MessageShow(String from, String dateAndTine, String message, String type) {
+    public MessageShow(String from, String dateAndTine, String message, String type, VacationController vacationController1, MainController mainController) {
         this.from = new SimpleStringProperty(from);
         this.dAndT = new SimpleStringProperty(dateAndTine);
         this.message = new SimpleStringProperty(message);
         this.type = new SimpleStringProperty(type);
         this.acc = new Button("Accept Request");
         this.dec = new Button("Decline Request");
+        this.vacationController = vacationController1;
+        this.mainController = mainController;
         acc.setOnAction(event -> {
-            showAlert("Great! The money will transfer to your account");
+            try {
+                Stage stage = new Stage();
+                stage.setTitle("Account details");
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root = fxmlLoader.load(getClass().getResource("/SellerPaymentDetail.fxml").openStream());
+                sellerPaymentDetailController = fxmlLoader.getController();
+                sellerPaymentDetailController.injectMainController(mainController, vacationController);
+                Scene scene = new Scene(root, 300, 300);
+                //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+                stage.show();
+                showAlert("Great! The money will transfer to your account");
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
 
         });
         dec.setOnAction(event -> {
