@@ -107,6 +107,7 @@ public class CreateVacationController {
                             if (!cb_flightBack.isSelected()) {
                                 lbl_end.setValue(lbl_start.getValue());
                             }
+
                             boolean succeedAco = true;
                             if (cb_accoIncluded.isSelected()) {
                                 if (!lbl_addressOfAcco.getText().trim().isEmpty() && !lbl_rank.getText().trim().isEmpty()

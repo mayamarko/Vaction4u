@@ -33,6 +33,7 @@ public class MessageShow {
         this.mainController = mainController;
         acc.setOnAction(event -> {
             try {
+                
                 Stage stage = new Stage();
                 stage.setTitle("Account details");
                 FXMLLoader fxmlLoader = new FXMLLoader();
