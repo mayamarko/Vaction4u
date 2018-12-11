@@ -512,13 +512,23 @@ public class MyModel extends Observable implements IModel {
      *
      * @return
      */
-    public ResultSet showAllVacations() {
+    public HashMap<Integer, String[]> showAllVacations() {
         String sql = "SELECT*FROM vacations";
+        HashMap<Integer,String[]> result=new HashMap<>();
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
-                return rs;
+                while(rs.next()){
+                    String dest=rs.getString("destination");
+                    String departD=rs.getDate("start").toString();
+                    String returnD=rs.getDate("returnDate").toString();
+                    String price=rs.getString("price");
+                    String[] s={dest,departD,returnD,price};
+                    int vacId=rs.getInt("vacID");
+                    result.put(vacId,s);
+                }
+                return result;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -648,8 +658,6 @@ public class MyModel extends Observable implements IModel {
 
 
         model.create_message_box_Table();
-
-
 
 
         model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"shlom op", "user");

@@ -3,6 +3,7 @@ package model;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 public interface IModel {
@@ -33,7 +34,7 @@ public interface IModel {
 
     boolean deleteVacation(String username, int vacID);
 
-    ResultSet showAllVacations();
+    HashMap<Integer,String[]> showAllVacations();
 }
 
 

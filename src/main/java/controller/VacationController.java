@@ -4,6 +4,7 @@ import model.IModel;
 
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -53,7 +54,7 @@ public class VacationController extends Observable implements Observer {
         }
     }
 
-    public ResultSet showAllVacations(){
+    public HashMap<Integer,String[]> showAllVacations(){
         return model.showAllVacations();
     }
 

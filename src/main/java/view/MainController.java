@@ -25,6 +25,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -303,8 +305,8 @@ public class MainController implements Observer, IView {
             Stage stage = new Stage();
             Scene scene = new Scene(new Group());
             stage.setTitle("All Flights");
-            stage.setWidth(440);
-            stage.setHeight(940);
+            stage.setWidth(850);
+            stage.setHeight(500);
             final Label label = new Label("Available fligts:");
             label.setFont(new Font("Arial", 22));
             table.setEditable(false);
@@ -346,7 +348,10 @@ public class MainController implements Observer, IView {
 
     public ObservableList<VacationShow> getData() {
         ObservableList<VacationShow> data = FXCollections.observableArrayList();
-        ResultSet set=vacationController.showAllVacations();
+        Map<Integer, String[]> set = vacationController.showAllVacations();
+        for (Map.Entry<Integer, String[]> entry : set.entrySet()) {
+            data.add(new VacationShow(entry.getKey(), entry.getValue()[0], entry.getValue()[1], entry.getValue()[2], entry.getValue()[3]));
+        }
 //        try {
 //            while(set.next()){
 //            data.add(new VacationShow(set.getInt("vacId"),set.getString("destination"),set.getDate("start").toString(),set.getDate("returnDate").toString(),set.getString("price")));
