@@ -52,6 +52,7 @@ public class MainController implements Observer, IView {
     public javafx.scene.control.Button btn_logIn;
     public javafx.scene.control.Button btn_createVacation;
     public javafx.scene.control.Button btn_admin;
+    public javafx.scene.control.Button btn_messageSystem;
     public javafx.scene.control.TextArea txt_user;
 
 
@@ -87,6 +88,7 @@ public class MainController implements Observer, IView {
         btn_updateUser.setVisible(false);
         btn_searchUser.setVisible(false);
         btn_deleteUser.setVisible(false);
+        btn_messageSystem.setVisible(false);
 //        /**
 //         * load the "create user" fxml
 //         */
@@ -289,6 +291,7 @@ public class MainController implements Observer, IView {
                     btn_updateUser.setVisible(true);
                     btn_searchUser.setVisible(true);
                     btn_deleteUser.setVisible(true);
+                    btn_messageSystem.setVisible(true);
                 }
             }
         });
@@ -360,57 +363,59 @@ public class MainController implements Observer, IView {
     }
 
     public void showMessages() {
-        try {
-            table = new TableView();
-            Stage stage = new Stage();
-            Scene scene = new Scene(new Group());
-            stage.setTitle("All Messages");
-            stage.setWidth(900);
-            stage.setHeight(500);
-            final Label label = new Label("Your Inbox:");
-            label.setFont(new Font("Arial", 22));
-            table.setEditable(false);
-            TableColumn from = new TableColumn("From");
-            from.setMinWidth(150);
-            from.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("from"));
+        if(vacationController.isLogged()){
+            try {
+                table = new TableView();
+                Stage stage = new Stage();
+                Scene scene = new Scene(new Group());
+                stage.setTitle("All Messages");
+                stage.setWidth(900);
+                stage.setHeight(500);
+                final Label label = new Label("Your Inbox:");
+                label.setFont(new Font("Arial", 22));
+                table.setEditable(false);
+                TableColumn from = new TableColumn("From");
+                from.setMinWidth(150);
+                from.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("from"));
 
-            TableColumn time = new TableColumn("Date & time");
-            time.setMinWidth(150);
-            time.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("dAndT"));
+                TableColumn time = new TableColumn("Date & time");
+                time.setMinWidth(150);
+                time.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("dAndT"));
 
-            TableColumn message = new TableColumn("Message");
-            message.setMinWidth(150);
-            message.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("message"));
+                TableColumn message = new TableColumn("Message");
+                message.setMinWidth(150);
+                message.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("message"));
 
-            TableColumn type = new TableColumn("Type");
-            type.setMinWidth(150);
-            type.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("type"));
+                TableColumn type = new TableColumn("Type");
+                type.setMinWidth(150);
+                type.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("type"));
 
-            TableColumn button = new TableColumn("");
-            button.setMinWidth(100);
-            button.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("acc"));
+                TableColumn button = new TableColumn("");
+                button.setMinWidth(100);
+                button.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("acc"));
 
-            TableColumn button2 = new TableColumn("");
-            button2.setMinWidth(150);
-            button2.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("dec"));
+                TableColumn button2 = new TableColumn("");
+                button2.setMinWidth(150);
+                button2.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("dec"));
 
 
-            //table.setItems(getData());
-            table.setItems(getMessages());
-            table.getColumns().addAll(from, time, message, type, button, button2);
-            table.setMinHeight(800);
+                //table.setItems(getData());
+                table.setItems(getMessages());
+                table.getColumns().addAll(from, time, message, type, button, button2);
+                table.setMinHeight(800);
 
-            final VBox vbox = new VBox();
-            vbox.setSpacing(20);
-            vbox.setPadding(new Insets(10, 0, 0, 10));
-            vbox.getChildren().addAll(label, table);
+                final VBox vbox = new VBox();
+                vbox.setSpacing(20);
+                vbox.setPadding(new Insets(10, 0, 0, 10));
+                vbox.getChildren().addAll(label, table);
 
-            ((Group) scene.getRoot()).getChildren().addAll(vbox);
-            stage.setScene(scene);
-            stage.show();
+                ((Group) scene.getRoot()).getChildren().addAll(vbox);
+                stage.setScene(scene);
+                stage.show();
 
-        } catch (Exception e) {
-            //System.out.println("not opening");
+            } catch (Exception e) {
+                //System.out.println("not opening");
+            }
         }
     }
 
