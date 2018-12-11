@@ -89,7 +89,7 @@ public class VacationController extends Observable implements Observer {
     }
 
     public Stack getUserMessages(String destUsername) {
-        model.un_read_messages(destUsername);
+        model.update_read_messages(destUsername);
         return model.get_Users_messages(destUsername);
     }
 
@@ -123,5 +123,8 @@ public class VacationController extends Observable implements Observer {
 
     public boolean deleteVacation(String username, int vacID){
         return model.deleteVacation(username, vacID);
+    }
+    public boolean un_read_messages(String dest_username){
+        return model.un_read_messages(dest_username);
     }
 }

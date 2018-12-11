@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" styleClass="bodybg" stylesheets="/Style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" styleClass="bodybg" stylesheets="/Style.css" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
    <children>
     <Button fx:id="btn_createUser" layoutX="389.0" layoutY="53.0" mnemonicParsing="false" onAction="#Create" prefHeight="25.0" prefWidth="200.0" text="Sign Up" />
     <Button fx:id="btn_deleteUser" layoutX="215.0" layoutY="411.0" mnemonicParsing="false" onAction="#Delete" prefWidth="170.0" text="Delete myself" />
@@ -13,7 +13,7 @@
       <Button fx:id="btn_logIn" layoutX="14.0" layoutY="53.0" mnemonicParsing="false" onAction="#LogIn" prefHeight="25.0" prefWidth="200.0" text="Log In" />
       <TextArea fx:id="txt_user" layoutX="13.0" layoutY="5.0" maxHeight="39.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" prefHeight="39.0" prefWidth="200.0" />
       <Button fx:id="btn_createVacation" layoutX="389.0" layoutY="99.0" mnemonicParsing="false" onAction="#CreateVacation" prefHeight="25.0" prefWidth="200.0" text="Publish new vacation" />
-      <Button layoutX="389.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Search vacation" />
+      <Button layoutX="389.0" layoutY="149.0" mnemonicParsing="false" onAction="#messageSearch" prefHeight="25.0" prefWidth="200.0" text="Search vacation" />
       <Button layoutX="13.0" layoutY="149.0" mnemonicParsing="false" onAction="#showFlights" prefHeight="25.0" prefWidth="200.0" text="Vacation table" />
       <Button fx:id="btn_admin" layoutX="14.0" layoutY="99.0" mnemonicParsing="false" onAction="#AdminMode" prefWidth="200.0" text="Admin Mode" />
       <Button fx:id="btn_messageSystem" layoutX="407.0" layoutY="455.0" mnemonicParsing="false" onAction="#showMessages" prefWidth="170.0" text="Message Box" />
