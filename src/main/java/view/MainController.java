@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.sql.ResultSet;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -325,7 +326,7 @@ public class MainController implements Observer, IView {
 
 
             //table.setItems(getData());
-            //  table.setItems(getData());
+            table.setItems(getData());
             table.getColumns().addAll(dest, departDay, returnDay, price);
             table.setMinHeight(800);
 
@@ -345,7 +346,15 @@ public class MainController implements Observer, IView {
 
     public ObservableList<VacationShow> getData() {
         ObservableList<VacationShow> data = FXCollections.observableArrayList();
-        vacationController.get
+        ResultSet set=vacationController.showAllVacations();
+//        try {
+//            while(set.next()){
+//            data.add(new VacationShow(set.getInt("vacId"),set.getString("destination"),set.getDate("start").toString(),set.getDate("returnDate").toString(),set.getString("price")));
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
         //TreeMap<String, Integer[]> dictionary = sort(); //check not calling before the stating
 //        for (Map.Entry<String, Integer[]> entry : dictionary.entrySet()) {
 //            String term = entry.getKey();
