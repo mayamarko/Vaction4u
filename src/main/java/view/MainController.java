@@ -267,7 +267,6 @@ public class MainController implements Observer, IView {
                 Scene scene = new Scene(root, 400, 400);
                 //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
                 stage.setScene(scene);
-                SetStageCloseLogInEvent(stage);
                 stage.setResizable(false);
                 stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
                 stage.show();
