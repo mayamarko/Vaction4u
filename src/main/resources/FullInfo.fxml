@@ -3,10 +3,18 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FullInfoController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FullInfoController">
    <children>
-      <Button layoutX="137.0" layoutY="335.0" mnemonicParsing="false" text="Button" />
-       <TextArea fx:id="txt_Info" layoutX="21.0" layoutY="14.0" prefHeight="313.0" prefWidth="335.0" />
+      <Button fx:id="btn_requestPurchase" layoutX="47.0" layoutY="363.0" mnemonicParsing="false" onAction="#requestPurchase" text="Request purchase" />
+       <TextArea fx:id="txt_Info" layoutX="14.0" layoutY="43.0" prefHeight="313.0" prefWidth="335.0" />
+      <Button layoutX="200.0" layoutY="363.0" mnemonicParsing="false" onAction="#fullSeller" text="Show full seller discription" />
+      <Text layoutX="14.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full information:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

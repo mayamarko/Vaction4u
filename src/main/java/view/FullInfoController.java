@@ -10,11 +10,14 @@ import java.util.Map;
 
 public class FullInfoController {
 
+
+
     private MainController mainController;
     private VacationController vacationController;
     private VacationShow vacationShow;
     @FXML
     public javafx.scene.control.TextArea txt_Info;
+    public javafx.scene.control.Button btn_requestPurchase;
 
     @FXML
     private void initialize() {
@@ -39,8 +42,16 @@ public class FullInfoController {
 
     @FXML
     private void Show() {
-
         txt_Info.setText(vacationShow.getSaveInfo());
+    }
+
+    public void requestPurchase(){
+       // btn_requestPurchase.setDisable(false);
+        vacationShow.requestPurchase();
+    }
+
+    public void fullSeller(){
+        showAlert("this part is under constracion, you will see it in the nexy part");
     }
 
 }

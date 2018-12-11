@@ -21,6 +21,7 @@ public class VacationShow {
     private Button request;
     VacationController vacationController;
      private String saveInfo;
+     private String userName;
 
      @FXML
      private FullInfoController fullInfoController;
@@ -37,6 +38,7 @@ public class VacationShow {
         this.departDay = new SimpleStringProperty(departD);
         this.returnDay = new SimpleStringProperty(returnD);
         this.price = new SimpleStringProperty(price);
+        this.userName=user;
         this.allInfo = new Button("full info");
         this.request = new Button("purchase request");
         allInfo.setOnAction(event -> {
@@ -45,23 +47,35 @@ public class VacationShow {
         });
         request.setOnAction(event -> {
             //showAlert("hey2");
-            if (vacationController.isLogged()) {
-                if(vacationController.username.equals(user)){
-                    showAlert("You can NOT buy your own vacation!!!!");
-                }else {
-                    vacationController.add_message(user, "*" + id + "* Your vacation to " + d + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
-                    showAlert("The request sent! You soon will see the approve in the message box");
-                }
-            } else {
-                showAlert("You must be logged in to buy vacation!");
-            }
+           requestPurchase();
+//            if (vacationController.isLogged()) {
+//                if(vacationController.username.equals(user)){
+//                    showAlert("You can NOT buy your own vacation!!!!");
+//                }else {
+//                    vacationController.add_message(user, "*" + id + "* Your vacation to " + d + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
+//                    showAlert("The request sent! You soon will see the approve in the message box");
+//                }
+//            } else {
+//                showAlert("You must be logged in to buy vacation!");
+//            }
         });
 
     }
 
+    public void  requestPurchase(){
+        if (vacationController.isLogged()) {
+            if(vacationController.username.equals(userName)){
+                showAlert("You can NOT buy your own vacation!!!!");
+            }else {
+                vacationController.add_message(userName, "*" + vacId + "* Your vacation to " + destanation + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
+                showAlert("The request sent! You soon will see the approve in the message box");
+            }
+        } else {
+            showAlert("You must be logged in to buy vacation!");
+        }
+    }
     private String saveInfo(String d, String departD, String returnD, String price, String user, String airline, String baggage, String baggageDisc, String numT,String numA, String numC, String numI, String part, String back, String direct,String type, String accomendation){
-       return "Full information: \n" +
-                    "Destanation: " + d +
+       return       "Destanation: " + d +
                     " \nDeparture date: " + departD +
                     "\nReturn date: " + returnD +
                     "\nPrice: " + price +
