@@ -14,9 +14,12 @@ public class VacationShow {
     private Button allInfo;
     private Button request;
     VacationController vacationController;
+   // private String username;
 
 
-    public VacationShow(VacationController vac,int id, String d, String departD, String returnD, String price){
+
+    //docId, //dest,dDate,rDate,price,username,airline,baggage(bool),baggDisc,numT,numA,numC,numI,partial(bool),back(bool),direct(bool),type,acco(bool)
+    public VacationShow(VacationController vac,int id, String d, String departD, String returnD, String price,String user,String airline,String baggage,String baggageDisc,String numT,String numA,String numC, String numI,String part,String back, String direct,String type,String accomendation ){
         this.vacationController=vac;
         this.vacId=new SimpleStringProperty(id+"");
         this.destanation=new SimpleStringProperty(d);
