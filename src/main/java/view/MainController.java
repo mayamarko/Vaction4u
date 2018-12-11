@@ -41,6 +41,8 @@ public class MainController implements Observer, IView {
     private LogInController logInController;
     @FXML
     private CreateVacationController createVacationController;
+    @FXML
+    private AdminController adminController;
 
     private String loggedUsername;
     private TableView table;
@@ -52,6 +54,7 @@ public class MainController implements Observer, IView {
     public javafx.scene.control.Button btn_deleteUser;
     public javafx.scene.control.Button btn_logIn;
     public javafx.scene.control.Button btn_createVacation;
+    public javafx.scene.control.Button btn_admin;
     public javafx.scene.control.TextArea txt_user;
 
 
@@ -84,6 +87,9 @@ public class MainController implements Observer, IView {
         txt_user.setEditable(false);
         txt_user.setDisable(true);
         txt_user.setVisible(false);
+        btn_updateUser.setVisible(false);
+        btn_searchUser.setVisible(false);
+        btn_deleteUser.setVisible(false);
 //        /**
 //         * load the "create user" fxml
 //         */
@@ -250,6 +256,30 @@ public class MainController implements Observer, IView {
         }
     }
 
+    public void AdminMode(ActionEvent actionEvent) {
+        if (!vacationController.isLogged()) {
+            try {
+                Stage stage = new Stage();
+                stage.setTitle("Admin Mode");
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root = fxmlLoader.load(getClass().getResource("/AdminMode.fxml").openStream());
+                adminController = fxmlLoader.getController();
+                adminController.injectMainController(this, vacationController);
+                Scene scene = new Scene(root, 400, 400);
+                //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+                stage.setScene(scene);
+                SetStageCloseLogInEvent(stage);
+                stage.setResizable(false);
+                stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+                stage.show();
+
+            } catch (Exception e) {
+                System.out.println("we hava a problem");
+            }
+
+        }
+    }
+
     private void SetStageCloseLogInEvent(Stage stage) {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent windowEvent) {
@@ -258,13 +288,16 @@ public class MainController implements Observer, IView {
                     txt_user.setDisable(false);
                     txt_user.setVisible(true);
                     btn_logIn.setDisable(true);
+                    btn_updateUser.setVisible(true);
+                    btn_searchUser.setVisible(true);
+                    btn_deleteUser.setVisible(true);
                 }
             }
         });
     }
 
-    public void showFlights(){
-        try{
+    public void showFlights() {
+        try {
             table = new TableView();
             Stage stage = new Stage();
             Scene scene = new Scene(new Group());
@@ -291,10 +324,9 @@ public class MainController implements Observer, IView {
             price.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("price"));
 
 
-
             //table.setItems(getData());
-          //  table.setItems(getData());
-            table.getColumns().addAll(dest, departDay,returnDay,price);
+            //  table.setItems(getData());
+            table.getColumns().addAll(dest, departDay, returnDay, price);
             table.setMinHeight(800);
 
             final VBox vbox = new VBox();
@@ -310,6 +342,7 @@ public class MainController implements Observer, IView {
             //System.out.println("not opening");
         }
     }
+
     public ObservableList<VacationShow> getData() {
         ObservableList<VacationShow> data = FXCollections.observableArrayList();
         //TreeMap<String, Integer[]> dictionary = sort(); //check not calling before the stating
