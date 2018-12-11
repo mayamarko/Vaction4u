@@ -52,7 +52,7 @@ public class VacationController extends Observable implements Observer {
         }
     }
 
-    public HashMap<Integer,String[]> showAllVacations(){
+    public HashMap<Integer, String[]> showAllVacations() {
         return model.showAllVacations();
     }
 
@@ -83,11 +83,11 @@ public class VacationController extends Observable implements Observer {
         return logged;
     }
 
-    public boolean add_message(String dest_username, String message_text,String massage_type){
+    public boolean add_message(String dest_username, String message_text, String massage_type) {
         return model.add_message(username, dest_username, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(), message_text, massage_type);
     }
 
-    public Stack getUserMessages(String destUsername){
+    public Stack getUserMessages(String destUsername) {
         return model.get_Users_messages(destUsername);
     }
 
@@ -105,7 +105,13 @@ public class VacationController extends Observable implements Observer {
         return model.addTickets(username, ticketID, ticketType);
     }*/
 
-    public  boolean addAccommodation(String username, String placeName, String address, int grade){
+    public boolean addAccommodation(String username, String placeName, String address, int grade) {
         return model.addAccommodation(username, placeName, address, grade);
+    }
+
+    public boolean createSale(String usernameSeller, int vacId, int price, String airline, LocalDate start, LocalDate end, boolean baggage, String baggageDescription, int numberOfTickets,
+                              int numberOfAdults, int numberOfChilds, int numberOfInfants, boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation, String usernameBuyer) {
+        return model.addSale(usernameSeller, vacId, price, airline, start, end, baggage, baggageDescription, numberOfTickets,
+                numberOfAdults, numberOfChilds, numberOfInfants, partialPurchase, destination, flightBack, direct, vacationType, accommodation, usernameBuyer);
     }
 }

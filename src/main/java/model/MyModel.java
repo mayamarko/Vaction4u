@@ -368,6 +368,46 @@ public class MyModel extends Observable implements IModel {
     }
 
 
+    /**
+     * create the sales table.
+     */
+    public void createNewSalesTable() {
+        // SQL statement for creating a new vacations table
+        String sql = //"PRAGMA foreign_keys = ON; \n" +
+                "CREATE TABLE IF NOT EXISTS sales (\n"
+                        + "	usernameSeller text NOT NULL,\n"
+                        + "	vacID INTEGER NOT NULL,\n"
+                        + "	price INTEGER NOT NULL,\n"
+                        + "	airline text NOT NULL,\n"
+                        + "	start DATE NOT NULL, \n"
+                        + "	returnDate DATE NOT NULL, \n"
+                        + " baggage BOOLEAN NOT NULL, \n"
+                        + " baggageDescription text, \n"
+                        + " numberOfTickets INTEGER NOT NULL, \n"
+                        + " numberOfAdults INTEGER NOT NULL, \n"
+                        + " numberOfChilds INTEGER NOT NULL, \n"
+                        + " numberOfInfants INTEGER NOT NULL, \n"
+                        + " partialPurchase BOOLEAN NOT NULL, \n"
+                        + " destination text NOT NULL, \n"
+                        + " flightBack BOOLEAN NOT NULL, \n"
+                        + " direct BOOLEAN NOT NULL, \n"
+                        + " vacationType text, \n"
+                        + " accommodation BOOLEAN, \n"
+                        + " usernameBuyer text NOT NULL, \n"
+                        + "PRIMARY KEY(usernameSeller, vacID), \n"
+                        + "FOREIGN KEY(usernameSeller,usernameBuyer) REFERENCES users(username) ON DELETE CASCADE\n"
+                        + ");";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                stmt.execute(sql);
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     /*
     public void createNewTicketsTable() {
@@ -392,6 +432,7 @@ public class MyModel extends Observable implements IModel {
             System.out.println(e.getMessage());
         }
     }*/
+
 
     public void createNewAccommodationTable() {
         // SQL statement for creating a new accommodation table
@@ -456,6 +497,49 @@ public class MyModel extends Observable implements IModel {
         return succeed;
     }
 
+
+    public boolean addSale(String usernameSeller, int vacId, int price, String airline, LocalDate start, LocalDate returnDate, boolean baggage, String baggageDescription, int numberOfTickets,
+                           int numberOfAdults, int numberOfChilds, int numberOfInfants,
+                           boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation, String usernameBuyer) {
+        boolean succeed = true;
+        String sql = "INSERT INTO vacations(usernameSeller, vacID, price, airline, start, returnDate, baggage, baggageDescription, numberOfTickets, numberOfAdults, numberOfchilds, numberOfInfants, partialPurchase, destination, flightBack, direct, vacationType, accommodation, usernameBuyer)" +
+                " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, usernameSeller);
+                pstmt.setInt(2, vacId);
+                pstmt.setInt(3, price);
+                pstmt.setString(4, airline);
+                pstmt.setDate(5, java.sql.Date.valueOf(start));
+                pstmt.setDate(6, java.sql.Date.valueOf(returnDate));
+                pstmt.setBoolean(7, baggage);
+                pstmt.setString(8, baggageDescription);
+                pstmt.setInt(9, numberOfTickets);
+                pstmt.setInt(10, numberOfAdults);
+                pstmt.setInt(11, numberOfChilds);
+                pstmt.setInt(12, numberOfInfants);
+                pstmt.setBoolean(13, partialPurchase);
+                pstmt.setString(14, destination);
+                pstmt.setBoolean(15, flightBack);
+                pstmt.setBoolean(16, direct);
+                pstmt.setString(17, vacationType);
+                pstmt.setBoolean(18, accommodation);
+                pstmt.setString(19, usernameBuyer);
+
+                pstmt.executeUpdate();
+                conn.close();
+            }
+
+        } catch (SQLException e) {
+            succeed = false;
+            System.out.println(e.getMessage());
+        }
+        return succeed;
+    }
+
+
+
     /*
     public boolean addTickets(String username, int ticketID, String ticketType) {
         boolean succeed = true;
@@ -514,65 +598,60 @@ public class MyModel extends Observable implements IModel {
      */
     public HashMap<Integer, String[]> showAllVacations() {
         String sql = "SELECT*FROM vacations";
-        HashMap<Integer,String[]> result=new HashMap<>();
+        HashMap<Integer, String[]> result = new HashMap<>();
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
-                while(rs.next()){
-                    String dest=rs.getString("destination");
-                    String departD=rs.getDate("start").toString();
-                    String returnD=rs.getDate("returnDate").toString();
-                    String price=rs.getString("price");
-                    String user=rs.getString("username");
-                    String airline=rs.getString("airline");
+                while (rs.next()) {
+                    String dest = rs.getString("destination");
+                    String departD = rs.getDate("start").toString();
+                    String returnD = rs.getDate("returnDate").toString();
+                    String price = rs.getString("price");
+                    String user = rs.getString("username");
+                    String airline = rs.getString("airline");
                     String baggage;
-                    if (rs.getBoolean("baggage")){
-                        baggage="Yes";
+                    if (rs.getBoolean("baggage")) {
+                        baggage = "Yes";
+                    } else {
+                        baggage = "No";
                     }
-                    else{
-                        baggage="No";
-                    }
-                    String baggageDisc=rs.getString("baggageDescription");
-                    int numOfTicket=rs.getInt("numberOfTickets");
-                    int numOfAdults=rs.getInt("numberOfAdults");
-                    int numOdChilds=rs.getInt("numberOfChilds");
-                    int numOdInfants=rs.getInt("numberOfInfants");
+                    String baggageDisc = rs.getString("baggageDescription");
+                    int numOfTicket = rs.getInt("numberOfTickets");
+                    int numOfAdults = rs.getInt("numberOfAdults");
+                    int numOdChilds = rs.getInt("numberOfChilds");
+                    int numOdInfants = rs.getInt("numberOfInfants");
                     String partial;
-                    if (rs.getBoolean("partialPurchase")){
-                        partial="Yes";
-                    }
-                    else{
-                        partial="No";
+                    if (rs.getBoolean("partialPurchase")) {
+                        partial = "Yes";
+                    } else {
+                        partial = "No";
                     }
                     String back;
-                    if (rs.getBoolean("flightBack")){
-                        back="Yes";
-                    }
-                    else{
-                        back="No";
+                    if (rs.getBoolean("flightBack")) {
+                        back = "Yes";
+                    } else {
+                        back = "No";
                     }
                     String direct;
-                    if (rs.getBoolean("direct")){
-                        direct="Yes";
+                    if (rs.getBoolean("direct")) {
+                        direct = "Yes";
+                    } else {
+                        direct = "No";
                     }
-                    else{
-                        direct="No";
-                    }
-                    String type=rs.getString("vacationType");
+                    String type = rs.getString("vacationType");
                     String acco;
-                    if (rs.getBoolean("accommodation")){
-                        acco="Yes";
-                    }
-                    else{
-                        acco="No";
+                    if (rs.getBoolean("accommodation")) {
+                        acco = "Yes";
+                    } else {
+                        acco = "No";
                     }
 
 
 //dest,dDate,rDate,price,username,airline,baggage(bool),baggDisc,numT,numA,numC,numI,partial(bool),back(bool),direct(bool),type,acco(bool)
-                    String[] s={dest,departD,returnD,price,user,airline,baggage,baggageDisc,numOfTicket+"",numOfAdults+"",numOdChilds+"",numOdInfants+"",partial,back,direct,type,acco};
-                    int vacId=rs.getInt("vacID");
-                    result.put(vacId,s);
+                    String[] s = {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
+                    int vacId = rs.getInt("vacID");
+                    result.put(vacId, s);
                 }
                 return result;
             }
@@ -584,6 +663,7 @@ public class MyModel extends Observable implements IModel {
 
     /**
      * delete the vacation
+     *
      * @param username
      * @param vacID
      * @return
@@ -606,7 +686,6 @@ public class MyModel extends Observable implements IModel {
         }
         return false;
     }
-
 
 
     public void create_message_box_Table() {
@@ -633,7 +712,7 @@ public class MyModel extends Observable implements IModel {
         }
     }
 
-    public Stack get_two_Users_messages(String src_username,String dest_username) {
+    public Stack get_two_Users_messages(String src_username, String dest_username) {
         String sql = "SELECT * FROM messages_box1 WHERE ((message_src = ? AND message_dest = ?) OR (message_src = ? AND message_dest = ?))" +
                 "ORDER BY message_time DESC";
         Stack result = new Stack();
@@ -651,11 +730,11 @@ public class MyModel extends Observable implements IModel {
 
                 while (rs.next()) {
 
-                    String l=rs.getString("message_src")+"%";
-                    l= l+ rs.getString("message_src")+"%";
-                    l= l+ rs.getString("message_time")+"%";
-                    l= l+ rs.getString("message_text")+"%";
-                    l= l+ rs.getString("message_type");
+                    String l = rs.getString("message_src") + "%";
+                    l = l + rs.getString("message_src") + "%";
+                    l = l + rs.getString("message_time") + "%";
+                    l = l + rs.getString("message_text") + "%";
+                    l = l + rs.getString("message_type");
 
                     result.push(l.split("%"));
 
@@ -682,11 +761,11 @@ public class MyModel extends Observable implements IModel {
 
                 while (rs.next()) {
 
-                    String l=rs.getString("message_src")+"%";
-                    l= l+ rs.getString("message_dest")+"%";
-                    l= l+ rs.getString("message_time")+"%";
-                    l= l+ rs.getString("message_text")+"%";
-                    l= l+ rs.getString("message_type");
+                    String l = rs.getString("message_src") + "%";
+                    l = l + rs.getString("message_dest") + "%";
+                    l = l + rs.getString("message_time") + "%";
+                    l = l + rs.getString("message_text") + "%";
+                    l = l + rs.getString("message_type");
 
                     result.push(l.split("%"));
 
@@ -702,7 +781,7 @@ public class MyModel extends Observable implements IModel {
     public boolean un_read_messages(String dest_username) {
         String sql = "SELECT * FROM messages_box1 WHERE  message_dest = ?" +
                 "ORDER BY message_time DESC";
-        boolean resalt=false;
+        boolean resalt = false;
 
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -712,7 +791,7 @@ public class MyModel extends Observable implements IModel {
 
                 while (rs.next()) {
 
-                    if(rs.getString("is_read").equals("0"))
+                    if (rs.getString("is_read").equals("0"))
                         resalt = true;
 
                 }
@@ -726,7 +805,7 @@ public class MyModel extends Observable implements IModel {
 
 
     public void update_read_messages(String dest_username) {
-        String sql = "UPDATE  messages_box1 SET is_read = ? WHERE  message_dest = ?" ;
+        String sql = "UPDATE  messages_box1 SET is_read = ? WHERE  message_dest = ?";
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -741,7 +820,7 @@ public class MyModel extends Observable implements IModel {
     }
 
 
-    public boolean add_message(String src_username, String dest_username, String message_time, String message_text,String massage_type) {
+    public boolean add_message(String src_username, String dest_username, String message_time, String message_text, String massage_type) {
         boolean succeed = true;
         String sql = "INSERT INTO messages_box1(message_src, message_dest, message_time, message_text, message_type, is_read)" +
                 " VALUES(?, ?, ?, ?, ?, ?)";
@@ -766,42 +845,6 @@ public class MyModel extends Observable implements IModel {
             System.out.println(e.getMessage());
         }
         return succeed;
-    }
-
-    public static void main(String[] args) {
-
-
-        MyModel model;
-        model = new MyModel();
-        model.createNewDatabase();
-        model.createNewUsersTable();
-
-        model.create_message_box_Table();
-
-
-//        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"shlom op", "user");
-//        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"pop", "user");
-//        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla bla my frind", "user");
-//        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla456 frind", "user");
-//        model.add_message("danid1","avid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"good", "user");
-//        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla456 8frind", "user");
-//        model.add_message("danid1","avid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"by by", "user");
-
-        model.add_message("top","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"by by", "user");
-
-        Stack res =model.get_Users_messages("danid1");
-        while (!res.empty())
-        {   String[] line =(String[]) res.pop();
-            System.out.println(line[0] +" | "+line[1]+" | "+line[2]+" | "+line[3]+" | "+line[4]);
-        }
-
-
-        System.out.println(model.un_read_messages("danid1"));
-        model.update_read_messages("danid1");
-        System.out.println(model.un_read_messages("danid1"));
-
-
-
     }
 
 

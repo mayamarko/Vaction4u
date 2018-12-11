@@ -32,6 +32,7 @@ public class Main extends Application {
         model.createNewAccommodationTable();
         model.create_message_box_Table();
         model.showAllVacations();
+        model.createNewSalesTable();
 
         //model.createNewTicketsTable();
 

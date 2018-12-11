@@ -33,6 +33,10 @@ public interface IModel {
                            int numberOfAdults, int numberOfChilds, int numberOfInfants,
                            boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation);
 
+    boolean addSale(String usernameSeller, int vacId ,int price, String airline, LocalDate start, LocalDate returnDate, boolean baggage, String baggageDescription, int numberOfTickets,
+                           int numberOfAdults, int numberOfChilds, int numberOfInfants,
+                           boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation, String usernameBuyer);
+
     boolean deleteVacation(String username, int vacID);
 
     HashMap<Integer,String[]> showAllVacations();
