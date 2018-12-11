@@ -12,7 +12,7 @@ public class VacationController extends Observable implements Observer {
 
     //if user is logged in.
     private boolean logged = false;
-    private String username = "";
+    public String username = "";
 
     public VacationController(IModel model) {
         this.model = model;
@@ -84,14 +84,14 @@ public class VacationController extends Observable implements Observer {
     }
 
     public boolean createVacation(String username, int price, String airline, LocalDate start, LocalDate end, boolean baggage, String baggageDescription, int numberOfTickets,
-                                  boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation) {
+                                  int numberOfAdults, int numberOfChilds, int numberOfInfants, boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation) {
         return model.createVacation(username, price, airline, start, end, baggage, baggageDescription, numberOfTickets,
-                partialPurchase, destination, flightBack, direct, vacationType, accommodation);
+                numberOfAdults, numberOfChilds, numberOfInfants, partialPurchase, destination, flightBack, direct, vacationType, accommodation);
     }
 
-    public boolean addTickets(String username, int ticketID, String ticketType){
+    /*public boolean addTickets(String username, int ticketID, String ticketType){
         return model.addTickets(username, ticketID, ticketType);
-    }
+    }*/
 
     public  boolean addAccommodation(String username, String placeName, String address, int grade){
         return model.addAccommodation(username, placeName, address, grade);

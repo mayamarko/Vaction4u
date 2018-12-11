@@ -320,7 +320,7 @@ public class MyModel extends Observable implements IModel {
      */
     public void createNewVacationsTable() {
         // SQL statement for creating a new vacations table
-        String sql = "PRAGMA foreign_keys = ON; \n" +
+        String sql = //"PRAGMA foreign_keys = ON; \n" +
                 "CREATE TABLE IF NOT EXISTS vacations (\n"
                 + "	username text NOT NULL,\n"
                 + "	vacID INTEGER NOT NULL,\n"
