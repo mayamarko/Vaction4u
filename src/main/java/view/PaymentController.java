@@ -16,6 +16,7 @@ import java.util.Map;
 
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
+import model.Vacation;
 
 
 public class PaymentController {
@@ -33,26 +34,38 @@ public class PaymentController {
 
     private MainController mainController;
     private VacationController vacationController;
-    private byte[] person_image;
+    private int vacId;
 
     @FXML
     private void initialize() {
         setData();
     }
-    public void injectMainController(MainController mainController, VacationController vacationController) {
+
+    public void injectMainController(MainController mainController, VacationController vacationController, int vacId) {
         this.mainController = mainController;
         this.vacationController = vacationController;
+        this.vacId = vacId;
     }
 
-    public void setData(){
+    public void setData() {
 
-        ObservableList<String> monthes = FXCollections.observableArrayList("January", "February", "March","April","May", "June", "July", "August", "September", "October","November", "December");
+        ObservableList<String> monthes = FXCollections.observableArrayList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
         cbox_month.setItems(monthes);
         cbox_month.setValue("Month");
-        ObservableList<String> years = FXCollections.observableArrayList("2018", "2019", "2020","2021","2022", "2023", "2024");
+        ObservableList<String> years = FXCollections.observableArrayList("2018", "2019", "2020", "2021", "2022", "2023", "2024");
         cbox_year.setItems(years);
         cbox_year.setValue("Year");
 
+    }
+
+    public void pay() {
+        Vacation bought = vacationController.readVacation(vacId);
+        boolean succeed = vacationController.createSale(bought.getUserName(), vacId, bought.getPrice(), bought.getAirline(), bought.getfDeparture(), bought.getfReturn(), bought.isBaggage(), bought.getBaggageDescruption(), bought.getNumOfTickets(),
+                bought.getNumAdult(), bought.getNumChild(), bought.getNumInfant(),
+                bought.isPartialPurchse(), bought.getDestination(), bought.isFlightBack(), bought.isDirectFlight(), bought.getVacationType(), bought.isAccomodation(), vacationController.username);
+        if(succeed){
+            vacationController.deleteVacation(bought.getUserName(), vacId);
+        }
     }
 
     private void showAlert(String alertMessage) {

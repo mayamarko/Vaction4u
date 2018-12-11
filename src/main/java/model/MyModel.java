@@ -409,31 +409,6 @@ public class MyModel extends Observable implements IModel {
         }
     }
 
-    /*
-    public void createNewTicketsTable() {
-        // SQL statement for creating a new tickets table
-        String sql = "CREATE TABLE IF NOT EXISTS tickets (\n"
-                + "	username text NOT NULL,\n"
-                + "	vacID INTEGER NOT NULL,\n"
-                + "	ticketID INTEGER NOT NULL,\n"
-                + "	ticketType text NOT NULL, \n"
-                + "PRIMARY KEY(username, vacID, ticketID), \n"
-                + "FOREIGN KEY(username, vacID) REFERENCES vacations(username, vacID) ON DELETE CASCADE\n"
-                //+ "ON DELETE CASCADE \n"
-                + ");";
-
-        try (Connection conn = DriverManager.getConnection(url)) {
-            if (conn != null) {
-                Statement stmt = conn.createStatement();
-                stmt.execute(sql);
-                conn.close();
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }*/
-
-
     public void createNewAccommodationTable() {
         // SQL statement for creating a new accommodation table
         String sql = "CREATE TABLE IF NOT EXISTS accommodation (\n"
@@ -537,33 +512,6 @@ public class MyModel extends Observable implements IModel {
         }
         return succeed;
     }
-
-
-
-    /*
-    public boolean addTickets(String username, int ticketID, String ticketType) {
-        boolean succeed = true;
-        String sql = "INSERT INTO tickets(username, vacID, ticketID, ticketType)" +
-                " VALUES(?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(url)) {
-            if (conn != null) {
-                vacationId++;
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, username);
-                pstmt.setInt(2, vacationId);
-                pstmt.setInt(3, ticketID);
-                pstmt.setString(4, ticketType);
-
-                pstmt.executeUpdate();
-                conn.close();
-            }
-
-        } catch (SQLException e) {
-            succeed = false;
-            System.out.println(e.getMessage());
-        }
-        return succeed;
-    }*/
 
     public boolean addAccommodation(String username, String placeName, String address, int grade) {
         boolean succeed = true;
@@ -685,6 +633,47 @@ public class MyModel extends Observable implements IModel {
             return false;
         }
         return false;
+    }
+
+    public Vacation readVacation(int vacationID) {
+        String sql = "SELECT username, vacID, price, airline, start, returnDate, baggage, baggageDescription, numberOfTickets, numberOfAdults, numberOfchilds, numberOfInfants, partialPurchase, destination, flightBack, direct, vacationType, accommodation" +
+                " FROM vacations WHERE vacID = ?";
+        Vacation result = null;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, vacationID);
+                ResultSet rs = stmt.executeQuery();
+
+                // loop through the result set
+                while (rs.next()) {
+                    String username = rs.getString("username");
+                    int vacID = rs.getInt("vacID");
+                    int price = rs.getInt("price");
+                    String airline = rs.getString("airline");
+                    LocalDate start = rs.getDate("start").toLocalDate();
+                    LocalDate returnDate = rs.getDate("returnDate").toLocalDate();
+                    String email = rs.getString("mail");
+                    boolean baggage = rs.getBoolean("baggage");
+                    String baggageDescription = rs.getString("baggageDescription");
+                    int numberOfTickets = rs.getInt("numberOfTickets");
+                    int numberOfAdults = rs.getInt("numberOfAdults");
+                    int numberOfChilds = rs.getInt("numberOfChilds");
+                    int numberOfInfants = rs.getInt("numberOfInfants");
+                    boolean partialPurchase = rs.getBoolean("partialPurchase");
+                    String destination = rs.getString("destination");
+                    boolean flightBack = rs.getBoolean("flightBack");
+                    boolean direct = rs.getBoolean("direct");
+                    String vacationType = rs.getString("vacationType");
+                    boolean accommodation = rs.getBoolean("accommodation");
+                    result = new Vacation(username, vacID, price, airline, start, returnDate, baggage, baggageDescription, numberOfTickets, numberOfAdults, numberOfChilds, numberOfInfants, partialPurchase,destination, flightBack,
+                            direct,vacationType, accommodation);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
     }
 
 

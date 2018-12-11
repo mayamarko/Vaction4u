@@ -51,6 +51,8 @@ public interface IModel {
 
     Stack get_two_Users_messages(String src_username,String dest_username);
 
+    Vacation readVacation(int vacationID);
+
 
 
 

@@ -1,6 +1,7 @@
 package controller;
 
 import model.IModel;
+import model.Vacation;
 
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -88,6 +89,7 @@ public class VacationController extends Observable implements Observer {
     }
 
     public Stack getUserMessages(String destUsername) {
+        model.un_read_messages(destUsername);
         return model.get_Users_messages(destUsername);
     }
 
@@ -113,5 +115,13 @@ public class VacationController extends Observable implements Observer {
                               int numberOfAdults, int numberOfChilds, int numberOfInfants, boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation, String usernameBuyer) {
         return model.addSale(usernameSeller, vacId, price, airline, start, end, baggage, baggageDescription, numberOfTickets,
                 numberOfAdults, numberOfChilds, numberOfInfants, partialPurchase, destination, flightBack, direct, vacationType, accommodation, usernameBuyer);
+    }
+
+    public Vacation readVacation(int vacationID){
+        return model.readVacation(vacationID);
+    }
+
+    public boolean deleteVacation(String username, int vacID){
+        return model.deleteVacation(username, vacID);
     }
 }

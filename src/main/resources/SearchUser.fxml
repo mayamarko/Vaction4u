@@ -18,7 +18,5 @@
             <Font name="Calibri Bold" size="24.0" />
          </font></Text>
       <Label fx:id="lbl_Image" layoutX="66.0" layoutY="139.0" prefHeight="45.0" prefWidth="45.0" />
-      <Button fx:id="btn_pay" layoutX="92.0" layoutY="149.0" mnemonicParsing="false" onAction="#payment" text="Pay!" />
-      <Button layoutX="160.0" layoutY="149.0" mnemonicParsing="false" onAction="#paymentDetail" text="Detail" />
    </children>
 </AnchorPane>
