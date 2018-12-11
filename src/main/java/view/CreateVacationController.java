@@ -67,7 +67,8 @@ public class CreateVacationController {
                 lbl_airLine.getText().trim().isEmpty() || lbl_numOfAdult.getText().trim().isEmpty() || lbl_numOfInfant.getText().trim().isEmpty()
                 || lbl_numOfChild.getText().trim().isEmpty() || lbl_start.getValue() != null) {
             if ((cb_flightBack.isSelected() && lbl_end.getValue() != null) || !cb_flightBack.isSelected()) {
-                if ((!cb_accoIncluded.isSelected()) || (cb_accoIncluded.isSelected() && !lbl_addressOfAcco.getText().trim().isEmpty() && !lbl_rank.getText().trim().isEmpty() && !lbl_nameOfAcco.getText().trim().isEmpty())) {
+                if ((!cb_accoIncluded.isSelected()) || (cb_accoIncluded.isSelected() && !lbl_addressOfAcco.getText().trim().isEmpty() &&
+                        !lbl_rank.getText().trim().isEmpty() && !lbl_nameOfAcco.getText().trim().isEmpty())) {
                     try {
                         int numOfTickets = Integer.parseInt(lbl_numberOfTickets.getText());
                         int numOfAdults = Integer.parseInt(lbl_numOfAdult.getText());
@@ -101,14 +102,33 @@ public class CreateVacationController {
                             if (cb_urban.isSelected()) {
                                 vacType.append("Urban");
                             }
-                            if(!cb_flightBack.isSelected()){
+                            if (!cb_flightBack.isSelected()) {
                                 lbl_end.setValue(lbl_start.getValue());
                             }
-                            boolean succeed = vacationController.createVacation(vacationController.username, price, lbl_airLine.getText(), lbl_start.getValue(),
-                                    lbl_end.getValue(), cb_baggageIncluded.isSelected(), lbl_baggageDescription.getText(), numOfTickets, numOfAdults, numOfChild,
-                                    numOfInfant, cb_partialPurchase.isSelected(), lbl_destination.getText(), cb_flightBack.isSelected(), cb_direct.isSelected(),
-                                    vacType.toString(), cb_accoIncluded.isSelected());
-                            if (succeed) {
+                            boolean succeedAco = true;
+                            if (cb_accoIncluded.isSelected()) {
+                                if (!lbl_addressOfAcco.getText().trim().isEmpty() && !lbl_rank.getText().trim().isEmpty()
+                                        && !lbl_nameOfAcco.getText().trim().isEmpty()) {
+                                    try{
+                                        int rank = Integer.parseInt(lbl_rank.getText());
+                                        succeedAco = vacationController.addAccommodation(vacationController.username, lbl_nameOfAcco.getText(), lbl_addressOfAcco.getText(), rank);
+                                    }catch(Exception e){
+                                        showAlert("The accommodation rank has to be a number between 1 to 5");
+                                        succeedAco = false;
+                                    }
+
+                                }else{
+                                    succeedAco = false;
+                                }
+                            }
+                            boolean succeedVac = false;
+                            if(succeedAco) {
+                                succeedVac = vacationController.createVacation(vacationController.username, price, lbl_airLine.getText(), lbl_start.getValue(),
+                                        lbl_end.getValue(), cb_baggageIncluded.isSelected(), lbl_baggageDescription.getText(), numOfTickets, numOfAdults, numOfChild,
+                                        numOfInfant, cb_partialPurchase.isSelected(), lbl_destination.getText(), cb_flightBack.isSelected(), cb_direct.isSelected(),
+                                        vacType.toString(), cb_accoIncluded.isSelected());
+                            }
+                            if (succeedVac && succeedAco) {
                                 showAlert("Congratulations! your vacation posted!");
                             } else {
                                 showAlert("Oops... something went wrong");
@@ -120,7 +140,7 @@ public class CreateVacationController {
                 } else {
                     showAlert("Please fill the accommodation details!");
                 }
-            } else{
+            } else {
                 showAlert("Please fill the return date!");
             }
         } else {

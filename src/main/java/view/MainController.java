@@ -99,9 +99,9 @@ public class MainController implements Observer, IView {
 //        }
     }
 
-    public void setSubController(){
+    public void setSubController() {
         cUController.injectMainController(this, vacationController);
- //       searchController.injectMainController(this, vacationController);
+        //       searchController.injectMainController(this, vacationController);
     }
 
     public void Create(ActionEvent actionEvent) {
@@ -145,65 +145,78 @@ public class MainController implements Observer, IView {
 
 
     public void Update(ActionEvent actionEvent) {
-        try {
-            Stage stage = new Stage();
-            stage.setTitle("Update User");
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("/UpdateUser.fxml").openStream());
-            updateController = fxmlLoader.getController();
-            updateController.injectMainController(this, vacationController);
-            Scene scene = new Scene(root, 445, 500);
-            //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-            stage.show();
-        } catch (Exception e) {
-            System.out.println("we hava a problem");
+        if (!vacationController.isLogged()) {
+            showAlert("You must be logged in to update your profile");
+        } else {
+            try {
+                Stage stage = new Stage();
+                stage.setTitle("Update User");
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root = fxmlLoader.load(getClass().getResource("/UpdateUser.fxml").openStream());
+                updateController = fxmlLoader.getController();
+                updateController.injectMainController(this, vacationController);
+                Scene scene = new Scene(root, 445, 500);
+                //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+                stage.show();
+            } catch (Exception e) {
+                System.out.println("we hava a problem");
+            }
         }
     }
 
 
     public void Delete(ActionEvent actionEvent) {
-        try {
-            Stage stage = new Stage();
-            stage.setTitle("Delete User");
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("/DeleteUser.fxml").openStream());
-            deleteController = fxmlLoader.getController();
-            deleteController.injectMainController(this, vacationController);
-            Scene scene = new Scene(root, 300, 300);
-            //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-            stage.show();
-        } catch (Exception e) {
-            System.out.println("we hava a problem");
+        if (!vacationController.isLogged()) {
+            showAlert("You must be logged in to delete your profile");
+        } else {
+            try {
+                Stage stage = new Stage();
+                stage.setTitle("Delete User");
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root = fxmlLoader.load(getClass().getResource("/DeleteUser.fxml").openStream());
+                deleteController = fxmlLoader.getController();
+                deleteController.injectMainController(this, vacationController);
+                Scene scene = new Scene(root, 300, 300);
+                //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+                stage.show();
+            } catch (Exception e) {
+                System.out.println("we hava a problem");
+
+            }
         }
     }
 
     public void CreateVacation(ActionEvent actionEvent) {
-        try {
-            Stage stage = new Stage();
-            stage.setTitle("New Vacation");
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("/CreateVacation.fxml").openStream());
-            createVacationController = fxmlLoader.getController();
-            createVacationController.injectMainController(this, vacationController);
-            Scene scene = new Scene(root, 700, 500);
-            //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-            stage.show();
-        } catch (Exception e) {
-            System.out.println("we have a problem");
+        if (!vacationController.isLogged()) {
+            showAlert("You must be logged in to post a vacation");
+        } else {
+            try {
+                Stage stage = new Stage();
+                stage.setTitle("New Vacation");
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root = fxmlLoader.load(getClass().getResource("/CreateVacation.fxml").openStream());
+                createVacationController = fxmlLoader.getController();
+                createVacationController.injectMainController(this, vacationController);
+                Scene scene = new Scene(root, 700, 500);
+                //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+                stage.show();
+            } catch (Exception e) {
+                System.out.println("we have a problem");
+            }
         }
     }
 
     public void LogIn(ActionEvent actionEvent) {
-        if(!vacationController.isLogged()) {
+        if (!vacationController.isLogged()) {
             try {
                 Stage stage = new Stage();
                 stage.setTitle("Log In User");
@@ -229,7 +242,7 @@ public class MainController implements Observer, IView {
     private void SetStageCloseLogInEvent(Stage stage) {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent windowEvent) {
-                if(vacationController.isLogged()) {
+                if (vacationController.isLogged()) {
                     txt_user.setText("Hello, " + vacationController.getUsername());
                     txt_user.setDisable(false);
                     txt_user.setVisible(true);
