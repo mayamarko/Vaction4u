@@ -43,6 +43,7 @@ public class CreateVacationController {
     public javafx.scene.control.CheckBox cb_family;
     public javafx.scene.control.CheckBox cb_baggageIncluded;
     public javafx.scene.control.Button btn_post;
+    public javafx.scene.control.Label lbl_message_red;
 
 
     private MainController mainController;
@@ -51,6 +52,7 @@ public class CreateVacationController {
     public void injectMainController(MainController mainController, VacationController vacationController) {
         this.mainController = mainController;
         this.vacationController = vacationController;
+        //lbl_message_red.setStyle("-fx-text-fill: Red; -fx-font-family: \"Calibri\";");
     }
 
     private void showAlert(String alertMessage) {

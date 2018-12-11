@@ -223,7 +223,7 @@ public class MainController implements Observer, IView {
                 Parent root = fxmlLoader.load(getClass().getResource("/CreateVacation.fxml").openStream());
                 createVacationController = fxmlLoader.getController();
                 createVacationController.injectMainController(this, vacationController);
-                Scene scene = new Scene(root, 700, 500);
+                Scene scene = new Scene(root, 800, 600);
                 //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
                 stage.setScene(scene);
                 stage.setResizable(false);
@@ -260,7 +260,9 @@ public class MainController implements Observer, IView {
     }
 
     public void AdminMode(ActionEvent actionEvent) {
-        if (!vacationController.isLogged()) {
+        if (!vacationController.isLogged() && !vacationController.username.equals("admin") || vacationController.isLogged() && !vacationController.username.equals("admin")) {
+            showAlert("You must be logged as admin");
+        } else {
             try {
                 Stage stage = new Stage();
                 stage.setTitle("Admin Mode");

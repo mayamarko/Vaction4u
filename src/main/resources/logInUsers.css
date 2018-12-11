@@ -1,5 +1,5 @@
 .bodybg{
-    -fx-background-image: url('/images/9.jpg');
+    -fx-background-image: url('/images/7.jpg');
     -fx-background-size: 100% 100%;
     -fx-text-fill: black;
     -fx-font-size: 18px;
@@ -8,7 +8,7 @@
 }
 
 .button {
-    -fx-background-color:#800000 ;
+    -fx-background-color:#00ccff ;
     -fx-text-fill: white;
     -fx-font-size: 18px;
     -fx-font-family: "Calibri Light";
@@ -16,7 +16,7 @@
 }
 
 .button:hover {
-    -fx-background-color: #ff9999;
+    -fx-background-color: #007a99;
     -fx-text-fill: white;
     -fx-font-size: 18px;
     -fx-font-family: "Calibri Light";
