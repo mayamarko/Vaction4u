@@ -30,6 +30,9 @@ public class Main extends Application {
         model.createNewUsersTable();
         model.createNewVacationsTable();
         model.createNewAccommodationTable();
+        model.create_message_box_Table();
+        model.showAllVacations();
+
         //model.createNewTicketsTable();
 
         VacationController controller = new VacationController(model);

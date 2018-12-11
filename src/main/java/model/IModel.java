@@ -1,12 +1,13 @@
 package model;
 
 import java.io.InputStream;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.Map;
 
 public interface IModel {
     //void createNewDatabase(String url);
-    boolean createUser(String username, String password, LocalDate birthday, String fName, String lName, String address,String mail, byte[] image);
+    boolean createUser(String username, String password, LocalDate birthday, String fName, String lName, String address, String mail, byte[] image);
 
     Map readUser(String username);
 
@@ -29,4 +30,10 @@ public interface IModel {
     boolean createVacation(String username, int price, String airline, LocalDate start, LocalDate end, boolean baggage, String baggageDescription, int numberOfTickets,
                            int numberOfAdults, int numberOfChilds, int numberOfInfants,
                            boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation);
-    }
+
+    boolean deleteVacation(String username, int vacID);
+
+    ResultSet showAllVacations();
+}
+
+

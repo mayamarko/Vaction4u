@@ -3,13 +3,11 @@ package model;
 import java.awt.*;
 import java.io.InputStream;
 import java.sql.*;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
+import java.util.*;
 
 public class MyModel extends Observable implements IModel {
 
@@ -322,28 +320,28 @@ public class MyModel extends Observable implements IModel {
         // SQL statement for creating a new vacations table
         String sql = //"PRAGMA foreign_keys = ON; \n" +
                 "CREATE TABLE IF NOT EXISTS vacations (\n"
-                + "	username text NOT NULL,\n"
-                + "	vacID INTEGER NOT NULL,\n"
-                + "	price INTEGER NOT NULL,\n"
-                + "	airline text NOT NULL,\n"
-                + "	start DATE NOT NULL, \n"
-                + "	returnDate DATE NOT NULL, \n"
-                + " baggage BOOLEAN NOT NULL, \n"
-                + " baggageDescription text, \n"
-                + " numberOfTickets INTEGER NOT NULL, \n"
-                + " numberOfAdults INTEGER NOT NULL, \n"
-                + " numberOfChilds INTEGER NOT NULL, \n"
-                + " numberOfInfants INTEGER NOT NULL, \n"
-                + " partialPurchase BOOLEAN NOT NULL, \n"
-                + " destination text NOT NULL, \n"
-                + " flightBack BOOLEAN NOT NULL, \n"
-                + " direct BOOLEAN NOT NULL, \n"
-                + " vacationType text, \n"
-                + " accommodation BOOLEAN, \n"
-                + "PRIMARY KEY(username, vacID), \n"
-                + "FOREIGN KEY(username) REFERENCES users(username) ON DELETE CASCADE\n"
-                //+ "ON DELETE CASCADE \n"
-                + ");";
+                        + "	username text NOT NULL,\n"
+                        + "	vacID INTEGER NOT NULL,\n"
+                        + "	price INTEGER NOT NULL,\n"
+                        + "	airline text NOT NULL,\n"
+                        + "	start DATE NOT NULL, \n"
+                        + "	returnDate DATE NOT NULL, \n"
+                        + " baggage BOOLEAN NOT NULL, \n"
+                        + " baggageDescription text, \n"
+                        + " numberOfTickets INTEGER NOT NULL, \n"
+                        + " numberOfAdults INTEGER NOT NULL, \n"
+                        + " numberOfChilds INTEGER NOT NULL, \n"
+                        + " numberOfInfants INTEGER NOT NULL, \n"
+                        + " partialPurchase BOOLEAN NOT NULL, \n"
+                        + " destination text NOT NULL, \n"
+                        + " flightBack BOOLEAN NOT NULL, \n"
+                        + " direct BOOLEAN NOT NULL, \n"
+                        + " vacationType text, \n"
+                        + " accommodation BOOLEAN, \n"
+                        + "PRIMARY KEY(username, vacID), \n"
+                        + "FOREIGN KEY(username) REFERENCES users(username) ON DELETE CASCADE\n"
+                        //+ "ON DELETE CASCADE \n"
+                        + ");";
 
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -367,6 +365,8 @@ public class MyModel extends Observable implements IModel {
             System.out.println(e.getMessage());
         }
     }
+
+
 
     /*
     public void createNewTicketsTable() {
@@ -504,4 +504,126 @@ public class MyModel extends Observable implements IModel {
         }
         return succeed;
     }
+
+
+    /**
+     * return all the vacations in the data base
+     *
+     * @return
+     */
+    public ResultSet showAllVacations() {
+        String sql = "SELECT*FROM vacations";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+                return rs;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * delete the vacation
+     * @param username
+     * @param vacID
+     * @return
+     */
+    @Override
+    public boolean deleteVacation(String username, int vacID) {
+        String sql = "DELETE FROM users WHERE username = ? AND vacID = ?";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, username);
+                pstmt.setInt(2, vacID);
+
+                pstmt.executeUpdate();
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return false;
+    }
+
+
+    public void create_message_box_Table() {
+
+        // SQL statement for creating a new users tabl
+        String sql = "CREATE TABLE IF NOT EXISTS message_box1 (\n"
+                + "	message_src text not NULL,\n"
+                + "	message_dest text not NULL,\n"
+                + "	message_time DATE NOT NULL, \n"
+                + " message_text text NOT NULL, \n"
+                + "PRIMARY KEY(message_src, message_dest ,message_text) \n"
+                + ");";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                stmt.execute(sql);
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public boolean add_message(String src_username, String dest_username, Time message_time, String message_text) {
+        boolean succeed = true;
+        String sql = "INSERT INTO message_box1(message_src, message_dest, message_time, message_text)" +
+                " VALUES(?, ?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                vacationId++;
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+
+                pstmt.setString(1, src_username);
+                pstmt.setString(2, dest_username);
+                pstmt.setTime(3, message_time);
+                pstmt.setString(4, message_text);
+
+                pstmt.executeUpdate();
+                conn.close();
+            }
+
+        } catch (SQLException e) {
+            succeed = false;
+            System.out.println(e.getMessage());
+        }
+        return succeed;
+    }
+
+    /*
+    public Map read_Users_messages(String src_username,String dest_username) {
+        String sql = "SELECT * FROM message_box1 WHERE ((message_src = ? AND message_dest = ?) OR (message_src = ? AND message_dest = ?))" +
+                "ORDER BY message_time ASC";
+        Map<String, String> result = new HashMap<>();
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, src_username);
+                stmt.setString(2, dest_username);
+                stmt.setString(3, dest_username);
+                stmt.setString(4, src_username);
+                ResultSet rs = stmt.executeQuery();
+
+                // loop through the result set
+
+                while (rs.next()) {
+                    result.put(rs.getString("message_time"), rs.getString("message_text"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }*/
+
+
 }
