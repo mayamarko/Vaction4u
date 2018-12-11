@@ -4,10 +4,7 @@ import model.IModel;
 
 import java.sql.ResultSet;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class VacationController extends Observable implements Observer {
     private IModel model;
@@ -83,6 +80,9 @@ public class VacationController extends Observable implements Observer {
         if (logged)
             this.username = username;
         return logged;
+    }
+    public Stack getUserMessages(String destUsername){
+        return model.get_Users_messages(destUsername);
     }
 
     public boolean deleteUser(String username) {

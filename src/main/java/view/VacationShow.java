@@ -1,6 +1,8 @@
 package view;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 
 public class VacationShow {
     private final SimpleStringProperty vacId;
@@ -8,13 +10,33 @@ public class VacationShow {
     private final SimpleStringProperty departDay;
     private final SimpleStringProperty returnDay;
     private final SimpleStringProperty price;
+    private Button allInfo;
+    private Button request;
 
-    public VacationShow(int id, String d,String departD,String returnD,String price){
+
+    public VacationShow(int id, String d, String departD, String returnD, String price){
         this.vacId=new SimpleStringProperty(id+"");
         this.destanation=new SimpleStringProperty(d);
         this.departDay=new SimpleStringProperty(departD);
         this.returnDay=new SimpleStringProperty(returnD);
         this.price=new SimpleStringProperty(price);
+        this.allInfo=new Button("full info");
+        this.request=new Button("purchase request");
+        allInfo.setOnAction(event -> {
+            showAlert("hey " +d );
+        });
+        request.setOnAction(event -> {
+            showAlert("hey2");
+        });
+
+    }
+
+    private void showAlert(String alertMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        //alert.setContentText(alertMessage);
+        alert.show();
+        alert.setTitle("Please note");
+        alert.setHeaderText(alertMessage);
     }
 
     public String getVacId() {
@@ -55,5 +77,21 @@ public class VacationShow {
 
     public SimpleStringProperty priceProperty() {
         return price;
+    }
+
+    public Button getAllInfo() {
+        return allInfo;
+    }
+
+    public void setAllInfo(Button allInfo) {
+        this.allInfo = allInfo;
+    }
+
+    public Button getRequest() {
+        return request;
+    }
+
+    public void setRequest(Button request) {
+        this.request = request;
     }
 }
