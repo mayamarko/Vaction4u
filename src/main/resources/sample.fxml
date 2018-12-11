@@ -6,12 +6,15 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" styleClass="bodybg" stylesheets="/Style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
    <children>
-    <Button fx:id="btn_createUser" layoutX="424.0" layoutY="55.0" mnemonicParsing="false" onAction="#Create" prefWidth="163.0" text="Sign Up" />
-    <Button fx:id="btn_deleteUser" layoutX="14.0" layoutY="452.0" mnemonicParsing="false" onAction="#Delete" prefWidth="163.0" text="Delete user" />
-    <Button fx:id="btn_searchUser" layoutX="14.0" layoutY="378.0" mnemonicParsing="false" onAction="#Search" prefWidth="163.0" text="Read user" />
-    <Button fx:id="btn_updateUser" layoutX="14.0" layoutY="415.0" mnemonicParsing="false" onAction="#Update" prefWidth="163.0" text="Update user" />
-      <Button fx:id="btn_logIn" layoutX="14.0" layoutY="55.0" mnemonicParsing="false" onAction="#LogIn" prefWidth="163.0" text="Log In" />
-      <TextArea fx:id="txt_user" layoutX="13.0" layoutY="14.0" prefHeight="25.0" prefWidth="198.0" />
-      <Button fx:id="btn_createVacation" layoutX="424.0" layoutY="89.0" mnemonicParsing="false" onAction="#CreateVacation" prefWidth="163.0" text="Publish new vacation" />
+    <Button fx:id="btn_createUser" layoutX="389.0" layoutY="53.0" mnemonicParsing="false" onAction="#Create" prefHeight="25.0" prefWidth="200.0" text="Sign Up" />
+    <Button fx:id="btn_deleteUser" layoutX="213.0" layoutY="420.0" mnemonicParsing="false" onAction="#Delete" prefWidth="170.0" text="Delete myself" />
+    <Button fx:id="btn_searchUser" layoutX="397.0" layoutY="420.0" mnemonicParsing="false" onAction="#Search" prefWidth="170.0" text="View Profile" />
+    <Button fx:id="btn_updateUser" layoutX="33.0" layoutY="420.0" mnemonicParsing="false" onAction="#Update" prefWidth="170.0" text="Update profile" />
+      <Button fx:id="btn_logIn" layoutX="14.0" layoutY="53.0" mnemonicParsing="false" onAction="#LogIn" prefHeight="25.0" prefWidth="200.0" text="Log In" />
+      <TextArea fx:id="txt_user" layoutX="13.0" layoutY="5.0" maxHeight="39.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" prefHeight="39.0" prefWidth="200.0" />
+      <Button fx:id="btn_createVacation" layoutX="389.0" layoutY="99.0" mnemonicParsing="false" onAction="#CreateVacation" prefHeight="25.0" prefWidth="200.0" text="Publish new vacation" />
+      <Button layoutX="389.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Search vacation" />
+      <Button layoutX="13.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Vacation table" />
+      <Button layoutX="14.0" layoutY="99.0" mnemonicParsing="false" prefWidth="200.0" text="Admin Mode" />
    </children>
 </AnchorPane>
