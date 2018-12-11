@@ -1,15 +1,25 @@
 package view;
 
 import controller.VacationController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -33,6 +43,7 @@ public class MainController implements Observer, IView {
     private CreateVacationController createVacationController;
 
     private String loggedUsername;
+    private TableView table;
 
     @FXML
     public javafx.scene.control.Button btn_createUser;
@@ -252,6 +263,63 @@ public class MainController implements Observer, IView {
         });
     }
 
+    public void showFlights(){
+        try{
+            table = new TableView();
+            Stage stage = new Stage();
+            Scene scene = new Scene(new Group());
+            stage.setTitle("All Flights");
+            stage.setWidth(440);
+            stage.setHeight(940);
+            final Label label = new Label("Available fligts:");
+            label.setFont(new Font("Arial", 22));
+            table.setEditable(false);
+            TableColumn dest = new TableColumn("Destanation");
+            dest.setMinWidth(200);
+            dest.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("destanation"));
+
+            TableColumn departDay = new TableColumn("Departure date");
+            departDay.setMinWidth(200);
+            departDay.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("departDay"));
+
+            TableColumn returnDay = new TableColumn("Return date");
+            returnDay.setMinWidth(200);
+            returnDay.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("returnDay"));
+
+            TableColumn price = new TableColumn("Price");
+            price.setMinWidth(200);
+            price.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("price"));
+
+
+
+            //table.setItems(getData());
+          //  table.setItems(getData());
+            table.getColumns().addAll(dest, departDay,returnDay,price);
+            table.setMinHeight(800);
+
+            final VBox vbox = new VBox();
+            vbox.setSpacing(20);
+            vbox.setPadding(new Insets(10, 0, 0, 10));
+            vbox.getChildren().addAll(label, table);
+
+            ((Group) scene.getRoot()).getChildren().addAll(vbox);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            //System.out.println("not opening");
+        }
+    }
+    public ObservableList<VacationShow> getData() {
+        ObservableList<VacationShow> data = FXCollections.observableArrayList();
+        //TreeMap<String, Integer[]> dictionary = sort(); //check not calling before the stating
+//        for (Map.Entry<String, Integer[]> entry : dictionary.entrySet()) {
+//            String term = entry.getKey();
+//            int value = entry.getValue()[1];
+//            data.add(new TermShow(term, value));
+//        }
+        return data;
+    }
 
     private void showAlert(String alertMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
