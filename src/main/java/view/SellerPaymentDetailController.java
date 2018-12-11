@@ -27,7 +27,7 @@ public class SellerPaymentDetailController {
         this.mainController = mainController;
         this.vacationController = vacationController;
     }
-    
+
 
     private void showAlert(String alertMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
