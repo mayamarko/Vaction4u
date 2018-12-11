@@ -19,6 +19,7 @@ public class MessageShow {
     private Button dec;
     VacationController vacationController;
     SellerPaymentDetailController sellerPaymentDetailController;
+    PaymentController paymentController;
     MainController mainController;
 
 
@@ -27,29 +28,51 @@ public class MessageShow {
         this.dAndT = new SimpleStringProperty(dateAndTine);
         this.message = new SimpleStringProperty(message);
         this.type = new SimpleStringProperty(type);
-        this.acc = new Button("Accept Request");
-        this.dec = new Button("Decline Request");
+        if(type.equals("request vacation")) {
+            this.acc = new Button("Accept Request");
+            this.dec = new Button("Decline Request");
+        }else if(type.equals("request approve")){
+            this.acc = new Button("Pay!");
+        }
         this.vacationController = vacationController1;
         this.mainController = mainController;
         acc.setOnAction(event -> {
-            try {
-                
-                Stage stage = new Stage();
-                stage.setTitle("Account details");
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent root = fxmlLoader.load(getClass().getResource("/SellerPaymentDetail.fxml").openStream());
-                sellerPaymentDetailController = fxmlLoader.getController();
-                sellerPaymentDetailController.injectMainController(mainController, vacationController);
-                Scene scene = new Scene(root, 300, 300);
-                //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
-                stage.setScene(scene);
-                stage.setResizable(false);
-                stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-                stage.show();
-                showAlert("Great! The money will transfer to your account");
-            }
-            catch(Exception e){
-                e.printStackTrace();
+            if (type.equals("request vacation")) {
+                try {
+                    Stage stage = new Stage();
+                    stage.setTitle("Account details");
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    Parent root = fxmlLoader.load(getClass().getResource("/SellerPaymentDetail.fxml").openStream());
+                    sellerPaymentDetailController = fxmlLoader.getController();
+                    sellerPaymentDetailController.injectMainController(mainController, vacationController);
+                    Scene scene = new Scene(root, 680, 500);
+                    //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+                    stage.setScene(scene);
+                    stage.setResizable(false);
+                    stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+                    stage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                vacationController1.add_message(from, "Your request to buy the vacation from " + vacationController1.username + " has been approved, you can transfer to the payment page",
+                        "request approve");
+            }else if(type.equals("request approve")){
+                try {
+                    Stage stage = new Stage();
+                    stage.setTitle("Payment");
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    Parent root = fxmlLoader.load(getClass().getResource("/Payment.fxml").openStream());
+                    paymentController = fxmlLoader.getController();
+                    paymentController.injectMainController(mainController, vacationController);
+                    Scene scene = new Scene(root, 550, 440);
+                    //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+                    stage.setScene(scene);
+                    stage.setResizable(false);
+                    stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+                    stage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
         });

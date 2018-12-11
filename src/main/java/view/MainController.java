@@ -332,7 +332,7 @@ public class MainController implements Observer, IView {
 
             //table.setItems(getData());
             table.setItems(getData());
-            table.getColumns().addAll(dest, departDay, returnDay, price,button,button2);
+            table.getColumns().addAll(dest, departDay, returnDay, price, button, button2);
             table.setMinHeight(800);
 
             final VBox vbox = new VBox();
@@ -354,22 +354,8 @@ public class MainController implements Observer, IView {
         Map<Integer, String[]> set = vacationController.showAllVacations();
         for (Map.Entry<Integer, String[]> entry : set.entrySet()) {
             //docId, //dest,dDate,rDate,price,username,airline,baggage(bool),baggDisc,numT,numA,numC,numI,partial(bool),back(bool),direct(bool),type,acco(bool)
-            data.add(new VacationShow(vacationController,entry.getKey(), entry.getValue()[0], entry.getValue()[1], entry.getValue()[2], entry.getValue()[3],entry.getValue()[4],entry.getValue()[5],entry.getValue()[6],entry.getValue()[7],entry.getValue()[8],entry.getValue()[9],entry.getValue()[10],entry.getValue()[11],entry.getValue()[12],entry.getValue()[13],entry.getValue()[14],entry.getValue()[15],entry.getValue()[16]));
+            data.add(new VacationShow(vacationController, entry.getKey(), entry.getValue()[0], entry.getValue()[1], entry.getValue()[2], entry.getValue()[3], entry.getValue()[4], entry.getValue()[5], entry.getValue()[6], entry.getValue()[7], entry.getValue()[8], entry.getValue()[9], entry.getValue()[10], entry.getValue()[11], entry.getValue()[12], entry.getValue()[13], entry.getValue()[14], entry.getValue()[15], entry.getValue()[16]));
         }
-//        try {
-//            while(set.next()){
-//            data.add(new VacationShow(set.getInt("vacId"),set.getString("destination"),set.getDate("start").toString(),set.getDate("returnDate").toString(),set.getString("price")));
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-
-        //TreeMap<String, Integer[]> dictionary = sort(); //check not calling before the stating
-//        for (Map.Entry<String, Integer[]> entry : dictionary.entrySet()) {
-//            String term = entry.getKey();
-//            int value = entry.getValue()[1];
-//            data.add(new TermShow(term, value));
-//        }
         return data;
     }
 
@@ -400,18 +386,18 @@ public class MainController implements Observer, IView {
             type.setMinWidth(150);
             type.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("type"));
 
-            TableColumn button = new TableColumn("Accept request");
+            TableColumn button = new TableColumn("");
             button.setMinWidth(100);
             button.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("acc"));
 
-            TableColumn button2 = new TableColumn("Decline request");
+            TableColumn button2 = new TableColumn("");
             button2.setMinWidth(150);
             button2.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("dec"));
 
 
             //table.setItems(getData());
             table.setItems(getMessages());
-            table.getColumns().addAll(from, time, message, type,button,button2);
+            table.getColumns().addAll(from, time, message, type, button, button2);
             table.setMinHeight(800);
 
             final VBox vbox = new VBox();
@@ -430,11 +416,11 @@ public class MainController implements Observer, IView {
 
     public ObservableList<MessageShow> getMessages() {
         ObservableList<MessageShow> data = FXCollections.observableArrayList();
-       Stack set = vacationController.getUserMessages(vacationController.username);
-       while(!set.empty()){
-           String[] stringArr=(String[])set.pop();
-           data.add(new MessageShow(stringArr[0], stringArr[2], stringArr[3], stringArr[4],vacationController,this));
-       }
+        Stack set = vacationController.getUserMessages(vacationController.username);
+        while (!set.empty()) {
+            String[] stringArr = (String[]) set.pop();
+            data.add(new MessageShow(stringArr[0], stringArr[2], stringArr[3], stringArr[4], vacationController, this));
+        }
         return data;
     }
 
