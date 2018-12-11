@@ -24,8 +24,9 @@ public interface IModel {
 
     boolean addAccommodation(String username, String placeName, String address, int grade);
 
-    boolean addTickets(String username, int ticketID, String ticketType);
+    //boolean addTickets(String username, int ticketID, String ticketType);
 
     boolean createVacation(String username, int price, String airline, LocalDate start, LocalDate end, boolean baggage, String baggageDescription, int numberOfTickets,
+                           int numberOfAdults, int numberOfChilds, int numberOfInfants,
                            boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation);
-}
+    }

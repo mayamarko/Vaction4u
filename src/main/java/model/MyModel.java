@@ -323,14 +323,17 @@ public class MyModel extends Observable implements IModel {
         String sql = "PRAGMA foreign_keys = ON; \n" +
                 "CREATE TABLE IF NOT EXISTS vacations (\n"
                 + "	username text NOT NULL,\n"
-                + "	vacID text NOT NULL,\n"
+                + "	vacID INTEGER NOT NULL,\n"
                 + "	price INTEGER NOT NULL,\n"
                 + "	airline text NOT NULL,\n"
                 + "	start DATE NOT NULL, \n"
-                + "	end DATE NOT NULL, \n"
+                + "	returnDate DATE NOT NULL, \n"
                 + " baggage BOOLEAN NOT NULL, \n"
                 + " baggageDescription text, \n"
-                + " NumberOfTickets INTEGER NOT NULL, \n"
+                + " numberOfTickets INTEGER NOT NULL, \n"
+                + " numberOfAdults INTEGER NOT NULL, \n"
+                + " numberOfChilds INTEGER NOT NULL, \n"
+                + " numberOfInfants INTEGER NOT NULL, \n"
                 + " partialPurchase BOOLEAN NOT NULL, \n"
                 + " destination text NOT NULL, \n"
                 + " flightBack BOOLEAN NOT NULL, \n"
@@ -365,6 +368,7 @@ public class MyModel extends Observable implements IModel {
         }
     }
 
+    /*
     public void createNewTicketsTable() {
         // SQL statement for creating a new tickets table
         String sql = "CREATE TABLE IF NOT EXISTS tickets (\n"
@@ -386,14 +390,14 @@ public class MyModel extends Observable implements IModel {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
 
     public void createNewAccommodationTable() {
         // SQL statement for creating a new accommodation table
         String sql = "CREATE TABLE IF NOT EXISTS accommodation (\n"
                 + "	username text NOT NULL,\n"
                 + "	vacID INTEGER NOT NULL,\n"
-                + "	name text NOT NULL,\n"
+                + "	placeName text NOT NULL,\n"
                 + "	address text NOT NULL,\n"
                 + "	grade INTEGER NOT NULL,\n"
                 + "PRIMARY KEY(username, vacID), \n"
@@ -411,11 +415,12 @@ public class MyModel extends Observable implements IModel {
         }
     }
 
-    public boolean createVacation(String username, int price, String airline, LocalDate start, LocalDate end, boolean baggage, String baggageDescription, int numberOfTickets,
+    public boolean createVacation(String username, int price, String airline, LocalDate start, LocalDate returnDate, boolean baggage, String baggageDescription, int numberOfTickets,
+                                  int numberOfAdults, int numberOfChilds, int numberOfInfants,
                                   boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation) {
         boolean succeed = true;
-        String sql = "INSERT INTO vacations(username, vacID, price, airline, start, end, baggage, baggageDescription, numberOfTickets, partialPurchase, destination, flightBack, direct, vacationType, accommodation)" +
-                " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO vacations(username, vacID, price, airline, start, returnDate, baggage, baggageDescription, numberOfTickets, numberOfAdults, numberOfchilds, numberOfInfants, partialPurchase, destination, flightBack, direct, vacationType, accommodation)" +
+                " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 vacationId++;
@@ -425,16 +430,19 @@ public class MyModel extends Observable implements IModel {
                 pstmt.setInt(3, price);
                 pstmt.setString(4, airline);
                 pstmt.setDate(5, java.sql.Date.valueOf(start));
-                pstmt.setDate(6, java.sql.Date.valueOf(end));
+                pstmt.setDate(6, java.sql.Date.valueOf(returnDate));
                 pstmt.setBoolean(7, baggage);
                 pstmt.setString(8, baggageDescription);
                 pstmt.setInt(9, numberOfTickets);
-                pstmt.setBoolean(10, partialPurchase);
-                pstmt.setString(11, destination);
-                pstmt.setBoolean(12, flightBack);
-                pstmt.setBoolean(13, direct);
-                pstmt.setString(14, vacationType);
-                pstmt.setBoolean(15, accommodation);
+                pstmt.setInt(10, numberOfAdults);
+                pstmt.setInt(11, numberOfChilds);
+                pstmt.setInt(12, numberOfInfants);
+                pstmt.setBoolean(13, partialPurchase);
+                pstmt.setString(14, destination);
+                pstmt.setBoolean(15, flightBack);
+                pstmt.setBoolean(16, direct);
+                pstmt.setString(17, vacationType);
+                pstmt.setBoolean(18, accommodation);
 
                 pstmt.executeUpdate();
                 conn.close();
@@ -447,6 +455,7 @@ public class MyModel extends Observable implements IModel {
         return succeed;
     }
 
+    /*
     public boolean addTickets(String username, int ticketID, String ticketType) {
         boolean succeed = true;
         String sql = "INSERT INTO tickets(username, vacID, ticketID, ticketType)" +
@@ -469,11 +478,11 @@ public class MyModel extends Observable implements IModel {
             System.out.println(e.getMessage());
         }
         return succeed;
-    }
+    }*/
 
     public boolean addAccommodation(String username, String placeName, String address, int grade) {
         boolean succeed = true;
-        String sql = "INSERT INTO accommodation(username, vacID, name, address, grade)" +
+        String sql = "INSERT INTO accommodation(username, vacID, placeName, address, grade)" +
                 " VALUES(?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {

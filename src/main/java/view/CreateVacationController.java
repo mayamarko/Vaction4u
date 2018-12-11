@@ -73,6 +73,7 @@ public class CreateVacationController {
                             showAlert("There is inconsistent in the number of tickets!");
                         }
                         else{
+                            //boolean succeed = vacationController
                             //TODO make a new vacation here after all the checks!!!!!!!! adding to the tables.
                         }
                     }catch(Exception e){
