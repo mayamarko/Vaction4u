@@ -524,7 +524,53 @@ public class MyModel extends Observable implements IModel {
                     String departD=rs.getDate("start").toString();
                     String returnD=rs.getDate("returnDate").toString();
                     String price=rs.getString("price");
-                    String[] s={dest,departD,returnD,price};
+                    String user=rs.getString("username");
+                    String airline=rs.getString("airline");
+                    String baggage;
+                    if (rs.getBoolean("baggage")){
+                        baggage="Yes";
+                    }
+                    else{
+                        baggage="No";
+                    }
+                    String baggageDisc=rs.getString("baggageDescription");
+                    int numOfTicket=rs.getInt("numberOfTickets");
+                    int numOfAdults=rs.getInt("numberOfAdults");
+                    int numOdChilds=rs.getInt("numberOfChilds");
+                    int numOdInfants=rs.getInt("numberOfInfants");
+                    String partial;
+                    if (rs.getBoolean("partialPurchase")){
+                        partial="Yes";
+                    }
+                    else{
+                        partial="No";
+                    }
+                    String back;
+                    if (rs.getBoolean("flightBack")){
+                        back="Yes";
+                    }
+                    else{
+                        back="No";
+                    }
+                    String direct;
+                    if (rs.getBoolean("direct")){
+                        direct="Yes";
+                    }
+                    else{
+                        direct="No";
+                    }
+                    String type=rs.getString("vacationType");
+                    String acco;
+                    if (rs.getBoolean("accommodation")){
+                        acco="Yes";
+                    }
+                    else{
+                        acco="No";
+                    }
+
+
+//dest,dDate,rDate,price,username,airline,baggage(bool),baggDisc,numT,numA,numC,numI,partial(bool),back(bool),direct(bool),type,acco(bool)
+                    String[] s={dest,departD,returnD,price,user,airline,baggage,baggageDisc,numOfTicket+"",numOfAdults+"",numOdChilds+"",numOdInfants+"",partial,back,direct,type,acco};
                     int vacId=rs.getInt("vacID");
                     result.put(vacId,s);
                 }

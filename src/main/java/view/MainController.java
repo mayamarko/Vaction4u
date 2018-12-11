@@ -353,7 +353,8 @@ public class MainController implements Observer, IView {
         ObservableList<VacationShow> data = FXCollections.observableArrayList();
         Map<Integer, String[]> set = vacationController.showAllVacations();
         for (Map.Entry<Integer, String[]> entry : set.entrySet()) {
-            data.add(new VacationShow(entry.getKey(), entry.getValue()[0], entry.getValue()[1], entry.getValue()[2], entry.getValue()[3]));
+            //docId, //dest,dDate,rDate,price,username,airline,baggage(bool),baggDisc,numT,numA,numC,numI,partial(bool),back(bool),direct(bool),type,acco(bool)
+            data.add(new VacationShow(vacationController,entry.getKey(), entry.getValue()[0], entry.getValue()[1], entry.getValue()[2], entry.getValue()[3],entry.getValue()[4],entry.getValue()[5],entry.getValue()[6],entry.getValue()[7],entry.getValue()[8],entry.getValue()[9],entry.getValue()[10],entry.getValue()[11],entry.getValue()[12],entry.getValue()[13]));
         }
 //        try {
 //            while(set.next()){
@@ -432,7 +433,7 @@ public class MainController implements Observer, IView {
        Stack set = vacationController.getUserMessages(vacationController.username);
        while(!set.empty()){
            String[] stringArr=(String[])set.pop();
-           data.add(new MessageShow(stringArr[0], stringArr[2], stringArr[3], stringArr[4]));
+           data.add(new MessageShow(stringArr[0], stringArr[2], stringArr[3], stringArr[4],vacationController,this));
        }
         return data;
     }

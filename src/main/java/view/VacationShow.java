@@ -1,5 +1,6 @@
 package view;
 
+import controller.VacationController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -12,9 +13,11 @@ public class VacationShow {
     private final SimpleStringProperty price;
     private Button allInfo;
     private Button request;
+    VacationController vacationController;
 
 
-    public VacationShow(int id, String d, String departD, String returnD, String price){
+    public VacationShow(VacationController vac,int id, String d, String departD, String returnD, String price){
+        this.vacationController=vac;
         this.vacId=new SimpleStringProperty(id+"");
         this.destanation=new SimpleStringProperty(d);
         this.departDay=new SimpleStringProperty(departD);
@@ -26,7 +29,8 @@ public class VacationShow {
             showAlert("hey " +d );
         });
         request.setOnAction(event -> {
-            showAlert("hey2");
+            //showAlert("hey2");
+            //vacationController.add_message()
         });
 
     }
