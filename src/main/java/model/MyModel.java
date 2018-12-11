@@ -562,15 +562,17 @@ public class MyModel extends Observable implements IModel {
     }
 
 
+
     public void create_message_box_Table() {
 
         // SQL statement for creating a new users tabl
-        String sql = "CREATE TABLE IF NOT EXISTS messages_box (\n"
+        String sql = "CREATE TABLE IF NOT EXISTS messages_box1 (\n"
                 + "	message_src text not NULL,\n"
                 + "	message_dest text not NULL,\n"
                 + "	message_time DATE NOT NULL, \n"
                 + " message_text text NOT NULL, \n"
                 + " message_type text NOT NULL, \n"
+                + " is_read text NOT NULL, \n"
                 + "PRIMARY KEY(message_src, message_dest ,message_text) \n"
                 + ");";
 
@@ -585,8 +587,8 @@ public class MyModel extends Observable implements IModel {
         }
     }
 
-    public Stack get_Users_messages(String src_username,String dest_username) {
-        String sql = "SELECT * FROM messages_box WHERE ((message_src = ? AND message_dest = ?) OR (message_src = ? AND message_dest = ?))" +
+    public Stack get_two_Users_messages(String src_username,String dest_username) {
+        String sql = "SELECT * FROM messages_box1 WHERE ((message_src = ? AND message_dest = ?) OR (message_src = ? AND message_dest = ?))" +
                 "ORDER BY message_time DESC";
         Stack result = new Stack();
 
@@ -621,10 +623,89 @@ public class MyModel extends Observable implements IModel {
     }
 
 
+    public Stack get_Users_messages(String dest_username) {
+        String sql = "SELECT * FROM messages_box1 WHERE  message_dest = ?" +
+                "ORDER BY message_time DESC";
+        Stack result = new Stack();
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, dest_username);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+
+                    String l=rs.getString("message_src")+"%";
+                    l= l+ rs.getString("message_dest")+"%";
+                    l= l+ rs.getString("message_time")+"%";
+                    l= l+ rs.getString("message_text")+"%";
+                    l= l+ rs.getString("message_type");
+
+                    result.push(l.split("%"));
+
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+
+    }
+
+    public boolean un_read_messages(String dest_username) {
+        String sql = "SELECT * FROM messages_box1 WHERE  message_dest = ?" +
+                "ORDER BY message_time DESC";
+        boolean resalt=false;
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, dest_username);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+
+                    if(rs.getString("is_read").equals("0"))
+                        resalt = true;
+
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return resalt;
+
+    }
+
+
+    public void update_read_messages(String dest_username) {
+        String sql = "UPDATE  messages_box1 SET is_read = ? WHERE  message_dest = ?" ;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, "1");
+                pstmt.setString(2, dest_username);
+                pstmt.executeUpdate();
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
+
     public boolean add_message(String src_username, String dest_username, String message_time, String message_text,String massage_type) {
         boolean succeed = true;
-        String sql = "INSERT INTO messages_box(message_src, message_dest, message_time, message_text, message_type)" +
-                " VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO messages_box1(message_src, message_dest, message_time, message_text, message_type, is_read)" +
+                " VALUES(?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 vacationId++;
@@ -635,6 +716,7 @@ public class MyModel extends Observable implements IModel {
                 pstmt.setString(3, message_time);
                 pstmt.setString(4, message_text);
                 pstmt.setString(5, massage_type);
+                pstmt.setString(6, "0");
 
                 pstmt.executeUpdate();
                 conn.close();
@@ -650,31 +732,34 @@ public class MyModel extends Observable implements IModel {
     public static void main(String[] args) {
 
 
-        //tal_0250
         MyModel model;
         model = new MyModel();
         model.createNewDatabase();
         model.createNewUsersTable();
 
-
         model.create_message_box_Table();
 
 
-        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"shlom op", "user");
-        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"pop", "user");
-        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla bla my frind", "user");
-        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla456 frind", "user");
-        model.add_message("danid1","avid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"good", "user");
-        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla456 8frind", "user");
-        model.add_message("danid1","avid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"by by", "user");
+//        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"shlom op", "user");
+//        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"pop", "user");
+//        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla bla my frind", "user");
+//        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla456 frind", "user");
+//        model.add_message("danid1","avid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"good", "user");
+//        model.add_message("avid1","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla456 8frind", "user");
+//        model.add_message("danid1","avid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"by by", "user");
 
-        Stack res =model.get_Users_messages("danid1","avid1");
+        model.add_message("top","danid1",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"by by", "user");
 
+        Stack res =model.get_Users_messages("danid1");
         while (!res.empty())
         {   String[] line =(String[]) res.pop();
             System.out.println(line[0] +" | "+line[1]+" | "+line[2]+" | "+line[3]+" | "+line[4]);
         }
 
+
+        System.out.println(model.un_read_messages("danid1"));
+        model.update_read_messages("danid1");
+        System.out.println(model.un_read_messages("danid1"));
 
 
 

@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public interface IModel {
     //void createNewDatabase(String url);
@@ -35,6 +36,20 @@ public interface IModel {
     boolean deleteVacation(String username, int vacID);
 
     HashMap<Integer,String[]> showAllVacations();
-}
+
+    public boolean add_message(String src_username, String dest_username, String message_time, String message_text,String massage_type) ;
+    public void update_read_messages(String dest_username) ;
+    public boolean un_read_messages(String dest_username) ;
+    public Stack get_Users_messages(String dest_username) ;
+    public Stack get_two_Users_messages(String src_username,String dest_username) ;
+    public void create_message_box_Table() ;
+
+
+
+
+
+
+
+    }
 
 
