@@ -25,6 +25,7 @@ public class FullInfoController {
         this.mainController = mainController;
         this.vacationController = vacationController;
         this.vacationShow=vacationShow;
+        Show();
     }
 
 
@@ -38,6 +39,7 @@ public class FullInfoController {
 
     @FXML
     private void Show() {
+
         txt_Info.setText(vacationShow.getSaveInfo());
     }
 

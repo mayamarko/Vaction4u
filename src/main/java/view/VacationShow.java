@@ -2,6 +2,7 @@ package view;
 
 import controller.VacationController;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +21,10 @@ public class VacationShow {
     private Button request;
     VacationController vacationController;
      private String saveInfo;
+
+     @FXML
      private FullInfoController fullInfoController;
+    @FXML
      private MainController mainController;
 
 
@@ -36,14 +40,18 @@ public class VacationShow {
         this.allInfo = new Button("full info");
         this.request = new Button("purchase request");
         allInfo.setOnAction(event -> {
-                        saveInfo(d,departD,returnD,price,user,airline,baggage,baggageDisc,numT,numA,numC,numI,part,back,direct,type,accomendation);
+            saveInfo=saveInfo(d,departD,returnD,price,user,airline,baggage,baggageDisc,numT,numA,numC,numI,part,back,direct,type,accomendation);
             fullDiscription();
         });
         request.setOnAction(event -> {
             //showAlert("hey2");
             if (vacationController.isLogged()) {
-                vacationController.add_message(user, "*" + id + "* Your vacation to " + d + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
-                showAlert("The request sent! You soon will see the approve in the message box");
+                if(vacationController.username.equals(user)){
+                    showAlert("You can NOT buy your own vacation!!!!");
+                }else {
+                    vacationController.add_message(user, "*" + id + "* Your vacation to " + d + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
+                    showAlert("The request sent! You soon will see the approve in the message box");
+                }
             } else {
                 showAlert("You must be logged in to buy vacation!");
             }
@@ -51,8 +59,8 @@ public class VacationShow {
 
     }
 
-    private void saveInfo(String d, String departD, String returnD, String price, String user, String airline, String baggage, String baggageDisc, String numT,String numA, String numC, String numI, String part, String back, String direct,String type, String accomendation){
-        saveInfo= "Full information: \n" +
+    private String saveInfo(String d, String departD, String returnD, String price, String user, String airline, String baggage, String baggageDisc, String numT,String numA, String numC, String numI, String part, String back, String direct,String type, String accomendation){
+       return "Full information: \n" +
                     "Destanation: " + d +
                     " \nDeparture date: " + departD +
                     "\nReturn date: " + returnD +
@@ -81,7 +89,7 @@ public class VacationShow {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("/FullInfo.fxml").openStream());
         fullInfoController = fxmlLoader.getController();
-       fullInfoController.injectMainController(mainController, vacationController,this);
+        fullInfoController.injectMainController(mainController, vacationController,this);
         Scene scene = new Scene(root, 445, 500);
         //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
         stage.setScene(scene);
@@ -89,7 +97,8 @@ public class VacationShow {
         stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
         stage.show();
     } catch(Exception e){
-        System.out.println("we hava a problem");
+        //System.out.println("we hava a problem");
+            e.printStackTrace();
     }
 
 }
