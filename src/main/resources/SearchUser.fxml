@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="340.0" prefWidth="294.0" styleClass="bodybg" stylesheets="/ReadUsers.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.SearchUserController">
+<AnchorPane prefHeight="340.0" prefWidth="294.0" styleClass="bodybg" stylesheets="/ReadUsers.css" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.SearchUserController">
    <children>
       <TextField fx:id="lbl_username" layoutX="59.0" layoutY="62.0" prefHeight="25.0" prefWidth="183.0" />
       <TextArea fx:id="lbl_result" layoutX="59.0" layoutY="187.0" prefHeight="130.0" prefWidth="183.0" />
@@ -18,5 +18,7 @@
             <Font name="Calibri Bold" size="24.0" />
          </font></Text>
       <Label fx:id="lbl_Image" layoutX="66.0" layoutY="139.0" prefHeight="45.0" prefWidth="45.0" />
+      <Button fx:id="btn_pay" layoutX="92.0" layoutY="149.0" mnemonicParsing="false" onAction="#payment" text="Pay!" />
+      <Button layoutX="160.0" layoutY="149.0" mnemonicParsing="false" onAction="#paymentDetail" text="Detail" />
    </children>
 </AnchorPane>
