@@ -345,6 +345,7 @@ public class MainController implements Observer, IView {
 
     public ObservableList<VacationShow> getData() {
         ObservableList<VacationShow> data = FXCollections.observableArrayList();
+        vacationController.get
         //TreeMap<String, Integer[]> dictionary = sort(); //check not calling before the stating
 //        for (Map.Entry<String, Integer[]> entry : dictionary.entrySet()) {
 //            String term = entry.getKey();

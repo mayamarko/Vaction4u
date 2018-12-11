@@ -2,6 +2,7 @@ package controller;
 
 import model.IModel;
 
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Observable;
@@ -50,6 +51,10 @@ public class VacationController extends Observable implements Observer {
         } else {
             return null;
         }
+    }
+
+    public ResultSet showAllVacations(){
+        return model.showAllVacations();
     }
 
     public boolean userExist(String username) {
