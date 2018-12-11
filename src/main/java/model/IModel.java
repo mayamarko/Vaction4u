@@ -37,12 +37,17 @@ public interface IModel {
 
     HashMap<Integer,String[]> showAllVacations();
 
-    public boolean add_message(String src_username, String dest_username, String message_time, String message_text,String massage_type) ;
-    public void update_read_messages(String dest_username) ;
-    public boolean un_read_messages(String dest_username) ;
-    public Stack get_Users_messages(String dest_username) ;
-    public Stack get_two_Users_messages(String src_username,String dest_username) ;
-    public void create_message_box_Table() ;
+    boolean add_message(String src_username, String dest_username, String message_time, String message_text,String massage_type);
+
+    void update_read_messages(String dest_username);
+
+    boolean un_read_messages(String dest_username);
+
+    Stack get_Users_messages(String dest_username);
+
+    Stack get_two_Users_messages(String src_username,String dest_username);
+
+
 
 
 

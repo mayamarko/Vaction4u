@@ -695,13 +695,6 @@ public class MyModel extends Observable implements IModel {
     }
 
 
-
-
-
-
-
-
-
     public boolean add_message(String src_username, String dest_username, String message_time, String message_text,String massage_type) {
         boolean succeed = true;
         String sql = "INSERT INTO messages_box1(message_src, message_dest, message_time, message_text, message_type, is_read)" +

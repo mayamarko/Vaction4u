@@ -81,6 +81,11 @@ public class VacationController extends Observable implements Observer {
             this.username = username;
         return logged;
     }
+
+    public boolean add_message(String src_username, String dest_username, String message_time, String message_text,String massage_type){
+        return model.add_message(src_username, dest_username, message_time, message_text, massage_type);
+    }
+
     public Stack getUserMessages(String destUsername){
         return model.get_Users_messages(destUsername);
     }

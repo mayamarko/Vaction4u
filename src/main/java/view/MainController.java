@@ -428,15 +428,13 @@ public class MainController implements Observer, IView {
         }
     }
 
-    public ObservableList<VacationShow> getMessages() {
-        ObservableList<VacationShow> data = FXCollections.observableArrayList();
+    public ObservableList<MessageShow> getMessages() {
+        ObservableList<MessageShow> data = FXCollections.observableArrayList();
        Stack set = vacationController.getUserMessages(vacationController.username);
        while(!set.empty()){
            String[] stringArr=(String[])set.pop();
-           //data.add(new MessageShow());
-           // data.add(new VacationShow(entry.getKey(), entry.getValue()[0], entry.getValue()[1], entry.getValue()[2], entry.getValue()[3]));
+           data.add(new MessageShow(stringArr[0], stringArr[2], stringArr[3], stringArr[4]));
        }
-
         return data;
     }
 
