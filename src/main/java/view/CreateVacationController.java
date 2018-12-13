@@ -133,12 +133,13 @@ public class CreateVacationController {
                             }
                             if (succeedVac && succeedAco) {
                                 showAlert("Congratulations! your vacation posted!");
+                                btn_post.setDisable(true);
                             } else {
                                 showAlert("Oops... something went wrong");
                             }
                         }
                     } catch (Exception e) {
-                        showAlert("Please fill only numbers in tickets amount fields!");
+                        showAlert("Please Don't leave any filled empty: \nmake sure you have insert the number of types of ticket");
                     }
                 } else {
                     showAlert("Please fill the accommodation details!");

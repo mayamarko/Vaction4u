@@ -59,6 +59,7 @@ public class CreateUserController {
 
                 if (succeedLogged) {
                     showAlert(lbl_username.getText() + " is registered");
+                    btn_signIn.setDisable(true);
                 } else {
                     showAlert("The username " + lbl_username.getText() + " is taken, please choose another one.");
                 }
@@ -88,7 +89,7 @@ public class CreateUserController {
     }
 
     private void defaultPicture() {
-        String filename = "C:\\Users\\adijak\\IdeaProjects\\vaction4u\\src\\main\\resources\\images\\user.png";
+        String filename = System.getProperty("user.dir")+"/src/main/resources/images/user.png";
         try {
             File image = new File(filename);
             FileInputStream fis = new FileInputStream(image);

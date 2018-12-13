@@ -597,9 +597,11 @@ public class MyModel extends Observable implements IModel {
 
 
 //dest,dDate,rDate,price,username,airline,baggage(bool),baggDisc,numT,numA,numC,numI,partial(bool),back(bool),direct(bool),type,acco(bool)
-                    String[] s = {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
-                    int vacId = rs.getInt("vacID");
-                    result.put(vacId, s);
+                    if(isExist(user)) {
+                        String[] s = {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
+                        int vacId = rs.getInt("vacID");
+                        result.put(vacId, s);
+                    }
                 }
                 return result;
             }

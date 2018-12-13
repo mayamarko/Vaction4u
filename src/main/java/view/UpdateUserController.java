@@ -79,6 +79,7 @@ public class UpdateUserController {
     @FXML
     private void Update() {
         boolean canResume = true;
+        boolean changeUsername=false;
         Map<String, String> newInfo = new HashMap<>();
         if (!lbl_new_username.getText().trim().isEmpty()) {
             if (vacationController.userExist(lbl_new_username.getText()) || lbl_new_username.getText().equals("admin")) {
@@ -86,6 +87,7 @@ public class UpdateUserController {
                 showAlert("Username already exist, choose another one. \nNo changes has been made.");
             } else {
                 newInfo.put("username", lbl_new_username.getText());
+                changeUsername=true;
             }
         }
         if (!lbl_fName.getText().trim().isEmpty())
@@ -111,6 +113,10 @@ public class UpdateUserController {
         if (canResume) {
             if (vacationController.updateUser(lbl_username.getText(), newInfo)) {
                 showAlert("Your Changes saved successfully");
+                if(changeUsername) {
+                    vacationController.setUsername(lbl_new_username.getText());
+
+                }
             } else
                 showAlert("Username is not exist!");
         }

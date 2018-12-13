@@ -191,6 +191,7 @@ public class MainController implements Observer, IView {
                 Scene scene = new Scene(root, 445, 500);
                 //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
                 stage.setScene(scene);
+                SetStageCloseLogInEvent(stage);
                 stage.setResizable(false);
                 stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
                 stage.show();
@@ -215,6 +216,7 @@ public class MainController implements Observer, IView {
                 Scene scene = new Scene(root, 300, 300);
                 //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
                 stage.setScene(scene);
+                SetStageCloseDeleteEvent(stage);
                 stage.setResizable(false);
                 stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
                 stage.show();
@@ -315,6 +317,22 @@ public class MainController implements Observer, IView {
                     btn_createUser.setDisable(true);
                     btn_logOut.setDisable(false);
                 }
+            }
+        });
+    }
+
+    private void SetStageCloseDeleteEvent(Stage stage) {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent windowEvent) {
+                    txt_user.setDisable(true);
+                    txt_user.setVisible(false);
+                    btn_logIn.setDisable(false);
+                    btn_updateUser.setVisible(false);
+                    btn_searchUser.setVisible(false);
+                    btn_deleteUser.setVisible(false);
+                    btn_messageSystem.setVisible(false);
+                    btn_createUser.setDisable(false);
+                    btn_logOut.setDisable(true);
             }
         });
     }
