@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" styleClass="bodybg" stylesheets="/CreateUsers.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CreateUserController">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" styleClass="bodybg" stylesheets="/CreateUsers.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CreateUserController">
    <children>
       <GridPane layoutX="16.0" layoutY="69.0" prefHeight="272.0" prefWidth="365.0">
          <columnConstraints>
@@ -75,6 +75,11 @@
       <Text layoutX="119.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new user">
          <font>
             <Font name="Calibri Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="16.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Please note that you have a default picture, till you will pick another one.">
+         <font>
+            <Font name="Calibri Light" size="12.0" />
          </font>
       </Text>
    </children>

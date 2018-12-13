@@ -81,7 +81,7 @@ public class UpdateUserController {
         boolean canResume = true;
         Map<String, String> newInfo = new HashMap<>();
         if (!lbl_new_username.getText().trim().isEmpty()) {
-            if (vacationController.userExist(lbl_new_username.getText())) {
+            if (vacationController.userExist(lbl_new_username.getText()) || lbl_new_username.getText().equals("admin")) {
                 canResume = false;
                 showAlert("Username already exist, choose another one. \nNo changes has been made.");
             } else {
@@ -120,27 +120,31 @@ public class UpdateUserController {
 
     @FXML
     private void AllowUpdate() {
-        if (vacationController.userExist(lbl_username.getText())) {
-            lbl_fName_title.setVisible(true);
-            lbl_birthday_title.setVisible(true);
-            lbl_city_title.setVisible(true);
-            lbl_password_title.setVisible(true);
-            lbl_lName_title.setVisible(true);
-            lbl_fName.setVisible(true);
-            lbl_birthday.setVisible(true);
-            lbl_city.setVisible(true);
-            lbl_password.setVisible(true);
-            lbl_lName.setVisible(true);
-            btn_saveChanges.setVisible(true);
-            btn_ok.setDisable(true);
-            lbl_username.setEditable(false);
-            lbl_new_username.setVisible(true);
-            lbl_new_username_title.setVisible(true);
-            lbl_update_message_title.setVisible(true);
-            btn_selectPicture.setVisible(true);
-            lbl_picture_title.setVisible(true);
-        } else {
-            showAlert("The user " + lbl_username.getText() + " is not exist, try again.");
+        if(lbl_username.getText().equals(vacationController.username) || vacationController.username.equals("admin")) {
+            if (vacationController.userExist(lbl_username.getText())) {
+                lbl_fName_title.setVisible(true);
+                lbl_birthday_title.setVisible(true);
+                lbl_city_title.setVisible(true);
+                lbl_password_title.setVisible(true);
+                lbl_lName_title.setVisible(true);
+                lbl_fName.setVisible(true);
+                lbl_birthday.setVisible(true);
+                lbl_city.setVisible(true);
+                lbl_password.setVisible(true);
+                lbl_lName.setVisible(true);
+                btn_saveChanges.setVisible(true);
+                btn_ok.setDisable(true);
+                lbl_username.setEditable(false);
+                lbl_new_username.setVisible(true);
+                lbl_new_username_title.setVisible(true);
+                lbl_update_message_title.setVisible(true);
+                btn_selectPicture.setVisible(true);
+                lbl_picture_title.setVisible(true);
+            } else {
+                showAlert("The user " + lbl_username.getText() + " is not exist, try again.");
+            }
+        }else{
+            showAlert("You can NOT change another profile, just yours..");
         }
     }
 

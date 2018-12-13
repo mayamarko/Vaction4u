@@ -38,7 +38,7 @@ public class VacationController extends Observable implements Observer {
             return "Username is not exist";
         }
         return "Username - " + username + "\n" +
-                "Password - " + result.get("password") + "\n" +
+                //"Password - " + result.get("password") + "\n" +
                 "Name - " + result.get("fName") + " " + result.get("lName") + "\n" +
                 "City - " + result.get("city") + "\n" +
                 "Birthday - " + result.get("birthday") + "\n" +
@@ -77,8 +77,12 @@ public class VacationController extends Observable implements Observer {
         return username;
     }
 
-    public void setLogged(){
-        this.logged=false;
+    public void setUsername(String username){
+        this.username =  username;
+    }
+
+    public void setLogged(boolean log){
+        this.logged=log;
     }
 
     public boolean logIn(String username, String password) {

@@ -124,7 +124,7 @@ public class MainController implements Observer, IView {
 
     public void LogOut(){
         vacationController.username="";
-        vacationController.setLogged();
+        vacationController.setLogged(false);
         txt_user.setEditable(false);
         txt_user.setDisable(true);
         txt_user.setVisible(false);

@@ -49,14 +49,20 @@ public class DeleteUserController {
         if (lbl_username.getText().trim().isEmpty()){
             showAlert("Please enter the username you want to delete.");
         }
-        else{
+        else if(lbl_username.getText().equals(vacationController.username) || vacationController.username.equals("admin")){
             boolean succeed = vacationController.deleteUser(lbl_username.getText());
             if(succeed){
                 showAlert("The username " + lbl_username.getText() + " is deleted from the system successfully!");
+                if(lbl_username.getText().equals(vacationController.username)) {
+                    vacationController.setUsername("");
+                    vacationController.setLogged(false);
+                }
             }
             else{
                 showAlert("The username " + lbl_username.getText() + " is not exist, try again.");
             }
+        }else{
+            showAlert("You can NOT delete another user, just yours...");
         }
     }
 }

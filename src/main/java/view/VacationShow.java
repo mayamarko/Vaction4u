@@ -36,7 +36,12 @@ public class VacationShow {
         this.vacId = new SimpleStringProperty(id + "");
         this.destanation = new SimpleStringProperty(d);
         this.departDay = new SimpleStringProperty(departD);
-        this.returnDay = new SimpleStringProperty(returnD);
+        if(back.equals("Yes")) {
+            this.returnDay = new SimpleStringProperty(returnD);
+        }
+        else{
+            this.returnDay = new SimpleStringProperty("Return flight is not included");
+        }
         this.price = new SimpleStringProperty(price);
         this.userName=user;
         this.allInfo = new Button("full info");
@@ -71,7 +76,10 @@ public class VacationShow {
         }
     }
     private String saveInfo(String d, String departD, String returnD, String price, String user, String airline, String baggage, String baggageDisc, String numT,String numA, String numC, String numI, String part, String back, String direct,String type, String accomendation){
-       return       "Destanation: " + d +
+       if(back.equals("No")){
+           returnD = "Return flight is not included";
+       }
+        return       "Destanation: " + d +
                     " \nDeparture date: " + departD +
                     "\nReturn date: " + returnD +
                     "\nPrice: " + price +

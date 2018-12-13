@@ -44,7 +44,7 @@ public class Main extends Application {
          */
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("/sample.fxml").openStream());
-        Scene scene = new Scene(root, 600,500);
+        Scene scene = new Scene(root, 700,500);
         //scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("Vactaion4U");
         primaryStage.setScene(scene);

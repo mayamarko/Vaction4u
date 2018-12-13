@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.time.Period;
+
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 
@@ -41,18 +42,19 @@ public class CreateUserController {
         alert.show();
         alert.setTitle("Please note");
         alert.setHeaderText(alertMessage);
+        alert.setHeaderText(alertMessage);
     }
 
     @FXML
     private void signIn() {
-
+        defaultPicture();
         if (lbl_fName.getText().trim().isEmpty() || lbl_lName.getText().trim().isEmpty() || lbl_password.getText().trim().isEmpty() ||
                 lbl_city.getText().trim().isEmpty() || lbl_email.getText().trim().isEmpty() || lbl_birthday.getValue() == null) {
             showAlert("One or more details are missing");
         } else {
             if (Period.between(lbl_birthday.getValue(), LocalDate.now()).getYears() < 18) {
                 showAlert("Users have to be 18 and older");
-            } else {
+            } else if (!lbl_username.getText().equals("admin")) {
                 boolean succeedLogged = vacationController.createUser(lbl_username.getText(), lbl_password.getText(), lbl_birthday.getValue(), lbl_fName.getText(), lbl_lName.getText(), lbl_city.getText(), lbl_email.getText(), person_image);
 
                 if (succeedLogged) {
@@ -60,25 +62,43 @@ public class CreateUserController {
                 } else {
                     showAlert("The username " + lbl_username.getText() + " is taken, please choose another one.");
                 }
+            } else {
+                showAlert("The username " + lbl_username.getText() + " is taken, please choose another one.");
             }
         }
     }
 
     @FXML
-    private void selectPicture(){
-        FileChooser chooser = new FileChooser();
-        File f = chooser.showOpenDialog(null);
-        String filename = f.getAbsolutePath();
-        try{
+    private void selectPicture() {
+        try {
+            FileChooser chooser = new FileChooser();
+            File f = chooser.showOpenDialog(null);
+            String filename = f.getAbsolutePath();
             File image = new File(filename);
             FileInputStream fis = new FileInputStream(image);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
-            for(int readNum; (readNum=fis.read(buf)) != -1; ){
+            for (int readNum; (readNum = fis.read(buf)) != -1; ) {
                 bos.write(buf, 0, readNum);
             }
             person_image = bos.toByteArray();
-        }catch(Exception e){
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+    }
+
+    private void defaultPicture() {
+        String filename = "C:\\Users\\adijak\\IdeaProjects\\vaction4u\\src\\main\\resources\\images\\user.png";
+        try {
+            File image = new File(filename);
+            FileInputStream fis = new FileInputStream(image);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            for (int readNum; (readNum = fis.read(buf)) != -1; ) {
+                bos.write(buf, 0, readNum);
+            }
+            person_image = bos.toByteArray();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

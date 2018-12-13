@@ -35,6 +35,11 @@ public class MessageShow {
             this.acc = new Button("Pay!");
             this.dec = new Button("");
             this.dec.setVisible(false);
+        }else if(type.equals("successful purchase")){
+            this.acc = new Button("");
+            this.dec = new Button("");
+            this.dec.setVisible(false);
+            this.acc.setVisible(false);
         }
         this.vacationController = vacationController1;
         this.mainController = mainController;

@@ -69,6 +69,7 @@ public class PaymentController {
             showAlert("Your payment accepted! Have a good time!");
             btn_pay.setDisable(true);
             paid = true;
+            vacationController.add_message(bought.getUserName(), "Your vacation to " + bought.getDestination() + "has been purchased, you should see the money in your bank account.", "successful purchase");
         }
     }
 
