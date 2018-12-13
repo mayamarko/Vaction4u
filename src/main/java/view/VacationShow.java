@@ -99,12 +99,12 @@ public class VacationShow {
     private void fullDiscription() {
         try{
         Stage stage = new Stage();
-        stage.setTitle("Update User");
+        stage.setTitle("Full Information");
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("/FullInfo.fxml").openStream());
         fullInfoController = fxmlLoader.getController();
         fullInfoController.injectMainController(mainController, vacationController,this);
-        Scene scene = new Scene(root, 445, 500);
+        Scene scene = new Scene(root, 415, 436);
         //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
         stage.setScene(scene);
         stage.setResizable(false);
