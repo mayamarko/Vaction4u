@@ -328,7 +328,7 @@ public class MainController implements Observer, IView {
             stage.setWidth(900);
             stage.setHeight(500);
             final Label label = new Label("Available flights:");
-            label.setFont(new Font("Arial", 22));
+            label.setFont(new Font("Calibri Light", 22));
             table.setEditable(false);
             TableColumn dest = new TableColumn("Destanation");
             dest.setMinWidth(150);
@@ -358,7 +358,8 @@ public class MainController implements Observer, IView {
             //table.setItems(getData());
             table.setItems(getData());
             table.getColumns().addAll(dest, departDay, returnDay, price, button, button2);
-            table.setMinHeight(800);
+            table.setMinHeight(200);
+            table.setMaxHeight(600);
 
             final VBox vbox = new VBox();
             vbox.setSpacing(20);
@@ -367,6 +368,8 @@ public class MainController implements Observer, IView {
 
             ((Group) scene.getRoot()).getChildren().addAll(vbox);
             stage.setScene(scene);
+
+            table.setStyle("-fx-selection-bar: #c6ecc6; -fx-selection-bar-non-focused: #66cc66;  -fx-background-color: #66cc66;");
             stage.show();
 
         } catch (Exception e) {
@@ -394,7 +397,7 @@ public class MainController implements Observer, IView {
                 stage.setWidth(900);
                 stage.setHeight(500);
                 final Label label = new Label("Your Inbox:");
-                label.setFont(new Font("Arial", 22));
+                label.setFont(new Font("Calibri Light", 22));
                 table.setEditable(false);
                 TableColumn from = new TableColumn("From");
                 from.setMinWidth(150);
@@ -425,7 +428,8 @@ public class MainController implements Observer, IView {
                 ObservableList<MessageShow> data=getMessages();
                 table.setItems(data);
                 table.getColumns().addAll(from, time, message, type, button, button2);
-                table.setMinHeight(800);
+                table.setMinHeight(200);
+                table.setMaxHeight(600);
 
                 final VBox vbox = new VBox();
                 vbox.setSpacing(20);
@@ -434,6 +438,7 @@ public class MainController implements Observer, IView {
 
                 ((Group) scene.getRoot()).getChildren().addAll(vbox);
                 stage.setScene(scene);
+                table.setStyle("-fx-selection-bar: #b3e0ff; -fx-selection-bar-non-focused: #b3e0ff;  -fx-background-color: #1aa3ff;");
                 stage.show();
 
             } catch (Exception e) {
