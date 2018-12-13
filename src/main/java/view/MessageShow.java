@@ -58,8 +58,12 @@ public class MessageShow {
                 }
                 int sign = messageI.indexOf(" ");
                 String vacIdString = messageI.substring(0, sign);
-                vacationController1.add_message(from, vacIdString + " Your request to buy the vacation from " + vacationController1.username + " has been approved, you can go to the payment page",
-                        "request approve");
+                try {
+                    vacationController1.add_message(from, vacIdString + " Your request to buy the vacation from " + vacationController1.username + " has been approved, you can go to the payment page",
+                            "request approve");
+                }catch (Exception e){
+                    showAlert("Ooops you have already accepted this request");
+                }
             } else if (type.equals("request approve")) {
                 try {
                     int sign = messageI.indexOf(" ");

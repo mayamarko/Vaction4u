@@ -835,5 +835,8 @@ public class MyModel extends Observable implements IModel {
         return succeed;
     }
 
+    public void deleteMessage(String source, String destination, String message){
+
+    }
 
 }

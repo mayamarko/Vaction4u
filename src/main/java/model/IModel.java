@@ -53,6 +53,8 @@ public interface IModel {
 
     Vacation readVacation(int vacationID);
 
+    void deleteMessage(String source, String destination, String message);
+
 
 
 
