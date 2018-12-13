@@ -35,6 +35,7 @@ public class PaymentController {
     private MainController mainController;
     private VacationController vacationController;
     private int vacId;
+    private boolean paid = false;
 
     @FXML
     private void initialize() {
@@ -67,10 +68,13 @@ public class PaymentController {
             vacationController.deleteVacation(bought.getUserName(), vacId);
             showAlert("Your payment accepted! Have a good time!");
             btn_pay.setDisable(true);
-
+            paid = true;
         }
     }
 
+    public boolean isPaid(){
+        return paid;
+    }
     private void showAlert(String alertMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         //alert.setContentText(alertMessage);

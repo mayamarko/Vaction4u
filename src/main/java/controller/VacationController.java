@@ -128,7 +128,16 @@ public class VacationController extends Observable implements Observer {
     public boolean deleteVacation(String username, int vacID){
         return model.deleteVacation(username, vacID);
     }
+
+    public void deleteMessage(String source, String destination, String message){
+        model.deleteMessage(source, destination, message);
+    }
+
     public boolean un_read_messages(String dest_username){
         return model.un_read_messages(dest_username);
+    }
+
+    public boolean is_messg_Exist(String source, String destination, String message){
+        return model.is_messg_Exist(source, destination, message);
     }
 }

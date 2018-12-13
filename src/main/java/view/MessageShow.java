@@ -52,7 +52,7 @@ public class MessageShow {
                     stage.setScene(scene);
                     stage.setResizable(false);
                     stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-                    stage.show();
+                    stage.showAndWait();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -61,9 +61,12 @@ public class MessageShow {
                 try {
                     vacationController1.add_message(from, vacIdString + " Your request to buy the vacation from " + vacationController1.username + " has been approved, you can go to the payment page",
                             "request approve");
-                }catch (Exception e){
+                    acc.setDisable(true);
+                    dec.setDisable(true);
+                } catch (Exception e) {
                     showAlert("Ooops you have already accepted this request");
                 }
+                vacationController1.deleteMessage(from, vacationController1.username, messageI);
             } else if (type.equals("request approve")) {
                 try {
                     int sign = messageI.indexOf(" ");
@@ -80,7 +83,12 @@ public class MessageShow {
                     stage.setScene(scene);
                     stage.setResizable(false);
                     stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-                    stage.show();
+                    stage.showAndWait();
+                    if (paymentController.isPaid()) {
+                        vacationController1.deleteMessage(from, vacationController1.username, messageI);
+                    }
+                    acc.setDisable(true);
+                    dec.setDisable(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -89,6 +97,8 @@ public class MessageShow {
         });
         dec.setOnAction(event -> {
             showAlert("Such a loss");
+            acc.setDisable(true);
+            dec.setDisable(true);
         });
 
     }

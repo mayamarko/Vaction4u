@@ -46,18 +46,7 @@ public class VacationShow {
             fullDiscription();
         });
         request.setOnAction(event -> {
-            //showAlert("hey2");
            requestPurchase();
-//            if (vacationController.isLogged()) {
-//                if(vacationController.username.equals(user)){
-//                    showAlert("You can NOT buy your own vacation!!!!");
-//                }else {
-//                    vacationController.add_message(user, "*" + id + "* Your vacation to " + d + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
-//                    showAlert("The request sent! You soon will see the approve in the message box");
-//                }
-//            } else {
-//                showAlert("You must be logged in to buy vacation!");
-//            }
         });
 
     }
@@ -67,8 +56,15 @@ public class VacationShow {
             if(vacationController.username.equals(userName)){
                 showAlert("You can NOT buy your own vacation!!!!");
             }else {
-                vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
-                showAlert("The request sent! You soon will see the approve in the message box");
+                if(!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to buy, by " + vacationController.username + ".")){
+                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
+                    showAlert("The request sent! You soon will see the approve in the message box");
+                    request.setDisable(true);
+                }else{
+                    showAlert("You have already asked to purchase this vacation..");
+                    request.setDisable(true);
+                }
+
             }
         } else {
             showAlert("You must be logged in to buy vacation!");

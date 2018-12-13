@@ -55,6 +55,8 @@ public interface IModel {
 
     void deleteMessage(String source, String destination, String message);
 
+    boolean is_messg_Exist(String source, String destination, String message);
+
 
 
 
