@@ -665,8 +665,8 @@ public class MyModel extends Observable implements IModel {
                     boolean direct = rs.getBoolean("direct");
                     String vacationType = rs.getString("vacationType");
                     boolean accommodation = rs.getBoolean("accommodation");
-                    result = new Vacation(username, vacID, price, airline, start, returnDate, baggage, baggageDescription, numberOfTickets, numberOfAdults, numberOfChilds, numberOfInfants, partialPurchase,destination, flightBack,
-                            direct,vacationType, accommodation);
+                    result = new Vacation(username, vacID, price, airline, start, returnDate, baggage, baggageDescription, numberOfTickets, numberOfAdults, numberOfChilds, numberOfInfants, partialPurchase, destination, flightBack,
+                            direct, vacationType, accommodation);
                 }
             }
         } catch (SQLException e) {
@@ -835,8 +835,48 @@ public class MyModel extends Observable implements IModel {
         return succeed;
     }
 
-    public void deleteMessage(String source, String destination, String message){
+    public boolean is_messg_Exist(String source, String destination, String message) {
+        String sql = "SELECT * FROM messages_box1 WHERE message_src = ? AND message_dest = ?  AND message_text = ?";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, source);
+                stmt.setString(2, destination);
+                stmt.setString(3, message);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    conn.close();
+                    return true;
+                }
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 
+    public void deleteMessage(String source, String destination, String message) {
+        boolean succeed = is_messg_Exist(source, destination, message);
+        if (succeed) {
+            String sql = "DELETE FROM messages_box1 WHERE message_src = ? AND message_dest = ?  AND message_text = ?";
+
+            try (Connection conn = DriverManager.getConnection(url)) {
+                if (conn != null) {
+
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+
+                    pstmt.setString(1, source);
+                    pstmt.setString(2, destination);
+                    pstmt.setString(3, message);
+
+                    pstmt.executeUpdate();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                succeed = false;
+            }
+        }
     }
 
 }
