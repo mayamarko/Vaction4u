@@ -757,7 +757,8 @@ public class MyModel extends Observable implements IModel {
                     l = l + rs.getString("message_text") + "%";
                     l = l + rs.getString("message_type");
 
-                    result.push(l.split("%"));
+                    if(isExist(rs.getString("message_src")))
+                        result.push(l.split("%"));
 
                 }
             }
