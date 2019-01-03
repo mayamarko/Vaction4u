@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="4548.5">view.PaymentController</node>
+    <node x="8103.3420360602995" y="97.0">model.Accommodation</node>
+    <node x="5524.575" y="5795.0">view.CreateUserController</node>
+    <node x="685.125" y="4659.5">view.SellerPaymentDetailController</node>
+    <node x="1997.2478378782785" y="4733.5">view.DeleteUserController</node>
+    <node x="7606.8420360603" y="417.0">model.RegisteredUser</node>
+    <node x="2516.4255882242933" y="7008.0">view.MainController</node>
+    <node x="357.9375" y="5610.0">view.MessageShow</node>
+    <node x="4198.247837878278" y="5536.0">view.VacationShow</node>
+    <node x="2905.725" y="2096.0">model.IModel</node>
+    <node x="6043.8420360603" y="2970.0">model.MyModel</node>
+    <node x="1281.1250000000005" y="4678.0">view.SearchUserController</node>
+    <node x="2593.2478378782785" y="4382.0">view.UpdateUserController</node>
+    <node x="3355.725" y="0.0">model.Vacation</node>
+    <node x="8182.8420360602995" y="0.0">model.Addition</node>
+    <node x="2571.9750000000004" y="3062.5">controller.VacationController</node>
+    <node x="7451.3420360603" y="208.5">model.User</node>
+    <node x="7820.8420360603" y="0.0">model.Ranking</node>
+    <node x="3601.2478378782785" y="5943.0">view.LogInController</node>
+    <node x="1662.7478378782785" y="5776.5">view.AdminController</node>
+    <node x="7722.3420360603" y="97.0">model.RankingRegisteredUser</node>
+    <node x="6120.575" y="6091.5">view.IView</node>
+    <node x="7370.8420360603" y="917.0">model.UnRegisteredUser</node>
+    <node x="4629.225" y="4678.0">view.FullInfoController</node>
+    <node x="3005.2478378782785" y="5499.0">view.CreateVacationController</node>
+    <node x="5844.825099596006" y="8754.0">view.Main</node>
+    <node x="8451.342036060301" y="0.0">controller.IController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Accommodation" target="model.Addition">
+      <point x="-9.094947017729282E-13" y="-301.5" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="model.RankingRegisteredUser" target="model.Ranking">
+      <point x="0.0" y="-135.0" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="model.RegisteredUser" target="model.User">
+      <point x="-133.0" y="-523.5" />
+      <point x="7673.3420360603" y="392.0" />
+      <point x="7533.8420360603" y="392.0" />
+      <point x="27.5" y="23.5" />
+    </edge>
+    <edge source="model.UnRegisteredUser" target="model.User">
+      <point x="0.0" y="-23.5" />
+      <point x="-27.5" y="23.5" />
+    </edge>
+    <edge source="model.MyModel" target="model.IModel">
+      <point x="-427.33333333333326" y="-616.0" />
+      <point x="6257.508702726967" y="2945.0" />
+      <point x="3974.058333333333" y="2945.0" />
+      <point x="427.33333333333303" y="412.0" />
+    </edge>
+    <edge source="view.MainController" target="view.IView">
+      <point x="238.5526315789475" y="-838.0" />
+      <point x="2999.978219803241" y="6988.0" />
+      <point x="6238.575" y="6988.0" />
+      <point x="0.0" y="42.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6999999999999997" x="737.0" y="4388.571428571428" />
+  <SelectedNodes>
+    <node>model.Addition</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
