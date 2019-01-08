@@ -145,7 +145,10 @@ public class VacationController extends Observable implements Observer {
         return model.is_messg_Exist(source, destination, message);
     }
 
+    public HashMap<Integer, String[]> showAllVacationsge_by_user(String userName){
+        return model.showAllVacationsge_by_user(userName);
+    }
     public String[] getVacationDescriptionByID(int vacID){
-       return this.model.show_Vacation_by_vid(vacID);
+        return this.model.show_Vacation_by_vid(vacID);
     }
 }

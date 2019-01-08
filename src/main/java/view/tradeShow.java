@@ -4,6 +4,8 @@ import javafx.beans.property.SimpleStringProperty;
 
 import javafx.scene.control.*;
 
+import static view.VacationShow.addVacs;
+import static view.VacationShow.remove;
 
 
 public class tradeShow {
@@ -17,7 +19,13 @@ public class tradeShow {
         chooseVac = new CheckBox();
         chooseVac.setOnAction((event) -> {
             if(chooseVac.isSelected()){
-
+                if(!addVacs(vacId)){
+                    chooseVac.setSelected(false);
+                    showAlert("You can only choose one vacation to trade!");
+                }
+            }
+            if(!chooseVac.isSelected()){
+                remove(vacId);
             }
 
         });
@@ -54,5 +62,11 @@ public class tradeShow {
 
     public void setDestination(String destination) {
         this.destination.set(destination);
+    }
+
+    private void showAlert(String alertMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.show();
+        alert.setHeaderText(alertMessage);
     }
 }

@@ -72,7 +72,8 @@ public class VacationShow {
             requestPurchase();
         });
         trade.setOnAction(event -> {
-            requestTrade();
+            showUsersVacations();
+            //requestTrade();
         });
 
     }
@@ -121,7 +122,7 @@ public class VacationShow {
 
     private ObservableList<tradeShow> getMyVacations() {
         ObservableList<tradeShow> data = FXCollections.observableArrayList();
-        HashMap<Integer, String[]> set = new HashMap<>();
+        HashMap<Integer, String[]> set = vacationController.showAllVacationsge_by_user(userName);
         for (Map.Entry<Integer, String[]> entry : set.entrySet()) {
             String[] info = entry.getValue();
             data.add(new tradeShow(entry.getKey().toString(), info[0]));
@@ -263,35 +264,39 @@ public class VacationShow {
             Stage stage = new Stage();
             Scene scene = new Scene(new Group());
             stage.setTitle("Your vacations");
-            stage.setWidth(1200);
-            stage.setHeight(500);
-            final Label label = new Label("Choose one vacation:");
+            stage.setWidth(600);
+            stage.setHeight(600);
+            final Label label = new Label("Your vacations");
             label.setFont(new Font("Calibri Light", 22));
+            TextArea textArea = new TextArea("Here you can choose your vacation that you want to trade for. \nYou can only choose one vacation! ");
+            textArea.setFont(new Font("Calibri Light", 16));
+            textArea.setMaxSize(500,70);
+            textArea.setEditable(false);
             table.setEditable(false);
 
-            TableColumn dest = new TableColumn("Destanation");
+            TableColumn dest = new TableColumn("Destination");
             dest.setMinWidth(150);
-            dest.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("destanation"));
+            dest.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("destination"));
 
             TableColumn vacId = new TableColumn("Vacation ID");
             vacId.setMinWidth(150);
-            vacId.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("vacID"));
+            vacId.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("vacId"));
 
-            TableColumn checkbox = new TableColumn("Vacation ID");
-            checkbox.setMinWidth(150);
+            TableColumn checkbox = new TableColumn("You choice");
+            checkbox.setMinWidth(100);
             checkbox.setCellValueFactory(new PropertyValueFactory<VacationShow, CheckBox>("chooseVac"));
 
 
             //table.setItems(getData());
             table.setItems(getMyVacations());
-            table.getColumns().addAll(dest, vacId);
+            table.getColumns().addAll(dest, vacId, checkbox);
             table.setMinHeight(200);
-            table.setMaxHeight(600);
+            table.setMaxHeight(800);
 
             final VBox vbox = new VBox();
             vbox.setSpacing(20);
             vbox.setPadding(new Insets(10, 0, 0, 10));
-            vbox.getChildren().addAll(label, table);
+            vbox.getChildren().addAll(label, textArea, table);
 
             ((Group) scene.getRoot()).getChildren().addAll(vbox);
             stage.setScene(scene);
@@ -305,12 +310,16 @@ public class VacationShow {
     }
 
     public static boolean addVacs(String vacid) {
-        if (vacationChose.size() > 1)
+        if (vacationChose.size() >= 1)
             return false;
 
         vacationChose.add(vacid);
         return true;
     }
 
+    public static void remove(String vacid) {
+        if (vacationChose.contains(vacid))
+            vacationChose.remove(vacid);
+    }
 
 }
