@@ -420,7 +420,7 @@ public class MainController implements Observer, IView {
                 Stage stage = new Stage();
                 Scene scene = new Scene(new Group());
                 stage.setTitle("All Messages");
-                stage.setWidth(900);
+                stage.setWidth(1100);
                 stage.setHeight(500);
                 final Label label = new Label("Your Inbox:");
                 label.setFont(new Font("Calibri Light", 22));
@@ -434,7 +434,7 @@ public class MainController implements Observer, IView {
                 time.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("dAndT"));
 
                 TableColumn message = new TableColumn("Message");
-                message.setMinWidth(150);
+                message.setMinWidth(220);
                 message.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("message"));
 
                 TableColumn type = new TableColumn("Type");

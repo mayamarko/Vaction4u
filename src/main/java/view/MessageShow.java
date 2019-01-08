@@ -33,7 +33,7 @@ public class MessageShow {
         this.dAndT = new SimpleStringProperty(dateAndTine);
         this.message = new SimpleStringProperty(messageI);
         this.type = new SimpleStringProperty(type);
-        this.vacDescription = new Button();
+        this.vacDescription = new Button("Full information");
         vacDescription.setVisible(false);
         if (type.equals("request vacation")) {
             this.acc = new Button("Accept Request");
@@ -42,12 +42,12 @@ public class MessageShow {
             this.acc = new Button("Start a chat with the seller to set up the payment");
             this.dec = new Button("");
             this.dec.setVisible(false);
-        }else if(type.equals("successful purchase")){
+        } else if (type.equals("successful purchase")) {
             this.acc = new Button("");
             this.dec = new Button("");
             this.dec.setVisible(false);
             this.acc.setVisible(false);
-        }else if(type.equals("trade request vacation")){
+        } else if (type.equals("trade request vacation")) {
             vacDescription.setVisible(true);
             this.acc = new Button("Accept Trade Request");
             this.dec = new Button("Decline Trade Request");
@@ -113,7 +113,7 @@ public class MessageShow {
 //                    e.printStackTrace();
 //                }
 
-            }else if (type.equals("trade request vacation")) {
+            } else if (type.equals("trade request vacation")) {
                 showAlert("You accepted the trade request.");
                 int sign = messageI.indexOf(" ");
                 String vacIdString = messageI.substring(0, sign);
@@ -136,9 +136,9 @@ public class MessageShow {
             dec.setDisable(true);
         });
         vacDescription.setOnAction(event -> {
-            if(type.equals("trade request vacation")){
+            if (type.equals("trade request vacation")) {
                 int hashTag = messageI.indexOf("#");
-                String vacIDnew = messageI.substring(hashTag);
+                String vacIDnew = messageI.substring(hashTag + 1);
                 int spaceIndex = vacIDnew.indexOf(" ");
                 vacIDnew = vacIDnew.substring(0, spaceIndex);
                 String[] toTradeVac = getVacationDetails(vacIDnew);
@@ -193,11 +193,11 @@ public class MessageShow {
 
     }
 
-    private String[] getVacationDetails(String vacID){
+    private String[] getVacationDetails(String vacID) {
         int id = 0;
-        try{
+        try {
             id = Integer.parseInt(vacID);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

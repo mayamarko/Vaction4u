@@ -17,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class VacationShow {
     private Button trade;
     private ChoiceBox vacationsOptions;
     VacationController vacationController;
-    public static HashSet<String> vacationChose;
+    public static ArrayList<String> vacationChose;
     private String saveInfo;
     private String userName;
     private TableView table;
@@ -62,7 +63,7 @@ public class VacationShow {
         vacationsOptions = new ChoiceBox();
         vacationsOptions.setDisable(true);
         vacationsOptions.setVisible(false);
-        vacationChose = new HashSet<>();
+        vacationChose = new ArrayList<>();
         //vacationsOptions.setValue("Select Vacation");
         allInfo.setOnAction(event -> {
             saveInfo = saveInfo(d, departD, returnD, price, user, airline, baggage, baggageDisc, numT, numA, numC, numI, part, back, direct, type, accomendation);
@@ -72,8 +73,7 @@ public class VacationShow {
             requestPurchase();
         });
         trade.setOnAction(event -> {
-            showUsersVacations();
-            //requestTrade();
+            requestTrade();
         });
 
     }
@@ -83,8 +83,8 @@ public class VacationShow {
             if (vacationController.username.equals(userName)) {
                 showAlert("You can NOT buy your own vacation!!!!");
             } else {
-                if (!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to buy, by " + vacationController.username + ".")) {
-                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
+                if (!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to buy,\n by " + vacationController.username + ".")) {
+                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to buy,\n by " + vacationController.username + ".", "request vacation");
                     showAlert("The request sent! You soon will see the approve in the message box");
                     request.setDisable(true);
                 } else {
@@ -103,17 +103,7 @@ public class VacationShow {
             if (vacationController.username.equals(userName)) {
                 showAlert("You can NOT trade your own vacation!!!!");
             } else {
-                if (!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "******" + ", by " + vacationController.username + ".")) {
-                    vacationsOptions.setDisable(false);
-                    vacationsOptions.setVisible(true);
-                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" + "MY VAC ID FROM USERS!@!!!!!!" + ", by " + vacationController.username + ".", "trade request vacation");
-                    showAlert("The request sent! You soon will see the approve in the message box");
-                    //request.setDisable(true);
-                } else {
-                    showAlert("You have already asked to purchase this vacation..");
-                    request.setDisable(true);
-                }
-
+                showUsersVacations();
             }
         } else {
             showAlert("You must be logged in to buy vacation!");
@@ -264,14 +254,29 @@ public class VacationShow {
             Stage stage = new Stage();
             Scene scene = new Scene(new Group());
             stage.setTitle("Your vacations");
-            stage.setWidth(600);
-            stage.setHeight(600);
+            stage.setWidth(550);
+            stage.setHeight(700);
             final Label label = new Label("Your vacations");
             label.setFont(new Font("Calibri Light", 22));
-            TextArea textArea = new TextArea("Here you can choose your vacation that you want to trade for. \nYou can only choose one vacation! ");
+            final TextArea textArea = new TextArea("Here you can choose your vacation that you want to trade for. \nYou can only choose one vacation! ");
             textArea.setFont(new Font("Calibri Light", 16));
-            textArea.setMaxSize(500,70);
+            textArea.setMaxSize(500, 70);
             textArea.setEditable(false);
+            final Button button = new Button("Send trade request");
+            button.setMaxSize(500, 50);
+            button.setOnAction((event) -> {
+                if (!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" + vacationChose.get(0) + " by " + vacationController.username + ".")) {
+                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" + vacationChose.get(0) + " by " + vacationController.username + ".", "trade request vacation");
+                    showAlert("The request sent! You soon will see the approve in the message box");
+                    trade.setDisable(true);
+                    button.setDisable(true);
+
+                } else {
+                    showAlert("You have already asked to trade this vacation..");
+                    trade.setDisable(true);
+                }
+
+            });
             table.setEditable(false);
 
             TableColumn dest = new TableColumn("Destination");
@@ -291,17 +296,18 @@ public class VacationShow {
             table.setItems(getMyVacations());
             table.getColumns().addAll(dest, vacId, checkbox);
             table.setMinHeight(200);
-            table.setMaxHeight(800);
+            table.setMaxHeight(900);
 
             final VBox vbox = new VBox();
             vbox.setSpacing(20);
             vbox.setPadding(new Insets(10, 0, 0, 10));
-            vbox.getChildren().addAll(label, textArea, table);
+            vbox.getChildren().addAll(label, textArea, table, button);
 
             ((Group) scene.getRoot()).getChildren().addAll(vbox);
             stage.setScene(scene);
 
             table.setStyle("-fx-selection-bar: #c6ecc6; -fx-selection-bar-non-focused: #66cc66;  -fx-background-color: #66cc66;");
+            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
 
         } catch (Exception e) {
@@ -312,7 +318,6 @@ public class VacationShow {
     public static boolean addVacs(String vacid) {
         if (vacationChose.size() >= 1)
             return false;
-
         vacationChose.add(vacid);
         return true;
     }
