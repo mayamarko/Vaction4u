@@ -583,7 +583,7 @@ public class MyModel extends Observable implements IModel {
         if(uid.equals(""))
             sql = "SELECT*FROM vacations";
         else
-            sql = "SELECT*FROM vacations AND username = ? ";
+            sql = "SELECT*FROM vacations WHERE username = ? ";
         HashMap<Integer, String[]> result = new HashMap<>();
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -1019,7 +1019,7 @@ public class MyModel extends Observable implements IModel {
     public static void main(String [] args){
         MyModel m= new MyModel();
 
-       for(String i:m.show_Vacation_by_vid(1)){
+       for(String i:m.showAllVacationsge_by_user("b").get(1)){
            System.out.print(i+"- ");
        }
 
