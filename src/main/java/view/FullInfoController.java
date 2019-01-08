@@ -11,10 +11,11 @@ import java.util.Map;
 public class FullInfoController {
 
 
-
     private MainController mainController;
     private VacationController vacationController;
     private VacationShow vacationShow;
+    private MessageShow messageShow;
+    private boolean isMessageShow;
     @FXML
     public javafx.scene.control.TextArea txt_Info;
     public javafx.scene.control.Button btn_requestPurchase;
@@ -24,10 +25,19 @@ public class FullInfoController {
         //text.set("Enter username");
     }
 
-    public void injectMainController(MainController mainController, VacationController vacationController,VacationShow vacationShow) {
+    public void injectMainController(MainController mainController, VacationController vacationController, VacationShow vacationShow) {
         this.mainController = mainController;
         this.vacationController = vacationController;
-        this.vacationShow=vacationShow;
+        this.vacationShow = vacationShow;
+        isMessageShow = true;
+        Show();
+    }
+
+    public void injectMainController(MainController mainController, VacationController vacationController, MessageShow messageShow) {
+        this.mainController = mainController;
+        this.vacationController = vacationController;
+        this.messageShow = messageShow;
+        isMessageShow = false;
         Show();
     }
 
@@ -42,15 +52,20 @@ public class FullInfoController {
 
     @FXML
     private void Show() {
-        txt_Info.setText(vacationShow.getSaveInfo());
+        if(isMessageShow) {
+            txt_Info.setText(vacationShow.getSaveInfo());
+        }
+        else{
+            txt_Info.setText(messageShow.getSaveInfo());
+        }
     }
 
-    public void requestPurchase(){
-       // btn_requestPurchase.setDisable(false);
+    public void requestPurchase() {
+        // btn_requestPurchase.setDisable(false);
         vacationShow.requestPurchase();
     }
 
-    public void fullSeller(){
+    public void fullSeller() {
         showAlert("this part is under constracion, you will see it in the nexy part");
     }
 

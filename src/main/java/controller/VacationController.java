@@ -144,4 +144,8 @@ public class VacationController extends Observable implements Observer {
     public boolean is_messg_Exist(String source, String destination, String message){
         return model.is_messg_Exist(source, destination, message);
     }
+
+    public String[] getVacationDescriptionByID(int vacID){
+       return this.model.show_Vacation_by_vid(vacID);
+    }
 }

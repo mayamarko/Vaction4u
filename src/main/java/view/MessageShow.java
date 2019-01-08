@@ -2,6 +2,7 @@ package view;
 
 import controller.VacationController;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,9 +16,12 @@ public class MessageShow {
     private final SimpleStringProperty dAndT;
     private final SimpleStringProperty message;
     private final SimpleStringProperty type;
+    private String saveInfo;
     private Button acc;
     private Button dec;
     private Button vacDescription;
+    @FXML
+    private FullInfoController fullInfoController;
     VacationController vacationController;
     SellerPaymentDetailController sellerPaymentDetailController;
     PaymentController paymentController;
@@ -53,23 +57,23 @@ public class MessageShow {
         acc.setOnAction(event -> {
             if (type.equals("request vacation")) {
                 showAlert("You accepted the request, the buyer will contact you to arrange the payment.");
-                /*
-                try {
-                    Stage stage = new Stage();
-                    stage.setTitle("Account details");
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    Parent root = fxmlLoader.load(getClass().getResource("/SellerPaymentDetail.fxml").openStream());
-                    sellerPaymentDetailController = fxmlLoader.getController();
-                    sellerPaymentDetailController.injectMainController(mainController, vacationController);
-                    Scene scene = new Scene(root, 680, 500);
-                    //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
-                    stage.setScene(scene);
-                    stage.setResizable(false);
-                    stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-                    stage.showAndWait();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
+//                /*
+//                try {
+//                    Stage stage = new Stage();
+//                    stage.setTitle("Account details");
+//                    FXMLLoader fxmlLoader = new FXMLLoader();
+//                    Parent root = fxmlLoader.load(getClass().getResource("/SellerPaymentDetail.fxml").openStream());
+//                    sellerPaymentDetailController = fxmlLoader.getController();
+//                    sellerPaymentDetailController.injectMainController(mainController, vacationController);
+//                    Scene scene = new Scene(root, 680, 500);
+//                    //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+//                    stage.setScene(scene);
+//                    stage.setResizable(false);
+//                    stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+//                    stage.showAndWait();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }*/
                 int sign = messageI.indexOf(" ");
                 String vacIdString = messageI.substring(0, sign);
                 try {
@@ -83,41 +87,39 @@ public class MessageShow {
                 vacationController1.deleteMessage(from, vacationController1.username, messageI);
             } else if (type.equals("request approve")) {
                 showAlert("Sorry... The site is under construction");
-                /*try {
-                    int sign = messageI.indexOf(" ");
-                    String vacIdString = messageI.substring(1, sign - 1);
-                    int vacId = Integer.parseInt(vacIdString);
-                    Stage stage = new Stage();
-                    stage.setTitle("Payment");
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    Parent root = fxmlLoader.load(getClass().getResource("/Payment.fxml").openStream());
-                    paymentController = fxmlLoader.getController();
-                    paymentController.injectMainController(mainController, vacationController, vacId);
-                    Scene scene = new Scene(root, 550, 440);
-                    //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
-                    stage.setScene(scene);
-                    stage.setResizable(false);
-                    stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-                    stage.showAndWait();
-                    if (paymentController.isPaid()) {
-                        vacationController1.deleteMessage(from, vacationController1.username, messageI);
-                    }
-                    acc.setDisable(true);
-                    dec.setDisable(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
+
+//                try {
+//                    int sign = messageI.indexOf(" ");
+//                    String vacIdString = messageI.substring(1, sign - 1);
+//                    int vacId = Integer.parseInt(vacIdString);
+//                    Stage stage = new Stage();
+//                    stage.setTitle("Payment");
+//                    FXMLLoader fxmlLoader = new FXMLLoader();
+//                    Parent root = fxmlLoader.load(getClass().getResource("/Payment.fxml").openStream());
+//                    paymentController = fxmlLoader.getController();
+//                    paymentController.injectMainController(mainController, vacationController, vacId);
+//                    Scene scene = new Scene(root, 550, 440);
+//                    //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+//                    stage.setScene(scene);
+//                    stage.setResizable(false);
+//                    stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+//                    stage.showAndWait();
+//                    if (paymentController.isPaid()) {
+//                        vacationController1.deleteMessage(from, vacationController1.username, messageI);
+//                    }
+//                    acc.setDisable(true);
+//                    dec.setDisable(true);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+
             }else if (type.equals("trade request vacation")) {
                 showAlert("You accepted the trade request.");
                 int sign = messageI.indexOf(" ");
                 String vacIdString = messageI.substring(0, sign);
-                int hashTag = messageI.indexOf(" ");
-                String vacIDnew = messageI.substring(hashTag);
-                int spaceIndex = vacIDnew.indexOf(" ");
-                vacIDnew = vacIDnew.substring(0, spaceIndex);
-
+                String[] sellerVac = getVacationDetails(vacIdString);
                 try {
-                    vacationController1.add_message(from, vacIdString + " Your request to trade the vacation from " + vacationController1.username + "to " + " has been approved.",
+                    vacationController1.add_message(from, vacIdString + " Your request to trade the vacation from " + vacationController1.username + "to " + sellerVac[0] + " has been approved.",
                             "trade request approve");
                     acc.setDisable(true);
                     dec.setDisable(true);
@@ -133,12 +135,79 @@ public class MessageShow {
             acc.setDisable(true);
             dec.setDisable(true);
         });
+        vacDescription.setOnAction(event -> {
+            if(type.equals("trade request vacation")){
+                int hashTag = messageI.indexOf("#");
+                String vacIDnew = messageI.substring(hashTag);
+                int spaceIndex = vacIDnew.indexOf(" ");
+                vacIDnew = vacIDnew.substring(0, spaceIndex);
+                String[] toTradeVac = getVacationDetails(vacIDnew);
+                saveInfo = saveInfo(toTradeVac[0], toTradeVac[1], toTradeVac[2], toTradeVac[3], toTradeVac[4],
+                        toTradeVac[5], toTradeVac[6], toTradeVac[7], toTradeVac[8], toTradeVac[9], toTradeVac[10], toTradeVac[11]
+                        , toTradeVac[12], toTradeVac[13], toTradeVac[14], toTradeVac[15], toTradeVac[16]);
+                fullDiscription();
+            }
+        });
+
+    }
+
+    private String saveInfo(String d, String departD, String returnD, String price, String user, String airline, String baggage, String baggageDisc, String numT, String numA, String numC, String numI, String part, String back, String direct, String type, String accomendation) {
+        if (back.equals("No")) {
+            returnD = "Return flight is not included";
+        }
+        return "Destanation: " + d +
+                " \nDeparture date: " + departD +
+                "\nReturn date: " + returnD +
+                "\nPrice: " + price +
+                "\nPublished by: " + user +
+                "\nAirline: " + airline +
+                "\nBaggage included: " + baggage +
+                "\nBaggage discription: " + baggageDisc +
+                "\nNumber of Tickets: " + numT +
+                "\nOf them: Adult tickets: " + numA + " Child tickets: " + numC + " Infant tickets " + numI +
+                "\nCan purchase part of tickets: " + part +
+                "\nIncluding flight back: " + back +
+                "\nFlight is direct: " + direct +
+                "\nVacation type: " + type +
+                "\nAccommodation included: " + accomendation;
+    }
+
+    private void fullDiscription() {
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("Full Information");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("/FullInfo.fxml").openStream());
+            fullInfoController = fxmlLoader.getController();
+            fullInfoController.injectMainController(mainController, vacationController, this);
+            Scene scene = new Scene(root, 415, 436);
+            //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            stage.show();
+        } catch (Exception e) {
+            //System.out.println("we hava a problem");
+            e.printStackTrace();
+        }
 
     }
 
     private String[] getVacationDetails(String vacID){
-        String[] vacDetails = null;
+        int id = 0;
+        try{
+            id = Integer.parseInt(vacID);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+        String[] vacDetails = vacationController.getVacationDescriptionByID(id);
         return vacDetails;
+    }
+
+    public String getSaveInfo() {
+        return saveInfo;
     }
 
     public String getFrom() {

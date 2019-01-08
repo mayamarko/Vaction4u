@@ -105,7 +105,7 @@ public class VacationShow {
                 if (!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "******" + ", by " + vacationController.username + ".")) {
                     vacationsOptions.setDisable(false);
                     vacationsOptions.setVisible(true);
-                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" +  "MY VAC ID FROM USERS!@!!!!!!"+ ", by " + vacationController.username + ".", "trade request vacation");
+                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" + "MY VAC ID FROM USERS!@!!!!!!" + ", by " + vacationController.username + ".", "trade request vacation");
                     showAlert("The request sent! You soon will see the approve in the message box");
                     //request.setDisable(true);
                 } else {
