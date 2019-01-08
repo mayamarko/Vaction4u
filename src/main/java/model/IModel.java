@@ -59,6 +59,7 @@ public interface IModel {
     boolean delete_all_Vacation_by_user(String username) ;
     void delete_all_Message_by_user(String user_name) ;
     String[] show_Vacation_by_vid(int vid) ;
+    HashMap<Integer, String[]> showAllVacationsge_by_user(String uid) ;
 
 
 
