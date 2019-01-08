@@ -254,6 +254,9 @@ public class MyModel extends Observable implements IModel {
                     pstmt.setString(1, username);
 
                     pstmt.executeUpdate();
+
+                    delete_all_Vacation_by_user(username);  //clear tabel -tal
+                    delete_all_Message_by_user(username);   //clear tabel -tal
                 }
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -597,7 +600,8 @@ public class MyModel extends Observable implements IModel {
 
 
 //dest,dDate,rDate,price,username,airline,baggage(bool),baggDisc,numT,numA,numC,numI,partial(bool),back(bool),direct(bool),type,acco(bool)
-                    if(isExist(user)) {
+                    //if(isExist(user)) plaster_ was fix
+                    {
                         String[] s = {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
                         int vacId = rs.getInt("vacID");
                         result.put(vacId, s);
@@ -757,8 +761,8 @@ public class MyModel extends Observable implements IModel {
                     l = l + rs.getString("message_text") + "%";
                     l = l + rs.getString("message_type");
 
-                    if(isExist(rs.getString("message_src")))
-                        result.push(l.split("%"));
+                    //if(isExist(rs.getString("message_src"))) //plaster was fix
+                    result.push(l.split("%"));
 
                 }
             }
@@ -880,6 +884,79 @@ public class MyModel extends Observable implements IModel {
                 succeed = false;
             }
         }
+    }
+
+    /**
+     *
+     * @param username user delited         --tal
+     * @return True if sucsess
+     */
+    public boolean delete_all_Vacation_by_user(String username) {
+        String sql = "DELETE FROM vacations WHERE username = ?";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, username);
+
+                pstmt.executeUpdate();
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     *  --tal
+     * @param user_name user dellited
+     */
+    public void delete_all_Message_by_user(String user_name) {
+
+
+        String sql = "DELETE FROM messages_box1 WHERE message_src = ? OR message_dest = ?";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+
+                pstmt.setString(1, user_name);
+                pstmt.setString(2, user_name);
+
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+
+        }
+    }
+
+    public static void main(String [] args){
+        MyModel m= new MyModel();
+
+
+        m.add_message("a","q",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla1","sys");
+        m.add_message("a","q",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla2","sys");
+        m.add_message("a","a",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla3","sys");
+
+        m.delete_all_Message_by_user("q");
+        Stack ans = m.get_Users_messages("q");
+        while (!ans.empty()){
+            for(String i : (String[]) ans.pop())
+                System.out.print(i+" - ");
+            System.out.println();
+        }
+
+        ans = m.get_Users_messages("a");
+        while (!ans.empty()){
+            for(String i : (String[]) ans.pop())
+                System.out.print(i+" - ");
+            System.out.println();
+        }
+
     }
 
 }
