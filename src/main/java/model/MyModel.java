@@ -541,18 +541,33 @@ public class MyModel extends Observable implements IModel {
         return succeed;
     }
 
+    public HashMap<Integer, String[]> showAllVacations()
+    {
+        return showAllVacationsgegeneric("");
+    }
+
+    public HashMap<Integer, String[]> showAllVacationsge_by_user(String uid) {
+        return showAllVacationsgegeneric(uid);
+    }
+
 
     /**
      * return all the vacations in the data base
      *
      * @return
      */
-    public HashMap<Integer, String[]> showAllVacations() {
-        String sql = "SELECT*FROM vacations";
+    private HashMap<Integer, String[]> showAllVacationsgegeneric(String uid) {
+        String sql;
+        if(uid.equals(""))
+            sql = "SELECT*FROM vacations";
+        else
+            sql = "SELECT*FROM vacations AND username = ? ";
         HashMap<Integer, String[]> result = new HashMap<>();
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 PreparedStatement stmt = conn.prepareStatement(sql);
+                if(! uid.equals(""))
+                    stmt.setString(1, uid);
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
                     String dest = rs.getString("destination");
