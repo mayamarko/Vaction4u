@@ -17,6 +17,7 @@ public class MessageShow {
     private final SimpleStringProperty type;
     private Button acc;
     private Button dec;
+    private Button vacDescription;
     VacationController vacationController;
     SellerPaymentDetailController sellerPaymentDetailController;
     PaymentController paymentController;
@@ -28,6 +29,8 @@ public class MessageShow {
         this.dAndT = new SimpleStringProperty(dateAndTine);
         this.message = new SimpleStringProperty(messageI);
         this.type = new SimpleStringProperty(type);
+        this.vacDescription = new Button();
+        vacDescription.setVisible(false);
         if (type.equals("request vacation")) {
             this.acc = new Button("Accept Request");
             this.dec = new Button("Decline Request");
@@ -40,6 +43,10 @@ public class MessageShow {
             this.dec = new Button("");
             this.dec.setVisible(false);
             this.acc.setVisible(false);
+        }else if(type.equals("trade request vacation")){
+            vacDescription.setVisible(true);
+            this.acc = new Button("Accept Trade Request");
+            this.dec = new Button("Decline Trade Request");
         }
         this.vacationController = vacationController1;
         this.mainController = mainController;
@@ -66,7 +73,7 @@ public class MessageShow {
                 int sign = messageI.indexOf(" ");
                 String vacIdString = messageI.substring(0, sign);
                 try {
-                    vacationController1.add_message(from, vacIdString + " Your request to buy the vacation from " + vacationController1.username + " has been approved, you can go to the payment page",
+                    vacationController1.add_message(from, vacIdString + " Your request to buy the vacation from " + vacationController1.username + " has been approved, you can start a chat with the seller to set up the payment",
                             "request approve");
                     acc.setDisable(true);
                     dec.setDisable(true);
@@ -100,6 +107,24 @@ public class MessageShow {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }*/
+            }else if (type.equals("trade request vacation")) {
+                showAlert("You accepted the trade request.");
+                int sign = messageI.indexOf(" ");
+                String vacIdString = messageI.substring(0, sign);
+                int hashTag = messageI.indexOf(" ");
+                String vacIDnew = messageI.substring(hashTag);
+                int spaceIndex = vacIDnew.indexOf(" ");
+                vacIDnew = vacIDnew.substring(0, spaceIndex);
+
+                try {
+                    vacationController1.add_message(from, vacIdString + " Your request to trade the vacation from " + vacationController1.username + "to " + " has been approved.",
+                            "trade request approve");
+                    acc.setDisable(true);
+                    dec.setDisable(true);
+                } catch (Exception e) {
+                    showAlert("Ooops you have already accepted this request");
+                }
+                vacationController1.deleteMessage(from, vacationController1.username, messageI);
             }
 
         });
@@ -109,6 +134,11 @@ public class MessageShow {
             dec.setDisable(true);
         });
 
+    }
+
+    private String[] getVacationDetails(String vacID){
+        String[] vacDetails = null;
+        return vacDetails;
     }
 
     public String getFrom() {
@@ -173,6 +203,14 @@ public class MessageShow {
 
     public void setDec(Button dec) {
         this.dec = dec;
+    }
+
+    public Button getVacDescription() {
+        return vacDescription;
+    }
+
+    public void setVacDescription(Button vacDescription) {
+        this.vacDescription = vacDescription;
     }
 
     private void showAlert(String alertMessage) {

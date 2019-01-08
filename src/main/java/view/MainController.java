@@ -449,11 +449,15 @@ public class MainController implements Observer, IView {
                 button2.setMinWidth(150);
                 button2.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("dec"));
 
+                TableColumn button3 = new TableColumn("");
+                button3.setMinWidth(150);
+                button3.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("vacDescription"));
+
 
                 //table.setItems(getData());
                 ObservableList<MessageShow> data = getMessages();
                 table.setItems(data);
-                table.getColumns().addAll(from, time, message, type, button, button2);
+                table.getColumns().addAll(from, time, message, type, button, button2, button3);
                 table.setMinHeight(200);
                 table.setMaxHeight(600);
 
