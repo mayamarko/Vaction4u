@@ -122,8 +122,8 @@ public class MainController implements Observer, IView {
         //       searchController.injectMainController(this, vacationController);
     }
 
-    public void LogOut(){
-        vacationController.username="";
+    public void LogOut() {
+        vacationController.username = "";
         vacationController.setLogged(false);
         txt_user.setEditable(false);
         txt_user.setDisable(true);
@@ -311,7 +311,7 @@ public class MainController implements Observer, IView {
                     btn_searchUser.setVisible(true);
                     btn_deleteUser.setVisible(true);
                     btn_messageSystem.setVisible(true);
-                    if(vacationController.un_read_messages(vacationController.username)){
+                    if (vacationController.un_read_messages(vacationController.username)) {
                         showAlert("You have new message!");
                     }
                     btn_createUser.setDisable(true);
@@ -324,15 +324,15 @@ public class MainController implements Observer, IView {
     private void SetStageCloseDeleteEvent(Stage stage) {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent windowEvent) {
-                    txt_user.setDisable(true);
-                    txt_user.setVisible(false);
-                    btn_logIn.setDisable(false);
-                    btn_updateUser.setVisible(false);
-                    btn_searchUser.setVisible(false);
-                    btn_deleteUser.setVisible(false);
-                    btn_messageSystem.setVisible(false);
-                    btn_createUser.setDisable(false);
-                    btn_logOut.setDisable(true);
+                txt_user.setDisable(true);
+                txt_user.setVisible(false);
+                btn_logIn.setDisable(false);
+                btn_updateUser.setVisible(false);
+                btn_searchUser.setVisible(false);
+                btn_deleteUser.setVisible(false);
+                btn_messageSystem.setVisible(false);
+                btn_createUser.setDisable(false);
+                btn_logOut.setDisable(true);
             }
         });
     }
@@ -370,12 +370,16 @@ public class MainController implements Observer, IView {
 
             TableColumn button2 = new TableColumn("Send purchase request");
             button2.setMinWidth(150);
-            button2.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("request"));
+            button2.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("request to buy"));
+
+            TableColumn button3 = new TableColumn("Send trade request");
+            button3.setMinWidth(150);
+            button3.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("request to trade"));
 
 
             //table.setItems(getData());
             table.setItems(getData());
-            table.getColumns().addAll(dest, departDay, returnDay, price, button, button2);
+            table.getColumns().addAll(dest, departDay, returnDay, price, button, button2, button3);
             table.setMinHeight(200);
             table.setMaxHeight(600);
 
@@ -443,7 +447,7 @@ public class MainController implements Observer, IView {
 
 
                 //table.setItems(getData());
-                ObservableList<MessageShow> data=getMessages();
+                ObservableList<MessageShow> data = getMessages();
                 table.setItems(data);
                 table.getColumns().addAll(from, time, message, type, button, button2);
                 table.setMinHeight(200);
@@ -475,7 +479,7 @@ public class MainController implements Observer, IView {
         return data;
     }
 
-    public void messageSearch(){
+    public void messageSearch() {
         showAlert("Currently the site is under construction, the search function is unavailable you can go to the Vacation table");
     }
 

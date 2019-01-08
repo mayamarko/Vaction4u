@@ -43,6 +43,7 @@ public class LogInController {
             boolean succeed = vacationController.logIn(lbl_username.getText(),lbl_password.getText());
             if (succeed) {
                 showAlert("Welcome back, " + lbl_username.getText() + "\nFind your next vacation!");
+
             } else {
                 if(lbl_username.getText().equals("admin") && lbl_password.getText().equals("admin")){
                     vacationController.setLogged(true);

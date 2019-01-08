@@ -19,6 +19,7 @@ public class VacationShow {
     private final SimpleStringProperty price;
     private Button allInfo;
     private Button request;
+    private Button trade;
     VacationController vacationController;
      private String saveInfo;
      private String userName;
@@ -46,6 +47,7 @@ public class VacationShow {
         this.userName=user;
         this.allInfo = new Button("full info");
         this.request = new Button("purchase request");
+        this.trade = new Button("trade request");
         allInfo.setOnAction(event -> {
             saveInfo=saveInfo(d,departD,returnD,price,user,airline,baggage,baggageDisc,numT,numA,numC,numI,part,back,direct,type,accomendation);
             fullDiscription();
@@ -53,10 +55,33 @@ public class VacationShow {
         request.setOnAction(event -> {
            requestPurchase();
         });
+        trade.setOnAction(event -> {
+           requestTrade();
+        });
 
     }
 
     public void  requestPurchase(){
+        if (vacationController.isLogged()) {
+            if(vacationController.username.equals(userName)){
+                showAlert("You can NOT buy your own vacation!!!!");
+            }else {
+                if(!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to buy, by " + vacationController.username + ".")){
+                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to buy, by " + vacationController.username + ".", "request vacation");
+                    showAlert("The request sent! You soon will see the approve in the message box");
+                    request.setDisable(true);
+                }else{
+                    showAlert("You have already asked to purchase this vacation..");
+                    request.setDisable(true);
+                }
+
+            }
+        } else {
+            showAlert("You must be logged in to buy vacation!");
+        }
+    }
+
+    public void  requestTrade(){
         if (vacationController.isLogged()) {
             if(vacationController.username.equals(userName)){
                 showAlert("You can NOT buy your own vacation!!!!");

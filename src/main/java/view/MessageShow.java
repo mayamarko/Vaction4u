@@ -32,7 +32,7 @@ public class MessageShow {
             this.acc = new Button("Accept Request");
             this.dec = new Button("Decline Request");
         } else if (type.equals("request approve")) {
-            this.acc = new Button("Pay!");
+            this.acc = new Button("Start a chat with the seller to set up the payment");
             this.dec = new Button("");
             this.dec.setVisible(false);
         }else if(type.equals("successful purchase")){
@@ -45,6 +45,8 @@ public class MessageShow {
         this.mainController = mainController;
         acc.setOnAction(event -> {
             if (type.equals("request vacation")) {
+                showAlert("You accepted the request, the buyer will contact you to arrange the payment.");
+                /*
                 try {
                     Stage stage = new Stage();
                     stage.setTitle("Account details");
@@ -60,7 +62,7 @@ public class MessageShow {
                     stage.showAndWait();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
                 int sign = messageI.indexOf(" ");
                 String vacIdString = messageI.substring(0, sign);
                 try {
@@ -73,7 +75,8 @@ public class MessageShow {
                 }
                 vacationController1.deleteMessage(from, vacationController1.username, messageI);
             } else if (type.equals("request approve")) {
-                try {
+                showAlert("Sorry... The site is under construction");
+                /*try {
                     int sign = messageI.indexOf(" ");
                     String vacIdString = messageI.substring(1, sign - 1);
                     int vacId = Integer.parseInt(vacIdString);
@@ -96,7 +99,7 @@ public class MessageShow {
                     dec.setDisable(true);
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
             }
 
         });
