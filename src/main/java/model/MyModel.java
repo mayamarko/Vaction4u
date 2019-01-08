@@ -541,20 +541,31 @@ public class MyModel extends Observable implements IModel {
         return succeed;
     }
 
+    /**
+     *
+     *
+     * @return  hash map the contains piers in stract : <V_ID int, V_INFO String []>  the aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
+     */
     public HashMap<Integer, String[]> showAllVacations()
     {
         return showAllVacationsgegeneric("");
     }
 
+    /**
+     *
+     * @param uid the user for filtering by
+     * @return  hash map the contains piers in stract : <V_ID int, V_INFO String []>  the aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
+     */
     public HashMap<Integer, String[]> showAllVacationsge_by_user(String uid) {
         return showAllVacationsgegeneric(uid);
     }
 
 
     /**
-     * return all the vacations in the data base
      *
-     * @return
+     * @param uid the user for filtering by if  uis is "" so ther is no filtering
+     * @return  hash map the contains piers in stract : <V_ID int, V_INFO String []>  the aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
+     *
      */
     private HashMap<Integer, String[]> showAllVacationsgegeneric(String uid) {
         String sql;
@@ -696,7 +707,9 @@ public class MyModel extends Observable implements IModel {
         return result;
     }
 
-
+    /**
+     * the func crate the  meseg tabel
+     */
     public void create_message_box_Table() {
 
         // SQL statement for creating a new users tabl
@@ -721,6 +734,12 @@ public class MyModel extends Observable implements IModel {
         }
     }
 
+    /**
+     *
+     * @param src_username the sours of the meseg
+     * @param dest_username the dest of the meseg
+     * @return
+     */
     public Stack get_two_Users_messages(String src_username, String dest_username) {
         String sql = "SELECT * FROM messages_box1 WHERE ((message_src = ? AND message_dest = ?) OR (message_src = ? AND message_dest = ?))" +
                 "ORDER BY message_time DESC";
@@ -756,7 +775,11 @@ public class MyModel extends Observable implements IModel {
 
     }
 
-
+    /**
+     *
+     * @param dest_username the dest of the masag
+     * @return all mesag of the ascked user
+     */
     public Stack get_Users_messages(String dest_username) {
         String sql = "SELECT * FROM messages_box1 WHERE  message_dest = ?" +
                 "ORDER BY message_time DESC";
@@ -788,6 +811,11 @@ public class MyModel extends Observable implements IModel {
 
     }
 
+    /**
+     *
+     * @param dest_username the ascked user
+     * @return True if ther is unread msg
+     */
     public boolean un_read_messages(String dest_username) {
         String sql = "SELECT * FROM messages_box1 WHERE  message_dest = ?" +
                 "ORDER BY message_time DESC";
@@ -813,7 +841,10 @@ public class MyModel extends Observable implements IModel {
 
     }
 
-
+    /**
+     * the funck set all user mark as reeaden
+     * @param dest_username the ascked user
+     */
     public void update_read_messages(String dest_username) {
         String sql = "UPDATE  messages_box1 SET is_read = ? WHERE  message_dest = ?";
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -830,6 +861,17 @@ public class MyModel extends Observable implements IModel {
     }
 
 
+
+
+    /**
+     *
+     * @param src_username the src of the msseg
+     * @param dest_username the dest of the meseg
+     * @param message_time  the meseg time
+     * @param message_text the content of the meseg
+     * @param massage_type the type of the meseg (sys or other user)
+     * @return true is the process sucseess
+     */
     public boolean add_message(String src_username, String dest_username, String message_time, String message_text, String massage_type) {
         boolean succeed = true;
         String sql = "INSERT INTO messages_box1(message_src, message_dest, message_time, message_text, message_type, is_read)" +
@@ -857,6 +899,14 @@ public class MyModel extends Observable implements IModel {
         return succeed;
     }
 
+    /**
+     *
+     *
+     * @param source the src of the msseg
+     * @param destination the dest of the meseg
+     * @param message the content of the meseg
+     * @return True if the meseg is exisst
+     */
     public boolean is_messg_Exist(String source, String destination, String message) {
         String sql = "SELECT * FROM messages_box1 WHERE message_src = ? AND message_dest = ?  AND message_text = ?";
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -878,6 +928,12 @@ public class MyModel extends Observable implements IModel {
         return false;
     }
 
+    /**
+     *
+     * @param source the src of the msseg
+     * @param destination the dest of the meseg
+     * @param message the content of the meseg
+     */
     public void deleteMessage(String source, String destination, String message) {
         boolean succeed = is_messg_Exist(source, destination, message);
         if (succeed) {
