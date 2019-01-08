@@ -18,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class VacationShow {
@@ -31,6 +32,7 @@ public class VacationShow {
     private Button trade;
     private ChoiceBox vacationsOptions;
     VacationController vacationController;
+    public static HashSet<String> vacationChose;
     private String saveInfo;
     private String userName;
     private TableView table;
@@ -60,6 +62,7 @@ public class VacationShow {
         vacationsOptions = new ChoiceBox();
         vacationsOptions.setDisable(true);
         vacationsOptions.setVisible(false);
+        vacationChose = new HashSet<>();
         //vacationsOptions.setValue("Select Vacation");
         allInfo.setOnAction(event -> {
             saveInfo = saveInfo(d, departD, returnD, price, user, airline, baggage, baggageDisc, numT, numA, numC, numI, part, back, direct, type, accomendation);
@@ -102,7 +105,7 @@ public class VacationShow {
                 if (!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "******" + ", by " + vacationController.username + ".")) {
                     vacationsOptions.setDisable(false);
                     vacationsOptions.setVisible(true);
-                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "******" + ", by " + vacationController.username + ".", "trade request vacation");
+                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" +  "MY VAC ID FROM USERS!@!!!!!!"+ ", by " + vacationController.username + ".", "trade request vacation");
                     showAlert("The request sent! You soon will see the approve in the message box");
                     //request.setDisable(true);
                 } else {
@@ -116,12 +119,12 @@ public class VacationShow {
         }
     }
 
-    private ObservableList<tradeShow> getMyVacations(){
+    private ObservableList<tradeShow> getMyVacations() {
         ObservableList<tradeShow> data = FXCollections.observableArrayList();
         HashMap<Integer, String[]> set = new HashMap<>();
         for (Map.Entry<Integer, String[]> entry : set.entrySet()) {
-            String [] info=entry.getValue();
-            data.add(new tradeShow(entry.getKey().toString(),info[0]));
+            String[] info = entry.getValue();
+            data.add(new tradeShow(entry.getKey().toString(), info[0]));
         }
         return data;
     }
@@ -254,7 +257,6 @@ public class VacationShow {
     }
 
 
-
     public void showUsersVacations() {
         try {
             table = new TableView();
@@ -302,6 +304,13 @@ public class VacationShow {
         }
     }
 
+    public static boolean addVacs(String vacid) {
+        if (vacationChose.size() > 1)
+            return false;
+
+        vacationChose.add(vacid);
+        return true;
+    }
 
 
 }

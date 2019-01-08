@@ -2,27 +2,33 @@ package view;
 
 import javafx.beans.property.SimpleStringProperty;
 
-import java.awt.*;
+import javafx.scene.control.*;
+
 
 
 public class tradeShow {
     private final SimpleStringProperty vacId;
     private final SimpleStringProperty destination;
-    private Checkbox chooseVac;
+    private CheckBox chooseVac;
 
     public tradeShow(String vacId, String destination) {
         this.vacId = new SimpleStringProperty(vacId);
         this.destination = new SimpleStringProperty(destination);
-        chooseVac=new Checkbox();
+        chooseVac = new CheckBox();
+        chooseVac.setOnAction((event) -> {
+            if(chooseVac.isSelected()){
 
+            }
+
+        });
 
     }
 
-    public Checkbox getChooseVac() {
+    public CheckBox getChooseVac() {
         return chooseVac;
     }
 
-    public void setChooseVac(Checkbox chooseVac) {
+    public void setChooseVac(CheckBox chooseVac) {
         this.chooseVac = chooseVac;
     }
 
