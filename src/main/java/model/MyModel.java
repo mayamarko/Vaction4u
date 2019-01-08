@@ -563,6 +563,17 @@ public class MyModel extends Observable implements IModel {
 
     /**
      *
+     * @param vid the vaction ascked
+     * @return  V_INFO - aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
+     */
+    public  String[] show_Vacation_by_vid(int vid) {
+        HashMap<Integer,String[]> ans =showAllVacationsgegeneric("");
+        return ans.get(vid);
+    }
+
+
+    /**
+     *
      * @param uid the user for filtering by if  uis is "" so ther is no filtering
      * @return  hash map the contains piers in stract : <V_ID int, V_INFO String []>  the aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
      *
@@ -1007,6 +1018,11 @@ public class MyModel extends Observable implements IModel {
 
     public static void main(String [] args){
         MyModel m= new MyModel();
+
+       for(String i:m.show_Vacation_by_vid(1)){
+           System.out.print(i+"- ");
+       }
+
 
 
         m.add_message("a","q",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla1","sys");

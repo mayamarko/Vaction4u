@@ -58,6 +58,7 @@ public interface IModel {
     boolean is_messg_Exist(String source, String destination, String message);
     boolean delete_all_Vacation_by_user(String username) ;
     void delete_all_Message_by_user(String user_name) ;
+    String[] show_Vacation_by_vid(int vid) ;
 
 
 
