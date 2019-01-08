@@ -343,7 +343,7 @@ public class MainController implements Observer, IView {
             Stage stage = new Stage();
             Scene scene = new Scene(new Group());
             stage.setTitle("All Flights");
-            stage.setWidth(900);
+            stage.setWidth(1200);
             stage.setHeight(500);
             final Label label = new Label("Available flights:");
             label.setFont(new Font("Calibri Light", 22));
@@ -364,22 +364,26 @@ public class MainController implements Observer, IView {
             price.setMinWidth(150);
             price.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("price"));
 
-            TableColumn button = new TableColumn("Full detailes");
+            TableColumn button = new TableColumn("Full details");
             button.setMinWidth(100);
             button.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("allInfo"));
 
             TableColumn button2 = new TableColumn("Send purchase request");
             button2.setMinWidth(150);
-            button2.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("request to buy"));
+            button2.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("request"));
 
             TableColumn button3 = new TableColumn("Send trade request");
             button3.setMinWidth(150);
-            button3.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("request to trade"));
+            button3.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("trade"));
+
+            TableColumn choiceBox = new TableColumn("Select vacation");
+            choiceBox.setMinWidth(150);
+            choiceBox.setCellValueFactory(new PropertyValueFactory<VacationShow, ChoiceBox>("vacationsOptions"));
 
 
             //table.setItems(getData());
             table.setItems(getData());
-            table.getColumns().addAll(dest, departDay, returnDay, price, button, button2, button3);
+            table.getColumns().addAll(dest, departDay, returnDay, price, button, button2, button3, choiceBox);
             table.setMinHeight(200);
             table.setMaxHeight(600);
 
