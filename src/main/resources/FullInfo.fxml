@@ -17,7 +17,7 @@
          <font>
             <Font size="16.0" />
          </font></Button>
-      <Text layoutX="122.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full information">
+      <Text layoutX="122.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full Information">
          <font>
             <Font name="Calibri Bold" size="24.0" />
          </font>
