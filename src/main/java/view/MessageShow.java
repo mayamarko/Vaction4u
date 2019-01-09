@@ -51,12 +51,12 @@ public class MessageShow {
             vacDescription.setVisible(true);
             this.acc = new Button("Accept Trade Request");
             this.dec = new Button("Decline Trade Request");
-        } else if (type.equals("trade request approve")){
+        } else if (type.equals("trade request approve")) {
             this.acc = new Button("");
             this.dec = new Button("");
             this.dec.setVisible(false);
             this.acc.setVisible(false);
-        }else if (type.equals("trade request decline")){
+        } else if (type.equals("trade request decline")) {
             this.acc = new Button("");
             this.dec = new Button("");
             this.dec.setVisible(false);
@@ -66,7 +66,10 @@ public class MessageShow {
         this.mainController = mainController;
         acc.setOnAction(event -> {
             if (type.equals("request vacation")) {
-                showAlert("You accepted the request, the buyer will contact you to arrange the payment.");
+                int sign1 = messageI.indexOf(" ");
+                int vacTmp = Integer.parseInt(messageI.substring(1, sign1 - 1));
+                if (vacationController.getVacStatus(vacTmp) == 0) {
+                    showAlert("You accepted the request, the buyer will contact you to arrange the payment.");
 //                /*
 //                try {
 //                    Stage stage = new Stage();
@@ -84,20 +87,24 @@ public class MessageShow {
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }*/
-                int sign = messageI.indexOf(" ");
-                String vacIdString = messageI.substring(0, sign);
-                if (!vacationController.is_messg_Exist(vacationController1.username, from, vacIdString + " Your request to buy the vacation from " + vacationController1.username + " has been approved,\nyou can start a chat with the seller to set up the payment")) {
-                    try {
-                        vacationController1.add_message(from, vacIdString + " Your request to buy the vacation from " + vacationController1.username + " has been approved,\nyou can start a chat with the seller to set up the payment",
-                                "request approve");
-                        acc.setDisable(true);
-                        dec.setDisable(true);
-                    } catch (Exception e) {
+                    int sign = messageI.indexOf(" ");
+                    String vacIdString = messageI.substring(0, sign);
+                    if (!vacationController.is_messg_Exist(vacationController.username, from, vacIdString + " Your request to buy the vacation from " + vacationController.username + " has been approved,\nyou can start a chat with the seller to set up the payment")) {
+                        try {
+                            vacationController.add_message(from, vacIdString + " Your request to buy the vacation from " + vacationController.username + " has been approved,\nyou can start a chat with the seller to set up the payment",
+                                    "request approve");
+                            acc.setDisable(true);
+                            dec.setDisable(true);
+                        } catch (Exception e) {
+                            showAlert("Ooops you have already accepted this request");
+                        }
+                        vacationController.deleteMessage(from, vacationController.username, messageI);
+                        vacationController.setVacStatus(vacTmp, true);
+                    } else {
                         showAlert("Ooops you have already accepted this request");
                     }
-                    vacationController1.deleteMessage(from, vacationController1.username, messageI);
-                }else{
-                    showAlert("Ooops you have already accepted this request");
+                } else {
+                    showAlert("Ooops you have already sold your vacation");
                 }
             } else if (type.equals("request approve")) {
                 showAlert("Sorry... The site is under construction");
@@ -128,27 +135,40 @@ public class MessageShow {
 //                }
 
             } else if (type.equals("trade request vacation")) {
-                showAlert("You accepted the trade request.");
                 int sign = messageI.indexOf(" ");
-                String vacIdString = messageI.substring(0, sign);
-                System.out.println("my requested vacation: " + messageI.substring(1, sign-1));
-                String[] sellerVac = getVacationDetails(messageI.substring(1, sign-1));
-                if (!vacationController.is_messg_Exist(vacationController1.username, from, vacIdString + " Congratulations!\nYour request to trade the vacation from " + vacationController1.username + " to the destination " + sellerVac[0] + "\nhas been approved.")) {
-                    try {
-                        vacationController1.add_message(from, vacIdString + " Congratulations!\nYour request to trade the vacation from " + vacationController1.username + " to the destination " + sellerVac[0] + "\nhas been approved.",
-                                "trade request approve");
-                        acc.setDisable(true);
-                        dec.setDisable(true);
-                    } catch (Exception e) {
-                        showAlert("Ooops you have already accepted this request");
-                    }
-                }else{
-                    showAlert("Ooops you have already accepted this request");
-                }
-                vacationController1.deleteMessage(from, vacationController1.username, messageI);
-            }
-            else if(type.equals("trade request approve")){
+                int vacTmp = Integer.parseInt(messageI.substring(1, sign - 1));
+                int hashTag = messageI.indexOf("#");
+                String vacIDnew = messageI.substring(hashTag + 1);
+                int spaceIndex = vacIDnew.indexOf(" ");
+                vacIDnew = vacIDnew.substring(0, spaceIndex);
+                if (vacationController.getVacStatus(vacTmp) == 0) {
+                    if(vacationController.getVacStatus(Integer.parseInt(vacIDnew)) == 0) {
+                        showAlert("You accepted the trade request.");
+                        String vacIdString = messageI.substring(0, sign);
+                        String[] sellerVac = getVacationDetails(messageI.substring(1, sign - 1));
+                        if (!vacationController.is_messg_Exist(vacationController.username, from, vacIdString + " Congratulations!\nYour request to trade the vacation from " + vacationController.username + " to the destination " + sellerVac[0] + "\nhas been approved.")) {
+                            try {
+                                vacationController.add_message(from, vacIdString + " Congratulations!\nYour request to trade the vacation from " + vacationController.username + " to the destination " + sellerVac[0] + "\nhas been approved.",
+                                        "trade request approve");
+                                acc.setDisable(true);
+                                dec.setDisable(true);
+                            } catch (Exception e) {
+                                showAlert("Ooops you have already accepted this request");
+                            }
+                        } else {
+                            showAlert("Ooops you have already accepted this request");
+                        }
 
+                        vacationController.deleteMessage(from, vacationController.username, messageI);
+                        vacationController.setVacStatus(vacTmp, true);
+                        vacationController.setVacStatus(Integer.parseInt(vacIDnew), true);
+                    }
+                    else{
+                        showAlert("It's too late!\nThis vacation is no more available");
+                    }
+                } else {
+                    showAlert("Ooops you have already sold your vacation");
+                }
             }
 
         });
@@ -156,11 +176,11 @@ public class MessageShow {
             showAlert("Such a loss");
             acc.setDisable(true);
             dec.setDisable(true);
-            if(type.equals("trade request vacation")){
+            if (type.equals("trade request vacation")) {
                 int sign = messageI.indexOf(" ");
                 String vacIdString = messageI.substring(0, sign);
-                System.out.println("my requested vacation: " + messageI.substring(1, sign-1));
-                String[] sellerVac = getVacationDetails(messageI.substring(1, sign-1));
+                System.out.println("my requested vacation: " + messageI.substring(1, sign - 1));
+                String[] sellerVac = getVacationDetails(messageI.substring(1, sign - 1));
                 if (!vacationController.is_messg_Exist(vacationController1.username, from, vacIdString + " We are so sorry, \n your request to trade the vacation from " + vacationController1.username + "to the destination " + sellerVac[0] + "\nhas been declined.")) {
                     try {
                         vacationController1.add_message(from, vacIdString + " We are so sorry, \n your request to trade the vacation from " + vacationController1.username + "to the destination " + sellerVac[0] + "\nhas been declined.",
@@ -170,7 +190,7 @@ public class MessageShow {
                     } catch (Exception e) {
                         showAlert("Ooops you have already declined this request");
                     }
-                }else{
+                } else {
                     showAlert("Ooops you have already declined this request");
                 }
                 vacationController1.deleteMessage(from, vacationController1.username, messageI);

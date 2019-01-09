@@ -1,5 +1,6 @@
 package view;
 
+import controller.VacationController;
 import javafx.beans.property.SimpleStringProperty;
 
 import javafx.scene.control.*;
@@ -12,19 +13,25 @@ public class tradeShow {
     private final SimpleStringProperty vacId;
     private final SimpleStringProperty destination;
     private CheckBox chooseVac;
+    private VacationController vacationController;
 
-    public tradeShow(String vacId, String destination) {
+    public tradeShow(String vacId, String destination, VacationController vacationController) {
         this.vacId = new SimpleStringProperty(vacId);
         this.destination = new SimpleStringProperty(destination);
+        this.vacationController = vacationController;
         chooseVac = new CheckBox();
         chooseVac.setOnAction((event) -> {
-            if(chooseVac.isSelected()){
-                if(!addVacs(vacId)){
-                    chooseVac.setSelected(false);
-                    showAlert("You can only choose one vacation to trade!");
+            if (chooseVac.isSelected()) {
+                if (vacationController.getVacStatus(Integer.parseInt(vacId)) == 0) {
+                    if (!addVacs(vacId)) {
+                        chooseVac.setSelected(false);
+                        showAlert("You can only choose one vacation to trade!");
+                    }
+                } else {
+                    showAlert("Oops you already traded or sold this vacation.");
                 }
             }
-            if(!chooseVac.isSelected()){
+            if (!chooseVac.isSelected()) {
                 remove(vacId);
             }
 

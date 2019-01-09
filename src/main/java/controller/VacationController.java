@@ -77,12 +77,12 @@ public class VacationController extends Observable implements Observer {
         return username;
     }
 
-    public void setUsername(String username){
-        this.username =  username;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setLogged(boolean log){
-        this.logged=log;
+    public void setLogged(boolean log) {
+        this.logged = log;
     }
 
     public boolean logIn(String username, String password) {
@@ -125,30 +125,43 @@ public class VacationController extends Observable implements Observer {
                 numberOfAdults, numberOfChilds, numberOfInfants, partialPurchase, destination, flightBack, direct, vacationType, accommodation, usernameBuyer);
     }
 
-    public Vacation readVacation(int vacationID){
+    public Vacation readVacation(int vacationID) {
         return model.readVacation(vacationID);
     }
 
-    public boolean deleteVacation(String username, int vacID){
+    public boolean deleteVacation(String username, int vacID) {
         return model.deleteVacation(username, vacID);
     }
 
-    public void deleteMessage(String source, String destination, String message){
+    public void deleteMessage(String source, String destination, String message) {
         model.deleteMessage(source, destination, message);
     }
 
-    public boolean un_read_messages(String dest_username){
+    public boolean un_read_messages(String dest_username) {
         return model.un_read_messages(dest_username);
     }
 
-    public boolean is_messg_Exist(String source, String destination, String message){
+    public boolean is_messg_Exist(String source, String destination, String message) {
         return model.is_messg_Exist(source, destination, message);
     }
 
-    public HashMap<Integer, String[]> showAllVacationsge_by_user(String userName){
+    public HashMap<Integer, String[]> showAllVacationsge_by_user(String userName) {
         return model.showAllVacationsge_by_user(userName);
     }
-    public String[] getVacationDescriptionByID(int vacID){
+
+    public String[] getVacationDescriptionByID(int vacID) {
         return this.model.show_Vacation_by_vid(vacID);
+    }
+
+    public int getVacStatus(int vacID) {
+        return model.getVacStatus(vacID);
+    }
+
+    public boolean setVacStatus(int vacID, boolean status) {
+        return model.setVacStatus(vacID, status);
+    }
+
+    public boolean isVacExist(int vacID) {
+        return model.isVacExist(vacID);
     }
 }

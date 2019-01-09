@@ -115,7 +115,7 @@ public class VacationShow {
         HashMap<Integer, String[]> set = vacationController.showAllVacationsge_by_user(vacationController.username);
         for (Map.Entry<Integer, String[]> entry : set.entrySet()) {
             String[] info = entry.getValue();
-            data.add(new tradeShow(entry.getKey().toString(), info[0]));
+            data.add(new tradeShow(entry.getKey().toString(), info[0], vacationController));
         }
         return data;
     }

@@ -19,8 +19,9 @@ import java.util.Optional;
 public class Main extends Application {
 
     MyModel model;
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 
         /**
          * creating the database and the relative tables.
@@ -33,7 +34,7 @@ public class Main extends Application {
         model.create_message_box_Table();
         model.showAllVacations();
         model.createNewSalesTable();
-
+        model.createNewVacationsStatusTable();
         //model.createNewTicketsTable();
 
         VacationController controller = new VacationController(model);
@@ -44,14 +45,14 @@ public class Main extends Application {
          */
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("/sample.fxml").openStream());
-        Scene scene = new Scene(root, 700,500);
+        Scene scene = new Scene(root, 700, 500);
         //scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("Vactaion4U");
         primaryStage.setScene(scene);
         primaryStage.setMinHeight(465);
         primaryStage.setMinWidth(580);
         MainController view = fxmlLoader.getController();
-     //  view.setResizeEvent(primaryStage);
+        //  view.setResizeEvent(primaryStage);
         view.setViewModel(controller);
         controller.addObserver(view);
         //view.setSubController();
@@ -70,7 +71,7 @@ public class Main extends Application {
                 alert.setHeaderText("Exit confirmation");
                 alert.setContentText("Are you sure you want to quit?");
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
+                if (result.get() == ButtonType.OK) {
                     //model.stopServers();
                     // ... user chose OK
                     // Close program

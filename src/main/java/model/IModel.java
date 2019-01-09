@@ -33,15 +33,15 @@ public interface IModel {
                            int numberOfAdults, int numberOfChilds, int numberOfInfants,
                            boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation);
 
-    boolean addSale(String usernameSeller, int vacId ,int price, String airline, LocalDate start, LocalDate returnDate, boolean baggage, String baggageDescription, int numberOfTickets,
-                           int numberOfAdults, int numberOfChilds, int numberOfInfants,
-                           boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation, String usernameBuyer);
+    boolean addSale(String usernameSeller, int vacId, int price, String airline, LocalDate start, LocalDate returnDate, boolean baggage, String baggageDescription, int numberOfTickets,
+                    int numberOfAdults, int numberOfChilds, int numberOfInfants,
+                    boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation, String usernameBuyer);
 
     boolean deleteVacation(String username, int vacID);
 
-    HashMap<Integer,String[]> showAllVacations();
+    HashMap<Integer, String[]> showAllVacations();
 
-    boolean add_message(String src_username, String dest_username, String message_time, String message_text,String massage_type);
+    boolean add_message(String src_username, String dest_username, String message_time, String message_text, String massage_type);
 
     void update_read_messages(String dest_username);
 
@@ -49,26 +49,29 @@ public interface IModel {
 
     Stack get_Users_messages(String dest_username);
 
-    Stack get_two_Users_messages(String src_username,String dest_username);
+    Stack get_two_Users_messages(String src_username, String dest_username);
 
     Vacation readVacation(int vacationID);
 
     void deleteMessage(String source, String destination, String message);
 
     boolean is_messg_Exist(String source, String destination, String message);
-    boolean delete_all_Vacation_by_user(String username) ;
-    void delete_all_Message_by_user(String user_name) ;
-    String[] show_Vacation_by_vid(int vid) ;
-    HashMap<Integer, String[]> showAllVacationsge_by_user(String uid) ;
+
+    boolean delete_all_Vacation_by_user(String username);
+
+    void delete_all_Message_by_user(String user_name);
+
+    String[] show_Vacation_by_vid(int vid);
+
+    HashMap<Integer, String[]> showAllVacationsge_by_user(String uid);
+
+    boolean setVacStatus(int vacID, boolean status);
+
+    int getVacStatus(int vacID);
+
+    boolean isVacExist(int vacID);
 
 
-
-
-
-
-
-
-
-    }
+}
 
 

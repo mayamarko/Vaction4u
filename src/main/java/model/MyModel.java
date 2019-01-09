@@ -435,6 +435,32 @@ public class MyModel extends Observable implements IModel {
         }
     }
 
+    /**
+     * create the vacations status table.
+     */
+    public void createNewVacationsStatusTable() {
+        // SQL statement for creating a new vacationsStatus table
+        String sql = //"PRAGMA foreign_keys = ON; \n" +
+                "CREATE TABLE IF NOT EXISTS vacationsStatus (\n"
+                        + "	vacID INTEGER NOT NULL,\n"
+                        + "	status BOOLEAN NOT NULL,\n"
+                        + "PRIMARY KEY(vacID), \n"
+                        + "FOREIGN KEY(vacID) REFERENCES vacations(vacID) ON DELETE CASCADE\n"
+                        //+ "ON DELETE CASCADE \n"
+                        + ");";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                stmt.execute(sql);
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
     public boolean createVacation(String username, int price, String airline, LocalDate start, LocalDate returnDate, boolean baggage, String baggageDescription, int numberOfTickets,
                                   int numberOfAdults, int numberOfChilds, int numberOfInfants,
                                   boolean partialPurchase, String destination, boolean flightBack, boolean direct, String vacationType, boolean accommodation) {
@@ -472,6 +498,23 @@ public class MyModel extends Observable implements IModel {
             succeed = false;
             System.out.println(e.getMessage());
         }
+
+        if (succeed) {
+            String sql2 = "INSERT INTO vacationsStatus(vacID, status)" +
+                    " VALUES(?, ?)";
+            try (Connection conn = DriverManager.getConnection(url)) {
+                if (conn != null) {
+                    PreparedStatement pstmt = conn.prepareStatement(sql2);
+                    pstmt.setInt(1, vacationId);
+                    pstmt.setBoolean(2, false);
+                    pstmt.executeUpdate();
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
         return succeed;
     }
 
@@ -541,20 +584,83 @@ public class MyModel extends Observable implements IModel {
         return succeed;
     }
 
+    public boolean setVacStatus(int vacID, boolean status) {
+        boolean succeed = false;
+        String sql = "UPDATE vacationsStatus SET status = ? WHERE vacID = ?";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setBoolean(1, status);
+                pstmt.setInt(2, vacID);
+
+                pstmt.executeUpdate();
+                conn.close();
+                succeed = true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return succeed;
+    }
+
     /**
-     *
-     *
-     * @return  hash map the contains piers in stract : <V_ID int, V_INFO String []>  the aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
+     * @param vacID
+     * @return -1 if the vacID is not exist; 0 for status = false; 1 for status = true
      */
-    public HashMap<Integer, String[]> showAllVacations()
-    {
+    public int getVacStatus(int vacID) {
+        int result = -1;
+        String sql = "SELECT*FROM vacationsStatus WHERE vacID = ?";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, vacID);
+                ResultSet rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    boolean status = rs.getBoolean("status");
+                    if(status){
+                        result = 1;
+                    }
+                    else{
+                        result = 0;
+                    }
+                }
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+    public boolean isVacExist(int vacID) {
+        String sql = "SELECT * FROM vacationsStatus WHERE vacID = ?";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, vacID);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    conn.close();
+                    return true;
+                }
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * @return hash map the contains piers in stract : <V_ID int, V_INFO String []>  the aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
+     */
+    public HashMap<Integer, String[]> showAllVacations() {
         return showAllVacationsgegeneric("");
     }
 
     /**
-     *
      * @param uid the user for filtering by
-     * @return  hash map the contains piers in stract : <V_ID int, V_INFO String []>  the aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
+     * @return hash map the contains piers in stract : <V_ID int, V_INFO String []>  the aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
      */
     public HashMap<Integer, String[]> showAllVacationsge_by_user(String uid) {
         return showAllVacationsgegeneric(uid);
@@ -562,25 +668,22 @@ public class MyModel extends Observable implements IModel {
 
 
     /**
-     *
      * @param vid the vaction ascked
-     * @return  V_INFO - aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
+     * @return V_INFO - aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
      */
-    public  String[] show_Vacation_by_vid(int vid) {
-        HashMap<Integer,String[]> ans =showAllVacationsgegeneric("");
+    public String[] show_Vacation_by_vid(int vid) {
+        HashMap<Integer, String[]> ans = showAllVacationsgegeneric("");
         return ans.get(vid);
     }
 
 
     /**
-     *
      * @param uid the user for filtering by if  uis is "" so ther is no filtering
-     * @return  hash map the contains piers in stract : <V_ID int, V_INFO String []>  the aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
-     *
+     * @return hash map the contains piers in stract : <V_ID int, V_INFO String []>  the aryy : {dest, departD, returnD, price, user, airline, baggage, baggageDisc, numOfTicket + "", numOfAdults + "", numOdChilds + "", numOdInfants + "", partial, back, direct, type, acco};
      */
     private HashMap<Integer, String[]> showAllVacationsgegeneric(String uid) {
         String sql;
-        if(uid.equals(""))
+        if (uid.equals(""))
             sql = "SELECT*FROM vacations";
         else
             sql = "SELECT*FROM vacations WHERE username = ? ";
@@ -588,7 +691,7 @@ public class MyModel extends Observable implements IModel {
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                if(! uid.equals(""))
+                if (!uid.equals(""))
                     stmt.setString(1, uid);
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
@@ -746,8 +849,7 @@ public class MyModel extends Observable implements IModel {
     }
 
     /**
-     *
-     * @param src_username the sours of the meseg
+     * @param src_username  the sours of the meseg
      * @param dest_username the dest of the meseg
      * @return
      */
@@ -787,7 +889,6 @@ public class MyModel extends Observable implements IModel {
     }
 
     /**
-     *
      * @param dest_username the dest of the masag
      * @return all mesag of the ascked user
      */
@@ -823,7 +924,6 @@ public class MyModel extends Observable implements IModel {
     }
 
     /**
-     *
      * @param dest_username the ascked user
      * @return True if ther is unread msg
      */
@@ -854,6 +954,7 @@ public class MyModel extends Observable implements IModel {
 
     /**
      * the funck set all user mark as reeaden
+     *
      * @param dest_username the ascked user
      */
     public void update_read_messages(String dest_username) {
@@ -872,15 +973,12 @@ public class MyModel extends Observable implements IModel {
     }
 
 
-
-
     /**
-     *
-     * @param src_username the src of the msseg
+     * @param src_username  the src of the msseg
      * @param dest_username the dest of the meseg
      * @param message_time  the meseg time
-     * @param message_text the content of the meseg
-     * @param massage_type the type of the meseg (sys or other user)
+     * @param message_text  the content of the meseg
+     * @param massage_type  the type of the meseg (sys or other user)
      * @return true is the process sucseess
      */
     public boolean add_message(String src_username, String dest_username, String message_time, String message_text, String massage_type) {
@@ -911,11 +1009,9 @@ public class MyModel extends Observable implements IModel {
     }
 
     /**
-     *
-     *
-     * @param source the src of the msseg
+     * @param source      the src of the msseg
      * @param destination the dest of the meseg
-     * @param message the content of the meseg
+     * @param message     the content of the meseg
      * @return True if the meseg is exisst
      */
     public boolean is_messg_Exist(String source, String destination, String message) {
@@ -940,10 +1036,9 @@ public class MyModel extends Observable implements IModel {
     }
 
     /**
-     *
-     * @param source the src of the msseg
+     * @param source      the src of the msseg
      * @param destination the dest of the meseg
-     * @param message the content of the meseg
+     * @param message     the content of the meseg
      */
     public void deleteMessage(String source, String destination, String message) {
         boolean succeed = is_messg_Exist(source, destination, message);
@@ -969,7 +1064,6 @@ public class MyModel extends Observable implements IModel {
     }
 
     /**
-     *
      * @param username user delited         --tal
      * @return True if sucsess
      */
@@ -991,7 +1085,8 @@ public class MyModel extends Observable implements IModel {
     }
 
     /**
-     *  --tal
+     * --tal
+     *
      * @param user_name user dellited
      */
     public void delete_all_Message_by_user(String user_name) {
@@ -1016,31 +1111,30 @@ public class MyModel extends Observable implements IModel {
         }
     }
 
-    public static void main(String [] args){
-        MyModel m= new MyModel();
+    public static void main(String[] args) {
+        MyModel m = new MyModel();
 
-       for(String i:m.showAllVacationsge_by_user("b").get(1)){
-           System.out.print(i+"- ");
-       }
+        for (String i : m.showAllVacationsge_by_user("b").get(1)) {
+            System.out.print(i + "- ");
+        }
 
 
-
-        m.add_message("a","q",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla1","sys");
-        m.add_message("a","q",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla2","sys");
-        m.add_message("a","a",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(),"bla3","sys");
+        m.add_message("a", "q", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(), "bla1", "sys");
+        m.add_message("a", "q", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(), "bla2", "sys");
+        m.add_message("a", "a", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString(), "bla3", "sys");
 
         m.delete_all_Message_by_user("q");
         Stack ans = m.get_Users_messages("q");
-        while (!ans.empty()){
-            for(String i : (String[]) ans.pop())
-                System.out.print(i+" - ");
+        while (!ans.empty()) {
+            for (String i : (String[]) ans.pop())
+                System.out.print(i + " - ");
             System.out.println();
         }
 
         ans = m.get_Users_messages("a");
-        while (!ans.empty()){
-            for(String i : (String[]) ans.pop())
-                System.out.print(i+" - ");
+        while (!ans.empty()) {
+            for (String i : (String[]) ans.pop())
+                System.out.print(i + " - ");
             System.out.println();
         }
 
