@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class VacationShow {
+    private final SimpleStringProperty status;
     private final SimpleStringProperty vacId;
     private final SimpleStringProperty destanation;
     private final SimpleStringProperty departDay;
@@ -48,6 +49,15 @@ public class VacationShow {
         this.mainController = mainController;
         this.vacId = new SimpleStringProperty(id + "");
         this.destanation = new SimpleStringProperty(d);
+        int statNum = vacationController.getVacStatus(id);
+        String status = "";
+        if(statNum == 1){
+            status = "SOLD!";
+        }
+        else{
+            status = "Available";
+        }
+        this.status = new SimpleStringProperty(status);
         this.departDay = new SimpleStringProperty(departD);
         if (back.equals("Yes")) {
             this.returnDay = new SimpleStringProperty(returnD);
@@ -235,6 +245,17 @@ public class VacationShow {
         this.trade = (Button) trade;
     }
 
+    public String getStatus() {
+        return status.get();
+    }
+
+    public SimpleStringProperty statusProperty() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status.set(status);
+    }
 
     public void showUsersVacations() {
         try {

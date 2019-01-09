@@ -47,7 +47,7 @@ public class Main extends Application {
         Parent root = fxmlLoader.load(getClass().getResource("/sample.fxml").openStream());
         Scene scene = new Scene(root, 700, 500);
         //scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        primaryStage.setTitle("Vactaion4U");
+        primaryStage.setTitle("EveryVactaion4U");
         primaryStage.setScene(scene);
         primaryStage.setMinHeight(465);
         primaryStage.setMinWidth(580);

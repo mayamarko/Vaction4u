@@ -359,6 +359,10 @@ public class MainController implements Observer, IView {
             final Label label = new Label("Available flights:");
             label.setFont(new Font("Calibri Light", 22));
             table.setEditable(false);
+            TableColumn status = new TableColumn("Status");
+            status.setMinWidth(80);
+            status.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("status"));
+
             TableColumn dest = new TableColumn("Destanation");
             dest.setMinWidth(150);
             dest.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("destanation"));
@@ -390,7 +394,7 @@ public class MainController implements Observer, IView {
 
             //table.setItems(getData());
             table.setItems(getData());
-            table.getColumns().addAll(dest, departDay, returnDay, price, button, button2, button3);
+            table.getColumns().addAll(status, dest, departDay, returnDay, price, button, button2, button3);
             table.setMinHeight(200);
             table.setMaxHeight(600);
 
