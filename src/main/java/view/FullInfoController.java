@@ -75,7 +75,7 @@ public class FullInfoController {
     }
 
     public void fullSeller() {
-        showAlert("this part is under construction, you will see it in the nexy part");
+        showAlert("This part is under construction, you will see it in the nexy part");
     }
 
 }

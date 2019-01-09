@@ -421,10 +421,25 @@ public class MainController implements Observer, IView {
                 Scene scene = new Scene(new Group());
                 stage.setTitle("All Messages");
                 stage.setWidth(1100);
-                stage.setHeight(500);
+                stage.setHeight(600);
                 final Label label = new Label("Your Inbox:");
                 label.setFont(new Font("Calibri Light", 22));
+                final TextArea textArea = new TextArea("If you get a Trade Request,\nyou could see the full description about the offered vacation by clicking on the button \"Full Information\". ");
+                textArea.setFont(new Font("Calibri Light", 16));
+                textArea.setMinSize(1000,50);
+                textArea.setStyle(".text-area{\n" +
+                        "    -fx-text-fill: black;\n" +
+                        "    -fx-background-color: transparent;\n" +
+                        "}\n" +
+                        "\n" +
+                        ".text-area .viewport, .text-area .content {\n" +
+                        "    -fx-background-color: transparent ;\n" +
+                        "}\n");
+                textArea.setMaxSize(500, 70);
+                textArea.setEditable(false);
                 table.setEditable(false);
+
+
                 TableColumn from = new TableColumn("From");
                 from.setMinWidth(150);
                 from.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("from"));
@@ -459,12 +474,12 @@ public class MainController implements Observer, IView {
                 table.setItems(data);
                 table.getColumns().addAll(from, time, message, type, button, button2, button3);
                 table.setMinHeight(200);
-                table.setMaxHeight(600);
+                table.setMaxHeight(700);
 
                 final VBox vbox = new VBox();
                 vbox.setSpacing(20);
                 vbox.setPadding(new Insets(10, 0, 0, 10));
-                vbox.getChildren().addAll(label, table);
+                vbox.getChildren().addAll(label,textArea, table);
 
                 ((Group) scene.getRoot()).getChildren().addAll(vbox);
                 stage.setScene(scene);

@@ -33,7 +33,7 @@ public class MessageShow {
         this.dAndT = new SimpleStringProperty(dateAndTine);
         this.message = new SimpleStringProperty(messageI);
         this.type = new SimpleStringProperty(type);
-        this.vacDescription = new Button("Full information");
+        this.vacDescription = new Button("Full Information");
         vacDescription.setVisible(false);
         if (type.equals("request vacation")) {
             this.acc = new Button("Accept Request");

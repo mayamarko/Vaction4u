@@ -262,18 +262,30 @@ public class VacationShow {
             textArea.setFont(new Font("Calibri Light", 16));
             textArea.setMaxSize(500, 70);
             textArea.setEditable(false);
+            textArea.setStyle(".text-area{\n" +
+                    "    -fx-text-fill: black;\n" +
+                    "    -fx-background-color: transparent;\n" +
+                    "}\n" +
+                    "\n" +
+                    ".text-area .viewport, .text-area .content {\n" +
+                    "    -fx-background-color: transparent ;\n" +
+                    "}\n");
             final Button button = new Button("Send trade request");
             button.setMaxSize(500, 50);
             button.setOnAction((event) -> {
-                if (!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" + vacationChose.get(0) + " by " + vacationController.username + ".")) {
-                    vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" + vacationChose.get(0) + " by " + vacationController.username + ".", "trade request vacation");
-                    showAlert("The request sent! You soon will see the approve in the message box");
-                    trade.setDisable(true);
-                    button.setDisable(true);
+                if (vacationChose.size() > 0) {
+                    if (!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" + vacationChose.get(0) + " by " + vacationController.username + ".")) {
+                        vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" + vacationChose.get(0) + " by " + vacationController.username + ".", "trade request vacation");
+                        showAlert("The request sent! You soon will see the approve in the message box");
+                        trade.setDisable(true);
+                        button.setDisable(true);
 
+                    } else {
+                        showAlert("You have already asked to trade this vacation..");
+                        trade.setDisable(true);
+                    }
                 } else {
-                    showAlert("You have already asked to trade this vacation..");
-                    trade.setDisable(true);
+                    showAlert("First you have to select a vacation to trade.");
                 }
 
             });
@@ -287,7 +299,7 @@ public class VacationShow {
             vacId.setMinWidth(150);
             vacId.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("vacId"));
 
-            TableColumn checkbox = new TableColumn("You choice");
+            TableColumn checkbox = new TableColumn("Your choice");
             checkbox.setMinWidth(100);
             checkbox.setCellValueFactory(new PropertyValueFactory<VacationShow, CheckBox>("chooseVac"));
 
