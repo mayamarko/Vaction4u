@@ -112,7 +112,7 @@ public class VacationShow {
 
     private ObservableList<tradeShow> getMyVacations() {
         ObservableList<tradeShow> data = FXCollections.observableArrayList();
-        HashMap<Integer, String[]> set = vacationController.showAllVacationsge_by_user(userName);
+        HashMap<Integer, String[]> set = vacationController.showAllVacationsge_by_user(vacationController.username);
         for (Map.Entry<Integer, String[]> entry : set.entrySet()) {
             String[] info = entry.getValue();
             data.add(new tradeShow(entry.getKey().toString(), info[0]));

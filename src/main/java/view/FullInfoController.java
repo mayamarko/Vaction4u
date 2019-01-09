@@ -22,7 +22,10 @@ public class FullInfoController {
 
     @FXML
     private void initialize() {
-        //text.set("Enter username");
+        if(!isMessageShow) {
+            btn_requestPurchase.setDisable(false);
+            btn_requestPurchase.setVisible(false);
+        }
     }
 
     public void injectMainController(MainController mainController, VacationController vacationController, VacationShow vacationShow) {
@@ -61,12 +64,18 @@ public class FullInfoController {
     }
 
     public void requestPurchase() {
-        // btn_requestPurchase.setDisable(false);
-        vacationShow.requestPurchase();
+        if(!isMessageShow) {
+            btn_requestPurchase.setDisable(false);
+            btn_requestPurchase.setVisible(false);
+        }
+        else{
+            vacationShow.requestPurchase();
+        }
+
     }
 
     public void fullSeller() {
-        showAlert("this part is under constracion, you will see it in the nexy part");
+        showAlert("this part is under construction, you will see it in the nexy part");
     }
 
 }
