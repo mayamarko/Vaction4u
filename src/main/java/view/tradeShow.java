@@ -23,16 +23,17 @@ public class tradeShow {
         chooseVac.setOnAction((event) -> {
             if (chooseVac.isSelected()) {
                 if (vacationController.getVacStatus(Integer.parseInt(vacId)) == 0) {
-                    if (!addVacs(vacId)) {
+                    if (!addVacs(vacId, destination)) {
                         chooseVac.setSelected(false);
                         showAlert("You can only choose one vacation to trade!");
                     }
                 } else {
+                    chooseVac.setSelected(false);
                     showAlert("Oops you already traded or sold this vacation.");
                 }
             }
             if (!chooseVac.isSelected()) {
-                remove(vacId);
+                remove(vacId, destination);
             }
 
         });

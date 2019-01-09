@@ -32,7 +32,7 @@ public class VacationShow {
     private Button request;
     private Button trade;
     VacationController vacationController;
-    public static ArrayList<String> vacationChose;
+    public static ArrayList<String[]> vacationChose;
     private String saveInfo;
     private String userName;
     private TableView table;
@@ -262,8 +262,8 @@ public class VacationShow {
             button.setMaxSize(500, 50);
             button.setOnAction((event) -> {
                 if (vacationChose.size() > 0) {
-                    if (!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" + vacationChose.get(0) + " by " + vacationController.username + ".")) {
-                        vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + " has been requested to trade for a vacation to " + "#" + vacationChose.get(0) + " by " + vacationController.username + ".", "trade request vacation");
+                    if (!vacationController.is_messg_Exist(vacationController.username, userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + "\nhas been requested to trade for a vacation to\n" + "#" + vacationChose.get(0)[0] + " " + vacationChose.get(0)[1] + " by " + vacationController.username + ".")) {
+                        vacationController.add_message(userName, "*" + vacId.get() + "* Your vacation to " + destanation.get() + "\nhas been requested to trade for a vacation to\n" + "#" + vacationChose.get(0)[0] + " " + vacationChose.get(0)[1] + " by " + vacationController.username + ".", "trade request vacation");
                         showAlert("The request sent! You soon will see the approve in the message box");
                         trade.setDisable(true);
                         button.setDisable(true);
@@ -315,16 +315,18 @@ public class VacationShow {
         }
     }
 
-    public static boolean addVacs(String vacid) {
+    public static boolean addVacs(String vacid, String destination) {
         if (vacationChose.size() >= 1)
             return false;
-        vacationChose.add(vacid);
+        String[] add = {vacid, destination};
+        vacationChose.add(add);
         return true;
     }
 
-    public static void remove(String vacid) {
-        if (vacationChose.contains(vacid))
-            vacationChose.remove(vacid);
+    public static void remove(String vacid, String destination) {
+
+        if (vacationChose.size() > 0 && vacationChose.get(0)[0].equals(vacid))
+            vacationChose = new ArrayList<>();
     }
 
 }

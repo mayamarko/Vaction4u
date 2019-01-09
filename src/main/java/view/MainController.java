@@ -368,7 +368,7 @@ public class MainController implements Observer, IView {
             departDay.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("departDay"));
 
             TableColumn returnDay = new TableColumn("Return date");
-            returnDay.setMinWidth(150);
+            returnDay.setMinWidth(200);
             returnDay.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("returnDay"));
 
             TableColumn price = new TableColumn("Price");
@@ -427,7 +427,7 @@ public class MainController implements Observer, IView {
                 Stage stage = new Stage();
                 Scene scene = new Scene(new Group());
                 stage.setTitle("All Messages");
-                stage.setWidth(1100);
+                stage.setWidth(1300);
                 stage.setHeight(600);
                 final Label label = new Label("Your Inbox:");
                 label.setFont(new Font("Calibri Light", 22));
@@ -448,7 +448,7 @@ public class MainController implements Observer, IView {
 
 
                 TableColumn from = new TableColumn("From");
-                from.setMinWidth(150);
+                from.setMinWidth(100);
                 from.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("from"));
 
                 TableColumn time = new TableColumn("Date & time");
@@ -456,7 +456,7 @@ public class MainController implements Observer, IView {
                 time.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("dAndT"));
 
                 TableColumn message = new TableColumn("Message");
-                message.setMinWidth(220);
+                message.setMinWidth(300);
                 message.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("message"));
 
                 TableColumn type = new TableColumn("Type");
@@ -464,15 +464,15 @@ public class MainController implements Observer, IView {
                 type.setCellValueFactory(new PropertyValueFactory<VacationShow, String>("type"));
 
                 TableColumn button = new TableColumn("");
-                button.setMinWidth(100);
+                button.setMinWidth(175);
                 button.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("acc"));
 
                 TableColumn button2 = new TableColumn("");
-                button2.setMinWidth(150);
+                button2.setMinWidth(175);
                 button2.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("dec"));
 
                 TableColumn button3 = new TableColumn("");
-                button3.setMinWidth(150);
+                button3.setMinWidth(130);
                 button3.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("vacDescription"));
 
 
