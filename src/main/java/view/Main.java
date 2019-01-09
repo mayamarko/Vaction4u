@@ -45,12 +45,12 @@ public class Main extends Application {
          */
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("/sample.fxml").openStream());
-        Scene scene = new Scene(root, 700, 500);
+        Scene scene = new Scene(root, 740, 500);
         //scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("EveryVactaion4U");
         primaryStage.setScene(scene);
         primaryStage.setMinHeight(465);
-        primaryStage.setMinWidth(580);
+        primaryStage.setMinWidth(740);
         MainController view = fxmlLoader.getController();
         //  view.setResizeEvent(primaryStage);
         view.setViewModel(controller);
