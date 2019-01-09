@@ -36,8 +36,8 @@ public class MessageShow {
         this.vacDescription = new Button("Full Information");
         vacDescription.setVisible(false);
         if (type.equals("request vacation")) {
-            this.acc = new Button("Accept Request");
-            this.dec = new Button("Decline Request");
+            this.acc = new Button("Accept Purchase Request");
+            this.dec = new Button("Decline Purchase Request");
         } else if (type.equals("request approve")) {
             this.acc = new Button("Start a chat with the seller to set up the payment");
             this.dec = new Button("");

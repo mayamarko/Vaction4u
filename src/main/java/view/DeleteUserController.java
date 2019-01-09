@@ -56,6 +56,7 @@ public class DeleteUserController {
                 if(lbl_username.getText().equals(vacationController.username)) {
                     vacationController.setUsername("");
                     vacationController.setLogged(false);
+                    mainController.setDelete();
                 }
             }
             else{
@@ -65,6 +66,8 @@ public class DeleteUserController {
             showAlert("You can NOT delete another user, just yours...");
         }
     }
+
+
 }
 
 

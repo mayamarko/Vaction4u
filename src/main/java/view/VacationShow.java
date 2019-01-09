@@ -31,7 +31,6 @@ public class VacationShow {
     private Button allInfo;
     private Button request;
     private Button trade;
-    private ChoiceBox vacationsOptions;
     VacationController vacationController;
     public static ArrayList<String> vacationChose;
     private String saveInfo;
@@ -60,9 +59,6 @@ public class VacationShow {
         this.allInfo = new Button("full info");
         this.request = new Button("purchase request");
         this.trade = new Button("trade request");
-        vacationsOptions = new ChoiceBox();
-        vacationsOptions.setDisable(true);
-        vacationsOptions.setVisible(false);
         vacationChose = new ArrayList<>();
         //vacationsOptions.setValue("Select Vacation");
         allInfo.setOnAction(event -> {
@@ -237,14 +233,6 @@ public class VacationShow {
 
     public void setTrade(Button trade) {
         this.trade = (Button) trade;
-    }
-
-    public ChoiceBox getVacationsOptions() {
-        return vacationsOptions;
-    }
-
-    public void setVacationsOptions(ChoiceBox vacationsOptions) {
-        this.vacationsOptions = vacationsOptions;
     }
 
 

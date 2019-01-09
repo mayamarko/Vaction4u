@@ -216,7 +216,7 @@ public class MainController implements Observer, IView {
                 Scene scene = new Scene(root, 300, 300);
                 //scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
                 stage.setScene(scene);
-                SetStageCloseDeleteEvent(stage);
+                //SetStageCloseDeleteEvent(stage);
                 stage.setResizable(false);
                 stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
                 stage.show();
@@ -321,22 +321,33 @@ public class MainController implements Observer, IView {
         });
     }
 
-    private void SetStageCloseDeleteEvent(Stage stage) {
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent windowEvent) {
-                txt_user.setDisable(true);
-                txt_user.setVisible(false);
-                btn_logIn.setDisable(false);
-                btn_updateUser.setVisible(false);
-                btn_searchUser.setVisible(false);
-                btn_deleteUser.setVisible(false);
-                btn_messageSystem.setVisible(false);
-                btn_createUser.setDisable(false);
-                btn_logOut.setDisable(true);
-            }
-        });
-    }
+//    public void SetStageCloseDeleteEvent(Stage stage) {
+//        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//            public void handle(WindowEvent windowEvent) {
+//                txt_user.setDisable(true);
+//                txt_user.setVisible(false);
+//                btn_logIn.setDisable(false);
+//                btn_updateUser.setVisible(false);
+//                btn_searchUser.setVisible(false);
+//                btn_deleteUser.setVisible(false);
+//                btn_messageSystem.setVisible(false);
+//                btn_createUser.setDisable(false);
+//                btn_logOut.setDisable(true);
+//            }
+//        });
+//    }
 
+    public void setDelete(){
+        txt_user.setDisable(true);
+        txt_user.setVisible(false);
+        btn_logIn.setDisable(false);
+        btn_updateUser.setVisible(false);
+        btn_searchUser.setVisible(false);
+        btn_deleteUser.setVisible(false);
+        btn_messageSystem.setVisible(false);
+        btn_createUser.setDisable(false);
+        btn_logOut.setDisable(true);
+    }
     public void showFlights() {
         try {
             table = new TableView();
@@ -376,14 +387,10 @@ public class MainController implements Observer, IView {
             button3.setMinWidth(150);
             button3.setCellValueFactory(new PropertyValueFactory<VacationShow, Button>("trade"));
 
-            TableColumn choiceBox = new TableColumn("Select vacation");
-            choiceBox.setMinWidth(150);
-            choiceBox.setCellValueFactory(new PropertyValueFactory<VacationShow, ChoiceBox>("vacationsOptions"));
-
 
             //table.setItems(getData());
             table.setItems(getData());
-            table.getColumns().addAll(dest, departDay, returnDay, price, button, button2, button3, choiceBox);
+            table.getColumns().addAll(dest, departDay, returnDay, price, button, button2, button3);
             table.setMinHeight(200);
             table.setMaxHeight(600);
 
